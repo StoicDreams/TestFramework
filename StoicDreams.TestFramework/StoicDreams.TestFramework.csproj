@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Authors>Erik Gassler</Authors>
+		<Company>Stoic Dreams</Company>
+		<Product>Stoic Dreams Test Framework</Product>
+		<Description>
+			A base framework library with helper methods for organizing and simplifying unit and integration tests.
+		</Description>
+		<Version>0.1.4</Version>
+		<Copyright>2022 Stoic Dreams</Copyright>
+		<PackageProjectUrl>https://www.stoicdreams.com</PackageProjectUrl>
+		<PackageLicenseExpression></PackageLicenseExpression>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<PackageIcon>ms-icon-310x310.png</PackageIcon>
+		<OutputPath>bin</OutputPath>
+		<OutputType>Library</OutputType>
+		<PackageReleaseNotes>Development Release</PackageReleaseNotes>
+		<PackageOutputPath>..\..\NugetPackages</PackageOutputPath>
+		<PackOnBuild>true</PackOnBuild>
+		<Platform>AnyCPU</Platform>
+		<PublishReadyToRun>True</PublishReadyToRun>
+		<IncludeSourceFilesProjectOutputGroup>True</IncludeSourceFilesProjectOutputGroup>
+		<PackageType>Dependency</PackageType>
+		<RootNamespace>StoicDreams</RootNamespace>
+		<ApplicationIcon>favicon.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Moq" Version="4.17.2" />
+	</ItemGroup>
+	
+</Project>
