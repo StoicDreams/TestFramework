@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoicDreams.TestFramework", "StoicDreams.TestFramework\StoicDreams.TestFramework.csproj", "{9DD930E7-67CE-451D-A0F0-14B965FC1E9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoicDreams.TestFramework", "StoicDreams.TestFramework\StoicDreams.TestFramework.csproj", "{9DD930E7-67CE-451D-A0F0-14B965FC1E9A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{66F41EC5-663D-4097-9F54-ADEAD732216A}"
 	ProjectSection(SolutionItems) = preProject
-		StoicDreams.TestFramework\Docs\LICENSE.txt = StoicDreams.TestFramework\Docs\LICENSE.txt
-		StoicDreams.TestFramework\Docs\README.md = StoicDreams.TestFramework\Docs\README.md
+		Docs\LICENSE.txt = Docs\LICENSE.txt
+		Docs\README.md = Docs\README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoicDreams.TestFramework.Tests", "StoicDreams.TestFramework.Tests\StoicDreams.TestFramework.Tests.csproj", "{74AA16F4-902A-4F0B-B7A8-B7D0B3B2FE33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoicDreams.TestFramework.Tests", "StoicDreams.TestFramework.Tests\StoicDreams.TestFramework.Tests.csproj", "{74AA16F4-902A-4F0B-B7A8-B7D0B3B2FE33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

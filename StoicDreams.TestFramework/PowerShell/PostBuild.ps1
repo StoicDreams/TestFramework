@@ -4,7 +4,7 @@ $rgxTargetGetVersion = '<Version>(.+)</Version>'
 $rgxTargetXML = '<PackageReference Include="StoicDreams.TestFramework" Version="([0-9\.]+)" />'
 Clear-Host;
 
-Get-ChildItem -Path .\ -Filter *BlazorFramework.csproj -Recurse -File | ForEach-Object {
+Get-ChildItem -Path .\ -Filter *TestFramework.csproj -Recurse -File | ForEach-Object {
 	$result = Select-String -Path $_.FullName -Pattern $rgxTargetGetVersion
 	if($result.Matches.Count -gt 0) {
 		$version = $result.Matches[0].Groups[1].Value
@@ -53,6 +53,9 @@ if($version -ne $null) {
 	}
 	$newXML = '<PackageReference Include="StoicDreams.TestFramework" Version="'+$version+'" />'
 	Get-ChildItem -Path .\ -Filter *.csproj -Recurse -File | ForEach-Object {
+		UpdateProjectVersion $_.FullName $version
+	}
+	Get-ChildItem -Path .\ -Filter *README.md -Recurse -File | ForEach-Object {
 		UpdateProjectVersion $_.FullName $version
 	}
 } else {

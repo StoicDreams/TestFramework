@@ -1,7 +1,6 @@
 ﻿# This pre-build process will update the current version number within this solution.
 
 $rgxTargetGetVersion = '<Version>([0-9]+)\.([0-9]+)\.([0-9]+)</Version>'
-$rgxTargetXML = '<PackageReference Include="StoicDreams.TestFramework" Version="([0-9\.]+)" />'
 Clear-Host;
 
 $alphaversion = 1

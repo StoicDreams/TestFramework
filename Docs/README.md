@@ -1,4 +1,4 @@
-﻿# Stoic Dreams Test Framework
+# Stoic Dreams Test Framework
 ###### Nuget: StoicDreams.TestFramework
 
 This library includes an `abstract` class to access helper methods for unit and integration tests.
@@ -7,7 +7,13 @@ Functionality includes extending and simplifying functionality from the `Moq` mo
 
 ## Setting up your Test Project
 
-> Coming Soon
+Add the `StoicDreams.TestFramework` Nuget package to your test project.
+
+```xml
+	<ItemGroup>
+		<PackageReference Include="StoicDreams.TestFramework" Version="0.1.8" />
+	</ItemGroup>
+```
 
 
 ## Author

@@ -12,7 +12,7 @@
 		<Description>
 			A base framework library with helper methods for organizing and simplifying unit and integration tests.
 		</Description>
-		<Version>0.1.4</Version>
+		<Version>0.1.8</Version>
 		<Copyright>2022 Stoic Dreams</Copyright>
 		<PackageProjectUrl>https://www.stoicdreams.com</PackageProjectUrl>
 		<PackageLicenseExpression></PackageLicenseExpression>
@@ -33,6 +33,21 @@
 
 	<ItemGroup>
 		<PackageReference Include="Moq" Version="4.17.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include=".\ms-icon-310x310.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="..\Docs\LICENSE.txt">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="..\Docs\README.md">
+			<Pack>True</Pack>
+			<PackagePath>content\StoicDreams.TestFramework\README.md</PackagePath>
+		</None>
 	</ItemGroup>
 	
 </Project>
