@@ -23,6 +23,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\SampleProject\SampleProject.csproj" />
 		<ProjectReference Include="..\StoicDreams.TestFramework\StoicDreams.TestFramework.csproj" />
 	</ItemGroup>
 

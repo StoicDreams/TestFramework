@@ -1,4 +1,4 @@
-﻿namespace StoicDreams.Tests.Samples;
+﻿namespace SampleProject;
 
 internal class SampleParent : ISampleParent
 {

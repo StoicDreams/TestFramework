@@ -1,6 +1,6 @@
-﻿namespace StoicDreams.Tests.Samples;
+﻿namespace SampleProject;
 
-internal interface ISampleChildB
+internal interface ISampleParent
 {
 	string DoSomething(string input);
 	void DoSomethingElse(string input);
