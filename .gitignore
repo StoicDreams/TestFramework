@@ -7,7 +7,8 @@ bin
 obj
 
 # Ignore NCrunch files
-*nrunch*
+*ncrunch*
+*.cache
 
 # Ignore User files
 *.User
