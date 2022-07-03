@@ -1,8 +1,8 @@
 ﻿namespace StoicDreams;
 
-public class ArrangeOptions : IArrangeOptions
+public class ArrangeUnitOptions : IArrangeUnitOptions
 {
-	internal ArrangeOptions(IServiceProvider serviceProvider)
+	internal ArrangeUnitOptions(IServiceProvider serviceProvider)
 	{
 		ServiceProvider = serviceProvider;
 	}

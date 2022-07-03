@@ -12,7 +12,7 @@
 		<Description>
 			A base framework library with helper methods for organizing and simplifying unit and integration tests.
 		</Description>
-		<Version>0.1.13</Version>
+		<Version>1.0.2</Version>
 		<Copyright>2022 Stoic Dreams</Copyright>
 		<PackageProjectUrl>https://www.stoicdreams.com</PackageProjectUrl>
 		<PackageLicenseExpression></PackageLicenseExpression>

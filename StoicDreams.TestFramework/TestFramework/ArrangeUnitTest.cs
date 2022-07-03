@@ -2,8 +2,17 @@
 
 public abstract partial class TestFramework
 {
+	/// <summary>
+	/// Arrange a Unit Test given it's class type but returning it's interface.
+	/// Constructor dependencies will be automaticaly mocked.
+	/// Using this setup method helps assert in tests methods being tested are accessible at the interface level.
+	/// </summary>
+	/// <typeparam name="TInterface">Interface of class being tested</typeparam>
+	/// <typeparam name="TClass">Class being tested</typeparam>
+	/// <param name="setupHandler"></param>
+	/// <returns></returns>
 	protected IActions<TInterface> ArrangeUnitTest<TInterface, TClass>(
-		Action<IArrangeOptions>? setupHandler = null
+		Action<IArrangeUnitOptions>? setupHandler = null
 		)
 		where TClass : class, TInterface
 		where TInterface : class
@@ -12,8 +21,15 @@ public abstract partial class TestFramework
 		return CallHandlerAndReturnForActAndAssertions<TInterface>(serviceProvider, setupHandler);
 	}
 
+	/// <summary>
+	/// Arrange a Unit Test given the class to return for testing.
+	/// Constructor dependencies will be automatically mocked.
+	/// </summary>
+	/// <typeparam name="TClass">Class being tested</typeparam>
+	/// <param name="setupHandler"></param>
+	/// <returns></returns>
 	protected IActions<TClass> ArrangeUnitTest<TClass>(
-		Action<IArrangeOptions>? setupHandler = null
+		Action<IArrangeUnitOptions>? setupHandler = null
 		)
 		where TClass : class
 	{
@@ -21,11 +37,11 @@ public abstract partial class TestFramework
 		return CallHandlerAndReturnForActAndAssertions<TClass>(serviceProvider, setupHandler);
 	}
 
-	private IActions<TService> CallHandlerAndReturnForActAndAssertions<TService>(IServiceProvider serviceProvider, Action<IArrangeOptions>? setupHandler)
+	private IActions<TService> CallHandlerAndReturnForActAndAssertions<TService>(IServiceProvider serviceProvider, Action<IArrangeUnitOptions>? setupHandler)
 		where TService : class
 	{
 		#region Call setup handler from caller if defined
-		setupHandler?.Invoke(new ArrangeOptions(serviceProvider));
+		setupHandler?.Invoke(new ArrangeUnitOptions(serviceProvider));
 		#endregion
 
 		TService? service = serviceProvider.GetService<TService>();

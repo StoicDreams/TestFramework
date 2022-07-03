@@ -111,4 +111,26 @@ public class SampleParentTests : TestFramework
 			Assert.Equal($"Parent: Something Else A: {inputDoSomethingElse} - Mocked {inputDoSomethingElse}", elseResult);
 		});
 	}
+
+	[Theory]
+	[InlineData("Test One")]
+	[InlineData("Test Two")]
+	public void Verify_Custom_Test(string input)
+	{
+		IActions<ISampleParent> actions = ArrangeTest<ISampleParent>(options =>
+		{
+			options.AddService<ISampleParent, SampleParent>();
+			options.AddMock<ISampleChildA>();
+			options.AddMock<ISampleChildB>();
+			options.AddService<SampleChildA>(() => { return new SampleChildA(); });
+			options.AddService<SampleChildB>();
+		});
+
+		actions.Act(arrangement => arrangement.Service.DoSomething(input));
+
+		actions.Assert(arrangement =>
+		{
+			Assert.Equal($"Parent:  - ", arrangement.GetResult<string>());
+		});
+	}
 }
