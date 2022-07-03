@@ -53,4 +53,62 @@ public class SampleParentTests : TestFramework
 			arrangement.GetMock<ISampleChildB>().Verify();
 		});
 	}
+
+	[Theory]
+	[InlineData("Test One", "Else One")]
+	[InlineData("Test Two", "Else Two")]
+	public void Verify_Raw_Integration_Test(string inputDoSomething, string inputDoSomethingElse)
+	{
+		IActions<ISampleParent> actions = ArrangeIntegrationTest<ISampleParent>(startupHandlers: SampleStartup.ConfigureServices);
+
+		actions.Act(arrangement =>
+		{
+			arrangement.Service.DoSomethingElse(inputDoSomethingElse);
+			return arrangement.Service.DoSomething(inputDoSomething);
+		});
+
+		actions.Assert(arrangement =>
+		{
+			string? somethingResult = arrangement.GetResult<string>();
+			string elseResult = arrangement.Service.Value;
+			somethingResult.Should().NotBeNullOrWhiteSpace();
+			elseResult.Should().NotBeNullOrWhiteSpace();
+			somethingResult.Should().NotBeEquivalentTo(elseResult);
+			Assert.Equal($"Parent: Something A: {inputDoSomething} - Something B: Something A: {inputDoSomething}", somethingResult);
+			Assert.Equal($"Parent: Something Else A: {inputDoSomethingElse} - Something Else B: Something Else A: {inputDoSomethingElse}", elseResult);
+		});
+	}
+
+	[Theory]
+	[InlineData("Test One", "Else One")]
+	[InlineData("Test Two", "Else Two")]
+	public void Verify_Itegration_Testing_Overwriting_Service_With_Mock(string inputDoSomething, string inputDoSomethingElse)
+	{
+		IActions<ISampleParent> actions = ArrangeIntegrationTest<ISampleParent>(options =>
+		{
+			options.ReplaceServiceWithMock<ISampleChildB>(mock =>
+			{
+				mock.Setup(m => m.DoSomething(inputDoSomething)).Returns($"Mocked {inputDoSomething}");
+				mock.Setup(m => m.DoSomethingElse(inputDoSomethingElse)).Verifiable();
+				mock.Setup(m => m.Value).Returns($"Mocked {inputDoSomethingElse}");
+			});
+		}, SampleStartup.ConfigureServices);
+
+		actions.Act(arrangement =>
+		{
+			arrangement.Service.DoSomethingElse(inputDoSomethingElse);
+			return arrangement.Service.DoSomething(inputDoSomething);
+		});
+
+		actions.Assert(arrangement =>
+		{
+			string? somethingResult = arrangement.GetResult<string>();
+			string elseResult = arrangement.Service.Value;
+			somethingResult.Should().NotBeNullOrWhiteSpace();
+			elseResult.Should().NotBeNullOrWhiteSpace();
+			somethingResult.Should().NotBeEquivalentTo(elseResult);
+			Assert.Equal($"Parent: Something A: {inputDoSomething} - Mocked {inputDoSomething}", somethingResult);
+			Assert.Equal($"Parent: Something Else A: {inputDoSomethingElse} - Mocked {inputDoSomethingElse}", elseResult);
+		});
+	}
 }

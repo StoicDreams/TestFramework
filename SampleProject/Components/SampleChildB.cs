@@ -1,6 +1,6 @@
 ﻿namespace SampleProject;
 
-internal class SampleChildB
+internal class SampleChildB : ISampleChildB
 {
 	public SampleChildB(ISampleChildA childA)
 	{

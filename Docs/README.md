@@ -2,7 +2,7 @@
 ###### Nuget: [www.nuget.org/packages/StoicDreams.TestFramework](https://www.nuget.org/packages/StoicDreams.TestFramework/)
 ###### GitHub: [github.com/StoicDreams/TestFramework](https://github.com/StoicDreams/TestFramework)
 
-This library includes an `abstract` class to access helper methods for unit and integration tests.
+This library includes an `abstract` class called `TestFramework` that developers can inherit from their test classes to access helper methods for unit and integration tests.
 
 Functionality includes extending and simplifying functionality from the `Moq` mocking framework.
 
@@ -13,7 +13,7 @@ The goal of this library is to provide a framework to use in unit tests and inte
 ### Framework Features
 
 - Inclusion of Moq mocking framework to use for mocking components.
-- Inclusion of FLuentAssertions framework to use for human readable assertions.
+- Inclusion of FluentAssertions framework to use for human readable assertions.
 - Automatic default mocking (using Moq's Mock framework) of a class's constructor dependencies when running unit tests.
 - Test framework agnostic: While we use XUnit, we have no restrictions against using other frameworks such as NUnit, MSTest, etc.
 
@@ -31,7 +31,7 @@ Add the [StoicDreams.TestFramework](https://www.nuget.org/packages/StoicDreams.T
 
 ```xml
 <ItemGroup>
-	<PackageReference Include="StoicDreams.TestFramework" Version="0.1.12" />
+	<PackageReference Include="StoicDreams.TestFramework" Version="0.1.13" />
 </ItemGroup>
 ```
 

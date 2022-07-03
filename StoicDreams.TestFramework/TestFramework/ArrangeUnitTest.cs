@@ -21,19 +21,19 @@ public abstract partial class TestFramework
 		return CallHandlerAndReturnForActAndAssertions<TClass>(serviceProvider, setupHandler);
 	}
 
-	private IActions<TInstance> CallHandlerAndReturnForActAndAssertions<TInstance>(IServiceProvider serviceProvider, Action<IArrangeOptions>? setupHandler)
-		where TInstance : class
+	private IActions<TService> CallHandlerAndReturnForActAndAssertions<TService>(IServiceProvider serviceProvider, Action<IArrangeOptions>? setupHandler)
+		where TService : class
 	{
 		#region Call setup handler from caller if defined
 		setupHandler?.Invoke(new ArrangeOptions(serviceProvider));
 		#endregion
 
-		TInstance? service = serviceProvider.GetService<TInstance>();
+		TService? service = serviceProvider.GetService<TService>();
 		if (service == null)
 		{
-			throw new NullReferenceException($"Failed to load service {(typeof(TInstance).FullName)}");
+			throw new NullReferenceException($"Failed to load service {(typeof(TService).FullName)}");
 		}
-		IActions<TInstance> actions = new Actions<TInstance>(serviceProvider, service);
+		IActions<TService> actions = new Actions<TService>(serviceProvider, service);
 		return actions;
 	}
 }
