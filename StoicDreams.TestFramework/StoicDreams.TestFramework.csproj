@@ -12,7 +12,7 @@
 		<Description>
 			A base framework library with helper methods for organizing and simplifying unit and integration tests.
 		</Description>
-		<Version>0.1.11</Version>
+		<Version>0.1.12</Version>
 		<Copyright>2022 Stoic Dreams</Copyright>
 		<PackageProjectUrl>https://www.stoicdreams.com</PackageProjectUrl>
 		<PackageLicenseExpression></PackageLicenseExpression>
@@ -29,6 +29,10 @@
 		<PackageType>Dependency</PackageType>
 		<RootNamespace>StoicDreams</RootNamespace>
 		<ApplicationIcon>favicon.ico</ApplicationIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/StoicDreams/TestFramework</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>Stoic Dreams;Moq;Unit Test;Integration Test;Testing</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -48,7 +52,7 @@
 		</None>
 		<None Include="..\Docs\README.md">
 			<Pack>True</Pack>
-			<PackagePath>content\StoicDreams.TestFramework\README.md</PackagePath>
+			<PackagePath>\</PackagePath>
 		</None>
 	</ItemGroup>
 	
