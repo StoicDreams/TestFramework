@@ -115,13 +115,16 @@ public class SampleParentTests : TestFramework
 	[Theory]
 	[InlineData("Test One")]
 	[InlineData("Test Two")]
-	public void Verify_Custom_Test(string input)
+	public void Verify_ArrangeTest_Explicitly_Adds_Service(string input)
 	{
 		IActions<ISampleParent> actions = ArrangeTest<ISampleParent>(options =>
 		{
+			// For this type of test we need to explicitly add the service we're going to test
 			options.AddService<ISampleParent, SampleParent>();
+			// And explicitly add any dependent services, using mocks if desired.
 			options.AddMock<ISampleChildA>();
 			options.AddMock<ISampleChildB>();
+			// Demonstrating that adding the service without the expected interface will not properly override previous entries.
 			options.AddService<SampleChildA>(() => { return new SampleChildA(); });
 			options.AddService<SampleChildB>();
 		});
@@ -130,7 +133,27 @@ public class SampleParentTests : TestFramework
 
 		actions.Assert(arrangement =>
 		{
+			// Final result is from mocked services, not the classes that were improperly added without their expected interfaces.
 			Assert.Equal($"Parent:  - ", arrangement.GetResult<string>());
+		});
+	}
+
+	[Theory]
+	[InlineData("Test One")]
+	[InlineData("Test Two")]
+	public void Verify_ArrangeTest_Returning_Service_To_Test(string input)
+	{
+		IActions<ISampleChildA> actions = ArrangeTest(options =>
+		{
+			ISampleChildA childA = new SampleChildA();
+			return childA;
+		});
+
+		actions.Act(arrangement => arrangement.Service.DoSomething(input));
+
+		actions.Assert(arrangement =>
+		{
+			Assert.Equal($"Something A: {input}", arrangement.GetResult<string>());
 		});
 	}
 }
