@@ -9,6 +9,16 @@ public abstract partial class TestFramework
 		where TService : class
 	{
 		IServiceCollection services = new ServiceCollection();
+		return ArrangeIntegrationTest<TService>(services, setupHandler, startupHandlers);
+	}
+
+	public IActions<TService> ArrangeIntegrationTest<TService>(
+		IServiceCollection services,
+		Action<IArrangeIntegrationOptions>? setupHandler = null,
+		params Func<IServiceCollection, IServiceCollection>[] startupHandlers
+		)
+		where TService : class
+	{
 		foreach (Func<IServiceCollection, IServiceCollection>? startupHandler in startupHandlers)
 		{
 			startupHandler.Invoke(services);

@@ -113,6 +113,40 @@ public class SampleParentTests : TestFramework
 	}
 
 	[Theory]
+	[InlineData("Test One", "Else One")]
+	[InlineData("Test Two", "Else Two")]
+	public void Verify_Itegration_Using_Passed_In_IServiceCollection(string inputDoSomething, string inputDoSomethingElse)
+	{
+		IServiceCollection customServices = new ServiceCollection();
+		IActions<ISampleParent> actions = ArrangeIntegrationTest<ISampleParent>(options =>
+		{
+			options.ReplaceServiceWithMock<ISampleChildB>(mock =>
+			{
+				mock.Setup(m => m.DoSomething(inputDoSomething)).Returns($"Mocked {inputDoSomething}");
+				mock.Setup(m => m.DoSomethingElse(inputDoSomethingElse)).Verifiable();
+				mock.Setup(m => m.Value).Returns($"Mocked {inputDoSomethingElse}");
+			});
+		}, SampleStartup.ConfigureServices);
+
+		actions.Act(arrangement =>
+		{
+			arrangement.Service.DoSomethingElse(inputDoSomethingElse);
+			return arrangement.Service.DoSomething(inputDoSomething);
+		});
+
+		actions.Assert(arrangement =>
+		{
+			string? somethingResult = arrangement.GetResult<string>();
+			string elseResult = arrangement.Service.Value;
+			somethingResult.Should().NotBeNullOrWhiteSpace();
+			elseResult.Should().NotBeNullOrWhiteSpace();
+			somethingResult.Should().NotBeEquivalentTo(elseResult);
+			Assert.Equal($"Parent: Something A: {inputDoSomething} - Mocked {inputDoSomething}", somethingResult);
+			Assert.Equal($"Parent: Something Else A: {inputDoSomethingElse} - Mocked {inputDoSomethingElse}", elseResult);
+		});
+	}
+
+	[Theory]
 	[InlineData("Test One")]
 	[InlineData("Test Two")]
 	public void Verify_ArrangeTest_Explicitly_Adds_Service(string input)
