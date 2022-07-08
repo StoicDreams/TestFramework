@@ -15,12 +15,12 @@ jobs:
     vmImage: 'windows-latest'
   steps:
     - task: NuGetToolInstaller@1
-    inputs:
+      inputs:
         versionSpec: '6.x'
         checkLatest: true
     - task: UseDotNet@2
-    displayName: 'Load the SDK'
-    inputs:
+      displayName: 'Load the SDK'
+      inputs:
         packageType: 'sdk'
         version: '6.x'
         includePreviewVersions: false
@@ -61,7 +61,7 @@ jobs:
       inputs:
         targetType: 'inline'
         script: |
-        Start-Sleep -Seconds 360
+          Start-Sleep -Seconds 360
 
 - job: TestFrameworkBlazor
   displayName: 'Build and Deploy Blazor Test Framework'
@@ -78,7 +78,7 @@ jobs:
         packageType: 'sdk'
         version: '6.x'
         includePreviewVersions: false
-        
+
     - task: DotNetCoreCLI@2
       displayName: 'Restore nuget packages'
       inputs:

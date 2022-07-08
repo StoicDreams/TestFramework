@@ -82,7 +82,7 @@ public static class Extensions
 		{
 			throw new NullReferenceException($"Method {method} not found in service {(typeof(TService).FullName)}.");
 		}
-		TReturns result = (TReturns?)methodInfo.Invoke(service, input);
+		TReturns? result = (TReturns?)methodInfo.Invoke(service, input);
 		if (result == null)
 		{
 			throw new NullReferenceException($"Method {(typeof(TService).FullName)}.{method} unexpectedly returned null.");

@@ -48,9 +48,13 @@ public abstract partial class TestFramework
 			#region Create instance of Mock<T> to use for services
 			Type mockType = typeof(Mock<>);
 			Type paramType = info.ParameterType;
-			Type[] typeArgs = { Type.GetType(info.ParameterType.AssemblyQualifiedName) };
+			if (paramType.AssemblyQualifiedName == null) { throw new NullReferenceException($"Failed to load assembly name for parameter type {paramType.FullName ?? paramType.Name}"); }
+			Type? assemblyType = Type.GetType(paramType.AssemblyQualifiedName);
+			if (assemblyType == null) { throw new NullReferenceException($"Failed to load assembly type for parameter type {paramType.FullName ?? paramType.Name}"); }
+			Type[] typeArgs = { assemblyType };
 			Type repositoryType = mockType.MakeGenericType(typeArgs);
-			dynamic instance = Activator.CreateInstance(repositoryType);
+			dynamic? instance = Activator.CreateInstance(repositoryType);
+			if (instance == null) { throw new NullReferenceException($"Failed to create a mocked instance for {repositoryType.FullName ?? repositoryType.Name}"); }
 			#endregion
 
 			#region Add mocked interface|class instance which will be injected into constructor
