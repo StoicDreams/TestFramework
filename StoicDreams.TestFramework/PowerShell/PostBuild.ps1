@@ -38,7 +38,7 @@ function UpdateProjectVersion {
 	$newContent = $content -replace $rgxTargetXML, $newXML
 	if ($projectPath.Contains("TestFramework.Blazor")) {
 		Write-Host "Special content update $projectPath"
-		$newContent = $newContent -replace '<Version>([0-9\.]+)</Version>', '<Version>'+$version+'</Version>'
+		$newContent = $newContent -replace '<Version>([0-9\.]+)</Version>', ('<Version>'+$version+'</Version>')
 	}
 	$newContent | Set-Content -Path $projectPath
 	Write-Host "Updated   - $projectPath" -ForegroundColor Green
