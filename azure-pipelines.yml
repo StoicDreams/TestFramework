@@ -6,6 +6,11 @@
 trigger:
 - master
 
+stages:
+- stage: A
+  jobs:
+  - job: TestFramework
+  - job: TestFrameworkBlazor
 
 
 jobs:
