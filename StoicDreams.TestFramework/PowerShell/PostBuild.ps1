@@ -62,6 +62,7 @@ if($version -ne $null) {
 	Get-ChildItem -Path .\ -Filter *README.md -Recurse -File | ForEach-Object {
 		UpdateProjectVersion $_.FullName $version
 	}
+	Write-Host "Finished updates to Version: $version"
 } else {
 	Write-Host Current version was not found -ForegroundColor Red
 }
