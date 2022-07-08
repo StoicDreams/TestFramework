@@ -22,6 +22,8 @@ public class RenderArrangement<TComponent> : IRenderArrangement<TComponent>
 
 	public T? GetNullableResult<T>() => (T?)Result;
 
+	public FakeNavigationManager NavManager => Context.Services.GetRequiredService<FakeNavigationManager>();
+
 	internal object? Result { get; set; }
 
 	private TestContext Context { get; }

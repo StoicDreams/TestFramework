@@ -10,4 +10,6 @@ public interface IRenderArrangement<TComponent>
 	T GetResult<T>();
 
 	T? GetNullableResult<T>();
+	
+	FakeNavigationManager NavManager { get; }
 }
