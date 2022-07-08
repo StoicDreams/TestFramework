@@ -8,10 +8,11 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
 		Arrangement = new RenderArrangement<TComponent>(context, render);
 	}
 
-	public void Act(Action<IRenderArrangement<TComponent>> action)
+	public void Act(Action<IRenderArrangement<TComponent>>? action)
 	{
 		Arrangement.Result = null;
-		action.Invoke(Arrangement);
+		action?.Invoke(Arrangement);
+		Arrangement.Result = Arrangement.Render.Markup;
 	}
 
 	public void Act(Func<IRenderArrangement<TComponent>, object?> action)
