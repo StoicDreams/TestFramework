@@ -40,8 +40,9 @@ steps:
     inputs:
       command: 'test'
       projects: |
-        **\*BuildTests*.dll
+        **\*SampleProject.dll
         **\*TestFramework.dll
+        **\*Tests.dll
   - task: Bash@3
     displayName: 'Push Test Framework package to nuget store'
     inputs:
