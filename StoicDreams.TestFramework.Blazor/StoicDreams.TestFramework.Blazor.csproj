@@ -12,7 +12,7 @@
 		<Description>
 			Extended functionality of Stoic Dreams Test Framework, adding funtionality to handle testing against rendered .razor components for unit and integration testing.
 		</Description>
-		<Version>1.0.4</Version>
+		<Version>1.1.5</Version>
 		<Copyright>2022 Stoic Dreams</Copyright>
 		<PackageProjectUrl>https://www.stoicdreams.com</PackageProjectUrl>
 		<PackageLicenseExpression></PackageLicenseExpression>
@@ -32,7 +32,7 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/StoicDreams/TestFramework</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<PackageTags>Stoic Dreams;Moq;Unit Test;Integration Test;Testing</PackageTags>
+		<PackageTags>Stoic Dreams;Blazor;Moq;Unit Test;Integration Test;Testing</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>

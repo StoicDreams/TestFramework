@@ -39,7 +39,9 @@ steps:
     displayName: 'Run the Unit Tests'
     inputs:
       command: 'test'
-      projects: '**\*BuildTests*.dll'
+      projects: |
+        **\*BuildTests*.dll
+        **\*test*.dll
   - task: Bash@3
     displayName: 'Push Test Framework package to nuget store'
     inputs:
@@ -75,7 +77,9 @@ steps:
     displayName: 'Run the Unit Tests'
     inputs:
       command: 'test'
-      projects: '**\*BuildTests*.dll'
+      projects: |
+        **\*BuildTests*.dll
+        **\*test*.dll
   - task: Bash@3
     displayName: 'Push Test Framework package to nuget store'
     inputs:
