@@ -26,9 +26,9 @@ steps:
     inputs:
       command: 'restore'
       projects: |
-        '**/StoicDreams.TestFramework.csproj'
-        '**/SampleProject.csproj'
-        '**/StoicDreams.TestFramework.BuildTests.csproj'
+        '**/*TestFramework.csproj'
+        '**/*SampleProject.csproj'
+        '**/*TestFramework.BuildTests.csproj'
       includeNuGetOrg: true
   - task: DotNetCoreCLI@2
     displayName: 'Build and pack Test Framework'
@@ -61,9 +61,9 @@ steps:
     inputs:
       command: 'restore'
       projects: |
-        '**/StoicDreams.TestFramework.Blazor.csproj'
-        '**/SampleBlazorLib.csproj'
-        '**/StoicDreams.TestFramework.Blazor.BuildTests.csproj'
+        '**/*TestFramework.Blazor.csproj'
+        '**/*SampleBlazorLib.csproj'
+        '**/*TestFramework.Blazor.BuildTests.csproj'
       includeNuGetOrg: true
   - task: DotNetCoreCLI@2
     displayName: 'Build and pack Test Framework Blazor'
