@@ -22,7 +22,7 @@ steps:
       includePreviewVersions: false
   # Restore projects independently so dependency projects are build first
   - task: DotNetCoreCLI@2
-    displayName: 'Restore nuget packages'
+    displayName: 'Restore nuget packages for Test Framework'
     inputs:
       command: 'restore'
       projects: |
@@ -41,7 +41,7 @@ steps:
       command: 'test'
       projects: |
         **\*BuildTests*.dll
-        **\*test*.dll
+        **\*TestFramework.dll
   - task: Bash@3
     displayName: 'Push Test Framework package to nuget store'
     inputs:
@@ -58,28 +58,22 @@ steps:
       targetType: 'inline'
       script: |
         Start-Sleep -Seconds 360
-  # Restore projects dependent on previous package
+  # Restore solution (to keep things simnple)
   - task: DotNetCoreCLI@2
     displayName: 'Restore nuget packages'
     inputs:
       command: 'restore'
-      projects: |
-        **/StoicDreams.TestFramework.Blazor.csproj
-        **/SampleBlazorLib.csproj
-        **/StoicDreams.TestFramework.Blazor.BuildTests.csproj
+      projects: '**/*.sln'
       includeNuGetOrg: true
   - task: DotNetCoreCLI@2
-    displayName: 'Build and pack Test Framework Blazor'
+    displayName: 'Build and pack for Test Framework Blazor'
     inputs:
       command: 'build'
-      projects: '**/StoicDreams.TestFramework.Blazor.csproj'
+      projects: '**/*.csproj'
   - task: DotNetCoreCLI@2
     displayName: 'Run the Unit Tests'
     inputs:
       command: 'test'
-      projects: |
-        **\*BuildTests*.dll
-        **\*test*.dll
   - task: Bash@3
     displayName: 'Push Test Framework package to nuget store'
     inputs:
