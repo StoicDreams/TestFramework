@@ -25,10 +25,10 @@ steps:
     displayName: 'Restore nuget packages'
     inputs:
       command: 'restore'
-      projects:
-        '**/*TestFramework.csproj'
-        '**/*SampleProject.csproj'
-        '**/*TestFramework.BuildTests.csproj'
+      projects: |
+        **/*TestFramework.csproj
+        **/*SampleProject.csproj
+        **/*TestFramework.BuildTests.csproj
       includeNuGetOrg: true
   - task: DotNetCoreCLI@2
     displayName: 'Build and pack Test Framework'
@@ -60,10 +60,10 @@ steps:
     displayName: 'Restore nuget packages'
     inputs:
       command: 'restore'
-      projects:
-        '**/*TestFramework.Blazor.csproj'
-        '**/*SampleBlazorLib.csproj'
-        '**/*TestFramework.Blazor.BuildTests.csproj'
+      projects: |
+        **/*TestFramework.Blazor.csproj
+        **/*SampleBlazorLib.csproj
+        **/*TestFramework.Blazor.BuildTests.csproj
       includeNuGetOrg: true
   - task: DotNetCoreCLI@2
     displayName: 'Build and pack Test Framework Blazor'
