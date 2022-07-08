@@ -14,6 +14,7 @@
 		</Description>
 		<Version>1.1.5</Version>
 		<Copyright>2022 Stoic Dreams</Copyright>
+		<PackageId>StoicDreams.TestFramework</PackageId>
 		<PackageProjectUrl>https://www.stoicdreams.com</PackageProjectUrl>
 		<PackageLicenseExpression></PackageLicenseExpression>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
@@ -55,5 +56,5 @@
 			<PackagePath>\</PackagePath>
 		</None>
 	</ItemGroup>
-	
+
 </Project>
