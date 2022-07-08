@@ -17,7 +17,7 @@ public class SampleParentTests : TestFramework
 
 		actions.Assert(arrangement =>
 		{
-			string? result = arrangement.GetResult<string>();
+			string? result = arrangement.GetNullableResult<string>();
 			result.Should().NotBeNullOrWhiteSpace();
 			result.Should().BeEquivalentTo($"Parent: Mock A: {input} - Mock B: {input}");
 		});
@@ -46,7 +46,7 @@ public class SampleParentTests : TestFramework
 
 		actions.Assert(arrangement =>
 		{
-			string? result = arrangement.Service.Value;
+			string result = arrangement.Service.Value;
 			result.Should().NotBeNullOrWhiteSpace();
 			result.Should().BeEquivalentTo($"Parent: Mock A: {input} - Mock B: {input}");
 			arrangement.GetMock<ISampleChildA>().Verify();
@@ -69,7 +69,7 @@ public class SampleParentTests : TestFramework
 
 		actions.Assert(arrangement =>
 		{
-			string? somethingResult = arrangement.GetResult<string>();
+			string somethingResult = arrangement.GetResult<string>();
 			string elseResult = arrangement.Service.Value;
 			somethingResult.Should().NotBeNullOrWhiteSpace();
 			elseResult.Should().NotBeNullOrWhiteSpace();
@@ -102,7 +102,7 @@ public class SampleParentTests : TestFramework
 
 		actions.Assert(arrangement =>
 		{
-			string? somethingResult = arrangement.GetResult<string>();
+			string somethingResult = arrangement.GetResult<string>();
 			string elseResult = arrangement.Service.Value;
 			somethingResult.Should().NotBeNullOrWhiteSpace();
 			elseResult.Should().NotBeNullOrWhiteSpace();
@@ -136,7 +136,7 @@ public class SampleParentTests : TestFramework
 
 		actions.Assert(arrangement =>
 		{
-			string? somethingResult = arrangement.GetResult<string>();
+			string somethingResult = arrangement.GetResult<string>();
 			string elseResult = arrangement.Service.Value;
 			somethingResult.Should().NotBeNullOrWhiteSpace();
 			elseResult.Should().NotBeNullOrWhiteSpace();

@@ -11,7 +11,15 @@ public class Arrangement<TInstance> : IArrangement<TInstance>
 
 	public TInstance Service { get; }
 	public Mock<T> GetMock<T>() where T: class => ServiceProvider.GetMock<T>();
-	public T? GetResult<T>() => (T?)Result;
+	public T GetResult<T>()
+	{
+		if (Result == null)
+		{
+			throw new NullReferenceException($"Expecting result of type {typeof(T).FullName} but null was returned.");
+		}
+		return (T)Result;
+	}
+	public T? GetNullableResult<T>() => (T?)Result;
 
 	internal object? Result { get; set; }
 

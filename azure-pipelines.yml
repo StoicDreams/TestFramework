@@ -20,14 +20,18 @@ steps:
       packageType: 'sdk'
       version: '6.x'
       includePreviewVersions: false
+  # Restore projects independently so dependency projects are build first
   - task: DotNetCoreCLI@2
     displayName: 'Restore nuget packages'
     inputs:
       command: 'restore'
-      projects: '**/*.sln'
+      projects: |
+        '**/StoicDreams.TestFramework.csproj'
+        '**/SampleProject.csproj'
+        '**/StoicDreams.TestFramework.BuildTests.csproj'
       includeNuGetOrg: true
   - task: DotNetCoreCLI@2
-    displayName: 'Build and pack the project'
+    displayName: 'Build and pack Test Framework'
     inputs:
       command: 'build'
       projects: '**/StoicDreams.TestFramework.csproj'
@@ -36,7 +40,7 @@ steps:
     inputs:
       command: 'test'
   - task: Bash@3
-    displayName: 'Push package to nuget store'
+    displayName: 'Push Test Framework package to nuget store'
     inputs:
       targetType: inline
       script: dotnet nuget push --api-key $(NugetApiKey) --skip-duplicate --source $(NugetSource) '$(Agent.BuildDirectory)\NugetPackages\StoicDreams.TestFramework.*.nupkg' > nugetpush.txt; echo $(cat nugetpush.txt)
@@ -45,3 +49,36 @@ steps:
     inputs:
       targetType: inline
       script: pushResult=$(cat nugetpush.txt); re=".*StoicDreams\.TestFramework\.([0-9\.]+)\.nupkg.*";if [[ $pushResult =~ $re ]]; then echo ${BASH_REMATCH[1]}; fi
+  # Delay further execution to allow Nuget package time to propagate
+  - task: Delay@1
+    inputs:
+      delayForMinutes: '5'
+  # Restore projects dependent on previous package
+  - task: DotNetCoreCLI@2
+    displayName: 'Restore nuget packages'
+    inputs:
+      command: 'restore'
+      projects: |
+        '**/StoicDreams.TestFramework.Blazor.csproj'
+        '**/SampleBlazorLib.csproj'
+        '**/StoicDreams.TestFramework.Blazor.BuildTests.csproj'
+      includeNuGetOrg: true
+  - task: DotNetCoreCLI@2
+    displayName: 'Build and pack Test Framework Blazor'
+    inputs:
+      command: 'build'
+      projects: '**/StoicDreams.TestFramework.Blazor.csproj'
+  - task: DotNetCoreCLI@2
+    displayName: 'Run the Unit Tests'
+    inputs:
+      command: 'test'
+  - task: Bash@3
+    displayName: 'Push Test Framework package to nuget store'
+    inputs:
+      targetType: inline
+      script: dotnet nuget push --api-key $(NugetApiKey) --skip-duplicate --source $(NugetSource) '$(Agent.BuildDirectory)\NugetPackages\StoicDreams.TestFramework.Blazor.*.nupkg' > nugetpush.txt; echo $(cat nugetpush.txt)
+  - task: Bash@3
+    displayName: 'Echo version number.'
+    inputs:
+      targetType: inline
+      script: pushResult=$(cat nugetpush.txt); re=".*StoicDreams\.TestFramework\.Blazor\.([0-9\.]+)\.nupkg.*";if [[ $pushResult =~ $re ]]; then echo ${BASH_REMATCH[1]}; fi

@@ -8,11 +8,11 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>Erik Gassler</Authors>
 		<Company>Stoic Dreams</Company>
-		<Product>Stoic Dreams Test Framework</Product>
+		<Product>Stoic Dreams Blazor Test Framework</Product>
 		<Description>
-			A base framework library with helper methods for organizing and simplifying unit and integration tests.
+			Extended functionality of Stoic Dreams Test Framework, adding funtionality to handle testing against rendered .razor components for unit and integration testing.
 		</Description>
-		<Version>1.1.4</Version>
+		<Version>1.0.4</Version>
 		<Copyright>2022 Stoic Dreams</Copyright>
 		<PackageProjectUrl>https://www.stoicdreams.com</PackageProjectUrl>
 		<PackageLicenseExpression></PackageLicenseExpression>
@@ -36,9 +36,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FluentAssertions" Version="6.7.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
-		<PackageReference Include="Moq" Version="4.18.1" />
+		<PackageReference Include="bunit" Version="1.9.8" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+		<PackageReference Include="StoicDreams.TestFramework" Version="1.1.4" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -55,5 +55,5 @@
 			<PackagePath>\</PackagePath>
 		</None>
 	</ItemGroup>
-	
+
 </Project>

@@ -1,4 +1,4 @@
 ﻿
 using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
-[assembly: InternalsVisibleTo("StoicDreams.TestFramework.Tests")]
+[assembly: InternalsVisibleTo("StoicDreams.TestFramework.BuildTests")]

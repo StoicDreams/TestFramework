@@ -8,11 +8,18 @@ public interface IArrangement<TInstance> where TInstance : class
 	TInstance Service { get; }
 
 	/// <summary>
-	/// Get result returned by IActions.Act command.
+	/// Get an expected result returned by IActions.Act command.
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	/// <returns></returns>
-	T? GetResult<T>();
+	T GetResult<T>();
+
+	/// <summary>
+	/// Get an expected result that may include null values returned by IActions.Act command.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <returns></returns>
+	T? GetNullableResult<T>();
 
 	/// <summary>
 	/// Get a mock created during test arrangment.

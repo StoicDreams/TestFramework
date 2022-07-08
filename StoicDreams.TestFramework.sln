@@ -11,9 +11,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{66F41EC5-6
 		Docs\README.md = Docs\README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoicDreams.TestFramework.Tests", "StoicDreams.TestFramework.Tests\StoicDreams.TestFramework.Tests.csproj", "{74AA16F4-902A-4F0B-B7A8-B7D0B3B2FE33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoicDreams.TestFramework.BuildTests", "StoicDreams.TestFramework.BuildTests\StoicDreams.TestFramework.BuildTests.csproj", "{74AA16F4-902A-4F0B-B7A8-B7D0B3B2FE33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleProject", "SampleProject\SampleProject.csproj", "{85DC0A3C-04EB-4637-B15A-C63BED5B5A04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleProject", "SampleProject\SampleProject.csproj", "{85DC0A3C-04EB-4637-B15A-C63BED5B5A04}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoicDreams.TestFramework.Blazor", "StoicDreams.TestFramework.Blazor\StoicDreams.TestFramework.Blazor.csproj", "{D0FC5CCE-3CF2-4D72-A5D0-17D0509114AB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleBlazorLib", "SampleBlazorLib\SampleBlazorLib.csproj", "{1606D1D8-88DD-4EA4-8D9D-0A745C9FBE8B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoicDreams.TestFramework.Blazor.BuildTests", "StoicDreams.TestFramework.Blazor.BuildTests\StoicDreams.TestFramework.Blazor.BuildTests.csproj", "{E82FC9C1-6D2D-46F0-85DD-0C1BC4A63D98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +39,18 @@ Global
 		{85DC0A3C-04EB-4637-B15A-C63BED5B5A04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85DC0A3C-04EB-4637-B15A-C63BED5B5A04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85DC0A3C-04EB-4637-B15A-C63BED5B5A04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0FC5CCE-3CF2-4D72-A5D0-17D0509114AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0FC5CCE-3CF2-4D72-A5D0-17D0509114AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0FC5CCE-3CF2-4D72-A5D0-17D0509114AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0FC5CCE-3CF2-4D72-A5D0-17D0509114AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1606D1D8-88DD-4EA4-8D9D-0A745C9FBE8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1606D1D8-88DD-4EA4-8D9D-0A745C9FBE8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1606D1D8-88DD-4EA4-8D9D-0A745C9FBE8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1606D1D8-88DD-4EA4-8D9D-0A745C9FBE8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E82FC9C1-6D2D-46F0-85DD-0C1BC4A63D98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E82FC9C1-6D2D-46F0-85DD-0C1BC4A63D98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E82FC9C1-6D2D-46F0-85DD-0C1BC4A63D98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E82FC9C1-6D2D-46F0-85DD-0C1BC4A63D98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
