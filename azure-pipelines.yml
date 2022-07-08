@@ -26,9 +26,9 @@ steps:
     inputs:
       command: 'restore'
       projects: |
-        **/*TestFramework.csproj
-        **/*SampleProject.csproj
-        **/*TestFramework.BuildTests.csproj
+        **/StoicDreams.TestFramework.csproj
+        **/SampleProject.csproj
+        **/StoicDreams.TestFramework.BuildTests.csproj
       includeNuGetOrg: true
   - task: DotNetCoreCLI@2
     displayName: 'Build and pack Test Framework'
@@ -39,6 +39,7 @@ steps:
     displayName: 'Run the Unit Tests'
     inputs:
       command: 'test'
+	  projects: '**\*BuildTests*.dll'
   - task: Bash@3
     displayName: 'Push Test Framework package to nuget store'
     inputs:
@@ -61,9 +62,9 @@ steps:
     inputs:
       command: 'restore'
       projects: |
-        **/*TestFramework.Blazor.csproj
-        **/*SampleBlazorLib.csproj
-        **/*TestFramework.Blazor.BuildTests.csproj
+        **/StoicDreams.TestFramework.Blazor.csproj
+        **/SampleBlazorLib.csproj
+        **/StoicDreams.TestFramework.Blazor.BuildTests.csproj
       includeNuGetOrg: true
   - task: DotNetCoreCLI@2
     displayName: 'Build and pack Test Framework Blazor'
@@ -74,6 +75,7 @@ steps:
     displayName: 'Run the Unit Tests'
     inputs:
       command: 'test'
+	  projects: '**\*BuildTests*.dll'
   - task: Bash@3
     displayName: 'Push Test Framework package to nuget store'
     inputs:
