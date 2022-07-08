@@ -30,7 +30,7 @@
 		<RootNamespace>StoicDreams</RootNamespace>
 		<ApplicationIcon>favicon.ico</ApplicationIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/StoicDreams/TestFramework</RepositoryUrl>
+		<RepositoryUrl>https://github.com/StoicDreams/TestFramework/tree/master/StoicDreams.TestFramework.Blazor</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>Stoic Dreams;Blazor;Moq;Unit Test;Integration Test;Testing</PackageTags>
 	</PropertyGroup>

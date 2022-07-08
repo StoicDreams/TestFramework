@@ -103,7 +103,7 @@ jobs:
       inputs:
         command: 'test'
     - task: Bash@3
-      displayName: 'Push Test Framework package to nuget store'
+      displayName: 'Push Test Framework Blazor package to nuget store'
       inputs:
         targetType: inline
         script: dotnet nuget push --api-key $(NugetApiKey) --skip-duplicate --source $(NugetSource) '$(Agent.BuildDirectory)\NugetPackages\StoicDreams.TestFramework.Blazor.*.nupkg' > nugetpush.txt; echo $(cat nugetpush.txt)
