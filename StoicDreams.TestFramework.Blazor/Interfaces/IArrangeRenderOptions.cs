@@ -3,6 +3,9 @@
 public interface IArrangeRenderOptions
 {
 	Dictionary<string, object> Parameters { get; }
+
+	IArrangeRenderOptions SetupServices(Action<IServiceCollection> setupHandler);
+
 	IArrangeRenderOptions ReplaceServiceWithMock<TService>(Action<Mock<TService>>? setupHandler = null) where TService : class;
 
 	IArrangeRenderOptions AddStub<TComponent>() where TComponent : IComponent;

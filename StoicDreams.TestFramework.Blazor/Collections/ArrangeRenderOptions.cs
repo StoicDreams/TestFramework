@@ -11,6 +11,12 @@ public class ArrangeRenderOptions : IArrangeRenderOptions
 
 	public Dictionary<string, object> Parameters { get; } = new();
 
+	public IArrangeRenderOptions SetupServices(Action<IServiceCollection> setupHandler)
+	{
+		setupHandler.Invoke(Context.Services);
+		return this;
+	}
+
 	public IArrangeRenderOptions ReplaceServiceWithMock<TService>(Action<Mock<TService>>? setupHandler = null)
 		where TService : class
 	{

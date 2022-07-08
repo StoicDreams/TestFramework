@@ -56,12 +56,14 @@ stages:
         inputs:
           targetType: inline
           script: pushResult=$(cat nugetpush.txt); re=".*StoicDreams\.TestFramework\.([0-9\.]+)\.nupkg.*";if [[ $pushResult =~ $re ]]; then echo ${BASH_REMATCH[1]}; fi
-      # Delay further execution to allow Nuget package time to propagate
-      - task: PowerShell@2
-        inputs:
-          targetType: 'inline'
-          script: |
-            Start-Sleep -Seconds 360
+
+  - job: DelayToAllowNugetTimeToPublish
+    displayName: 'Give Nuget.org time to process publishing'
+    pool: Server
+    steps:
+    - task: Delay@1
+      inputs:
+        delayForMinutes: '10'
 
   - job: TestFrameworkBlazor
     displayName: 'Build and Deploy Blazor Test Framework'
