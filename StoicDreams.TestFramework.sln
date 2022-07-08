@@ -21,6 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleBlazorLib", "SampleBl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoicDreams.TestFramework.Blazor.BuildTests", "StoicDreams.TestFramework.Blazor.BuildTests\StoicDreams.TestFramework.Blazor.BuildTests.csproj", "{E82FC9C1-6D2D-46F0-85DD-0C1BC4A63D98}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5A7227A1-4525-4A5B-9B9E-A5BA17A5BA99}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
