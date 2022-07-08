@@ -8,7 +8,7 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
 		Arrangement = new RenderArrangement<TComponent>(context, render);
 	}
 
-	public void Act(Action<IRenderArrangement<TComponent>>? action)
+	public void Act(Action<IRenderArrangement<TComponent>>? action = null)
 	{
 		Arrangement.Result = null;
 		action?.Invoke(Arrangement);

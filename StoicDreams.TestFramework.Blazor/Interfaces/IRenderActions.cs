@@ -8,7 +8,7 @@ public interface IRenderActions<TComponent>
 	/// Followup Assert can call GetResult<string>() to get rendered markup from this Act process.
 	/// </summary>
 	/// <param name="action"></param>
-	void Act(Action<IRenderArrangement<TComponent>>? action);
+	void Act(Action<IRenderArrangement<TComponent>>? action = null);
 
 	/// <summary>
 	/// Act processing with explicit result returned.
