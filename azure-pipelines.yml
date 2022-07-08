@@ -25,7 +25,7 @@ steps:
     displayName: 'Restore nuget packages'
     inputs:
       command: 'restore'
-      projects: |
+      projects:
         '**/*TestFramework.csproj'
         '**/*SampleProject.csproj'
         '**/*TestFramework.BuildTests.csproj'
@@ -60,7 +60,7 @@ steps:
     displayName: 'Restore nuget packages'
     inputs:
       command: 'restore'
-      projects: |
+      projects:
         '**/*TestFramework.Blazor.csproj'
         '**/*SampleBlazorLib.csproj'
         '**/*TestFramework.Blazor.BuildTests.csproj'
