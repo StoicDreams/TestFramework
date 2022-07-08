@@ -60,15 +60,17 @@ stages:
   - job: DelayToAllowNugetTimeToPublish
     displayName: 'Give Nuget.org time to process publishing'
     pool: Server
+    condition: succeeded()
     steps:
     - task: Delay@1
       inputs:
-        delayForMinutes: '20'
+        delayForMinutes: '5'
 
   - job: TestFrameworkBlazor
     displayName: 'Build and Deploy Blazor Test Framework'
     pool:
       vmImage: 'windows-latest'
+    condition: succeeded()
     steps:
       - task: NuGetToolInstaller@1
         inputs:
