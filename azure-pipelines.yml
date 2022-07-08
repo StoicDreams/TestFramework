@@ -63,7 +63,7 @@ stages:
     steps:
     - task: Delay@1
       inputs:
-        delayForMinutes: '10'
+        delayForMinutes: '20'
 
   - job: TestFrameworkBlazor
     displayName: 'Build and Deploy Blazor Test Framework'
