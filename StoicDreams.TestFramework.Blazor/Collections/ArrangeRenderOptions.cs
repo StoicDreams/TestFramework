@@ -81,5 +81,5 @@ public class ArrangeRenderOptions : IArrangeRenderOptions
 		return this;
 	}
 
-	private TestContext Context { get; }
+	public TestContext Context { get; }
 }

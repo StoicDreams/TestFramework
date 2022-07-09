@@ -25,4 +25,6 @@ public interface IArrangeRenderOptions
 	IArrangeRenderOptions AddStub(Predicate<Type> componentTypePredicate, string replacementMarkup);
 
 	IArrangeRenderOptions AddStub(Predicate<Type> componentTypePredicate, RenderFragment replacementFragment);
+
+	TestContext Context { get; }
 }
