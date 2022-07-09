@@ -1,6 +1,4 @@
-﻿using Bunit;
-
-namespace StoicDreams;
+﻿namespace StoicDreams;
 
 public class ArrangeRenderOptions : IArrangeRenderOptions
 {

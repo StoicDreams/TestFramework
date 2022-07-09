@@ -10,8 +10,11 @@ public class RenderArrangement<TComponent> : IRenderArrangement<TComponent>
 	}
 
 	public IRenderedComponent<TComponent> Render { get; }
-	
-	public void DetachRender() => Context.DisposeComponents();
+
+	public void DetachRender()
+	{
+		Context.DisposeComponents();
+	}
 	
 	public Mock<T> GetMock<T>() where T : class => Context.Services.GetMock<T>();
 

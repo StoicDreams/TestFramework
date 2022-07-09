@@ -1,4 +1,5 @@
-﻿
+﻿@implements IDisposable
+
 <section>
 	<h1>Hello World</h1>
 	<p>This is a hello world example.</p>
@@ -17,4 +18,11 @@
 @code {
 	[Parameter]
 	public bool ToggleA { get; set; }
+	[Parameter]
+	public Action? OnDispose { get; set; }
+
+	public void Dispose()
+	{
+		OnDispose?.Invoke();
+	}
 }

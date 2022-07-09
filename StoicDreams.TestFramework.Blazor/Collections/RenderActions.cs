@@ -12,7 +12,14 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
 	{
 		Arrangement.Result = null;
 		action?.Invoke(Arrangement);
-		Arrangement.Result = Arrangement.Render.Markup;
+		try
+		{
+			Arrangement.Result = Arrangement.Render.Markup;
+		}
+		catch (Exception ex)
+		{
+			Arrangement.Result = ex.Message;
+		}
 	}
 
 	public void Act(Func<IRenderArrangement<TComponent>, object?> action)
