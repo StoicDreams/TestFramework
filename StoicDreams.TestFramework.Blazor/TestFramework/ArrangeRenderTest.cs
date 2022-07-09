@@ -19,6 +19,10 @@ public abstract class TestFrameworkBlazor : TestFramework
 		TestContext context = new();
 		ArrangeRenderOptions options = new(context);
 		arrangeHandler?.Invoke(options);
+		foreach (Func<IServiceCollection, IServiceCollection> handler in startupHandlers)
+		{
+			handler.Invoke(context.Services);
+		}
 		IRenderedComponent<TComponent> render = context.RenderComponent<TComponent>(builder =>
 		{
 			foreach(string key in options.Parameters.Keys)
