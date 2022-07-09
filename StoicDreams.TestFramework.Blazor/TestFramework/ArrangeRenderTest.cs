@@ -2,7 +2,15 @@
 
 public abstract class TestFrameworkBlazor : TestFramework
 {
-	public IRenderActions<TComponent> ArrangeRenderTest<TComponent>(
+	protected RenderFragment MockRender(string content)
+	{
+		return builder =>
+		{
+			builder.AddMarkupContent(0, content);
+		};
+	}
+
+	protected IRenderActions<TComponent> ArrangeRenderTest<TComponent>(
 		Action<IArrangeRenderOptions>? arrangeHandler = null,
 		params Func<IServiceCollection, IServiceCollection>[] startupHandlers
 		)
