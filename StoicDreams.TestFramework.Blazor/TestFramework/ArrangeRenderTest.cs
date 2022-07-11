@@ -17,6 +17,7 @@ public abstract class TestFrameworkBlazor : TestFramework
 		where TComponent : IComponent
 	{
 		TestContext context = new();
+		context.JSInterop.Mode = JSRuntimeMode.Loose;
 		ArrangeRenderOptions options = new(context);
 		arrangeHandler?.Invoke(options);
 		foreach (Func<IServiceCollection, IServiceCollection> handler in startupHandlers)

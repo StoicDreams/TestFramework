@@ -23,6 +23,14 @@ public interface IRenderArrangement<TComponent>
 	Mock<T> GetMock<T>() where T : class;
 
 	/// <summary>
+	/// Get a service T.
+	/// Throws NullReferenceException if service is missing.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <returns></returns>
+	T GetService<T>() where T : class;
+
+	/// <summary>
 	/// Get the expected non-nullable result as returned by the last Act() call.
 	/// Will throw exception if result value was null.
 	/// </summary>

@@ -18,6 +18,17 @@ public class RenderArrangement<TComponent> : IRenderArrangement<TComponent>
 	
 	public Mock<T> GetMock<T>() where T : class => Context.Services.GetMock<T>();
 
+	public T GetService<T>()
+		where T : class
+	{
+		T? service = Context.Services.GetService<T>();
+		if (service == null)
+		{
+			throw new NullReferenceException($"Failed to get service {typeof(T).FullName}.");
+		}
+		return service;
+	}
+
 	public T GetResult<T>()
 	{
 		if (Result == null)
