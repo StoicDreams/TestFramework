@@ -7,7 +7,7 @@ trigger:
 - master
 
 stages:
-- stage: A
+- stage: Alpha
   jobs:
   - job: TestFramework
     displayName: 'Build and Publish Test Framework'
@@ -67,7 +67,7 @@ stages:
         delayForMinutes: '5'
 
   - job: TestFrameworkBlazor
-    displayName: 'Build and Deploy Blazor Test Framework'
+    displayName: 'Build and Publish Blazor Test Framework'
     dependsOn:
     - DelayToAllowNugetTimeToPublish
     condition: succeeded()
@@ -104,7 +104,7 @@ stages:
         inputs:
           testSelector: 'testAssemblies'
           testAssembliesVer2: |
-            **\*test*.dll
+            **\*BuildTests.dll
             !**\*TestAdapter.dll
             !**\obj\**
           searchFolder: '$(System.DefaultWorkingDirectory)'
