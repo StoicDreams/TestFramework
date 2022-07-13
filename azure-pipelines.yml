@@ -38,14 +38,12 @@ stages:
         inputs:
           command: 'build'
           projects: '**/StoicDreams.TestFramework.csproj'
-      #- task: DotNetCoreCLI@2
+      # Testing disabled for this job until I figure out how to limit testing here to ignore the Blazor project
+      #- task: VisualStudioTestPlatformInstaller@1
+      #- task: VSTest@2
       #  displayName: 'Run the Unit Tests'
       #  inputs:
-      #    command: 'test'
-      #    projects: |
-      #      **\*SampleProject.dll
-      #      **\*TestFramework.dll
-      #      **\*Tests.dll
+      #    codeCoverageEnabled: True
       - task: Bash@3
         displayName: 'Push Test Framework package to nuget store'
         inputs:
@@ -86,7 +84,6 @@ stages:
           packageType: 'sdk'
           version: '6.x'
           includePreviewVersions: false
-
       - task: DotNetCoreCLI@2
         displayName: 'Restore nuget packages'
         inputs:
@@ -101,6 +98,7 @@ stages:
         inputs:
           command: 'build'
           projects: '**/StoicDreams.TestFramework.Blazor.csproj'
+      - task: VisualStudioTestPlatformInstaller@1
       - task: VSTest@2
         displayName: 'Run the Unit Tests'
         inputs:
