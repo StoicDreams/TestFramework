@@ -49,7 +49,7 @@ stages:
           arguments: '--configuration $(buildConfiguration) --no-restore --collect: "XPlat Code Coverage"'
           publishTestResults: true,
           nobuild: true
-      - script: "dotnet tool install --global dotnet-reportgenerator-globaltool --version latest"
+      - script: "dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.5.8"
         displayName: "Install ReportGenerator tool"
       - script: 'reportgenerator -reports:**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/coverlet/reports -reporttypes:"Cobertura"'
         displayName: "Create reports"
@@ -123,9 +123,9 @@ stages:
           arguments: '--configuration $(buildConfiguration) --no-restore --collect: "XPlat Code Coverage"'
           publishTestResults: true,
           nobuild: true
-      - script: "dotnet tool install --global dotnet-reportgenerator-globaltool --version latest"
+      - script: "dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.5.8"
         displayName: "Install ReportGenerator tool"
-      - script: 'reportgenerator -reports:**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/coverlet/reports -reporttypes:"Cobertura"'
+      - script: 'reportgenerator -reports:**/coverage.cobertura.xml;artifact/**/cobertura-coverage.xml -targetdir:$(Build.SourcesDirectory)/coverlet/reports -reporttypes:"Cobertura"'
         displayName: "Create reports"
       - task: PublishCodeCoverageResults@1
         displayName: "Publish code coverage report"
