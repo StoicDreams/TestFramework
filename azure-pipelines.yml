@@ -39,11 +39,17 @@ stages:
           command: 'build'
           projects: '**/StoicDreams.TestFramework.csproj'
       # Testing disabled for this job until I figure out how to limit testing here to ignore the Blazor project
-      #- task: VisualStudioTestPlatformInstaller@1
-      #- task: VSTest@2
-      #  displayName: 'Run the Unit Tests'
-      #  inputs:
-      #    codeCoverageEnabled: True
+      - task: VisualStudioTestPlatformInstaller@1
+      - task: VSTest@2
+        displayName: 'Run the Unit Tests'
+        inputs:
+          testSelector: 'testAssemblies'
+          testAssembliesVer2: |
+            **\*TestFramework.BuildTests.dll
+            !**\*TestAdapter.dll
+            !**\obj\**
+          searchFolder: '$(System.DefaultWorkingDirectory)'
+          codeCoverageEnabled: True
       - task: Bash@3
         displayName: 'Push Test Framework package to nuget store'
         inputs:
