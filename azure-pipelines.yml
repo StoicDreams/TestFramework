@@ -107,9 +107,7 @@ stages:
             **\*BuildTests.dll
             !**\*TestAdapter.dll
             !**\obj\**
-            !**\*Blazor.dll
           searchFolder: '$(System.DefaultWorkingDirectory)'
-          platform: 'netcoreapp'
           codeCoverageEnabled: True
       - task: Bash@3
         displayName: 'Push Test Framework Blazor package to nuget store'
