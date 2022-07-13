@@ -127,6 +127,14 @@ stages:
         displayName: "Install ReportGenerator tool"
       - script: 'reportgenerator -reports:**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/coverlet/reports -reporttypes:"Cobertura"'
         displayName: "Create reports"
+      - task: reportgenerator@4
+        inputs:
+          reports: **/coverage.cobertura.xml;artifact/**/cobertura-coverage.xml
+          targetdir: $(Pipeline.Workspace)/coveragereport
+      - task: PublishCodeCoverageResults@1
+        inputs:
+          codeCoverageTool: "Cobertura"
+          summaryFileLocation: $(Pipeline.Workspace)/coveragereport/Cobertura.xml
       - task: PublishCodeCoverageResults@1
         displayName: "Publish code coverage report"
         inputs:
