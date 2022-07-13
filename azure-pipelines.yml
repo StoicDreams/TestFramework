@@ -102,19 +102,13 @@ stages:
         displayName: 'Restore nuget packages'
         inputs:
           command: 'restore'
-          projects: |
-            **/StoicDreams.TestFramework.Blazor.csproj
-            **/SampleBlazorLib.csproj
-            **/StoicDreams.TestFramework.Blazor.BuildTests.csproj
+          projects: '*.csproj'
           includeNuGetOrg: true
       - task: DotNetCoreCLI@2
         displayName: 'Build and pack for Test Framework Blazor'
         inputs:
           command: 'build'
-          projects: |
-            **/StoicDreams.TestFramework.Blazor.csproj
-            **/SampleBlazorLib.csproj
-            **/StoicDreams.TestFramework.Blazor.BuildTests.csproj
+          projects: '*.csproj'
       - task: DotNetCoreCLI@2
         displayName: 'Run Build Tests for Solution'
         inputs:
