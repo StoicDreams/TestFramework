@@ -47,7 +47,7 @@ stages:
           command: 'test'
           projects: '**/*TestFramework.BuildTests.csproj'
           arguments: '--configuration $(buildConfiguration) --no-restore --collect: "XPlat Code Coverage"'
-          publishTestResults: true,
+          publishTestResults: true
           nobuild: true
       - script: "dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.5.8"
         displayName: "Install ReportGenerator tool"
@@ -121,7 +121,7 @@ stages:
           command: 'test'
           projects: '**/*TestFramework.Blazor.BuildTests.csproj'
           arguments: '--configuration $(buildConfiguration) --no-restore --collect: "XPlat Code Coverage"'
-          publishTestResults: true,
+          publishTestResults: true
           nobuild: true
       - script: "dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.5.8"
         displayName: "Install ReportGenerator tool"
