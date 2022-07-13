@@ -102,6 +102,11 @@ stages:
       - task: VSTest@2
         displayName: 'Run the Unit Tests'
         inputs:
+          testSelector: 'testAssemblies'
+          testAssembliesVer2: |
+            **\*test*.dll
+            !**\*TestAdapter.dll
+            !**\obj\**
           codeCoverageEnabled: True
       - task: Bash@3
         displayName: 'Push Test Framework Blazor package to nuget store'
