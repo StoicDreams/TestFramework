@@ -107,6 +107,7 @@ stages:
             **\*BuildTests.dll
             !**\*TestAdapter.dll
             !**\obj\**
+            !**\*Blazor.dll
           searchFolder: '$(System.DefaultWorkingDirectory)'
           codeCoverageEnabled: True
       - task: Bash@3
