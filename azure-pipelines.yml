@@ -101,10 +101,9 @@ stages:
         inputs:
           command: 'build'
           projects: '**/StoicDreams.TestFramework.Blazor.csproj'
-      - task: DotNetCoreCLI@2
+      - task: VSTest@2
         displayName: 'Run the Unit Tests'
-        inputs:
-          command: 'test'
+        codeCoverageEnabled: True
       - task: Bash@3
         displayName: 'Push Test Framework Blazor package to nuget store'
         inputs:
