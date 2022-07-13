@@ -37,7 +37,10 @@ stages:
         displayName: 'Build and pack Test Framework'
         inputs:
           command: 'build'
-          projects: '**/StoicDreams.TestFramework.csproj'
+          projects: |
+            **/StoicDreams.TestFramework.csproj
+            **/SampleProject.csproj
+            **/StoicDreams.TestFramework.BuildTests.csproj
       - task: DotNetCoreCLI@2
         displayName: 'Run Build Tests for Test Framework'
         inputs:
@@ -108,7 +111,10 @@ stages:
         displayName: 'Build and pack for Test Framework Blazor'
         inputs:
           command: 'build'
-          projects: '**/StoicDreams.TestFramework.Blazor.csproj'
+          projects: |
+            **/StoicDreams.TestFramework.Blazor.csproj
+            **/SampleBlazorLib.csproj
+            **/StoicDreams.TestFramework.Blazor.BuildTests.csproj
       - task: DotNetCoreCLI@2
         displayName: 'Run Build Tests for Test Framework Blazor'
         inputs:
