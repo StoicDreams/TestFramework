@@ -57,7 +57,7 @@ stages:
         displayName: "Publish code coverage report"
         inputs:
           codeCoverageTool: "Cobertura"
-          summaryFileLocation: "$(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml"
+          summaryFileLocation: "$(Build.SourcesDirectory)/coverlet/reports/CoberturaA.xml"
       - task: Bash@3
         displayName: 'Push Test Framework package to nuget store'
         inputs:
@@ -131,7 +131,7 @@ stages:
         displayName: "Publish code coverage report"
         inputs:
           codeCoverageTool: "Cobertura"
-          summaryFileLocation: "$(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml"
+          summaryFileLocation: "$(Build.SourcesDirectory)/coverlet/reports/CoberturaB.xml"
       - task: Bash@3
         displayName: 'Push Test Framework Blazor package to nuget store'
         inputs:
