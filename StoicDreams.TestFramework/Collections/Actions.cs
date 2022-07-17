@@ -1,5 +1,26 @@
 ﻿namespace StoicDreams;
 
+public class Actions : IActions
+{
+	public Actions(object input)
+	{
+		Value = input;
+	}
+
+	public void Act(Func<object, object> action)
+	{
+		Result = action(Value);
+	}
+
+	public void Assert(Action<object?> action)
+	{
+		action(Result);
+	}
+
+	private object Value { get; }
+	private object? Result { get; set; }
+}
+
 public class Actions<TInstance> : IActions<TInstance>
 	where TInstance : class
 {

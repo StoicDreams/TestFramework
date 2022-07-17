@@ -1,5 +1,11 @@
 ﻿namespace StoicDreams;
 
+public interface IActions
+{
+	void Act(Func<object, object> action);
+	void Assert(Action<object?> action);
+}
+
 /// <summary>
 /// Interface containing Act and Assert scoping methods to help clearly organize tests into Arrange, Act, Assert workflows.
 /// </summary>

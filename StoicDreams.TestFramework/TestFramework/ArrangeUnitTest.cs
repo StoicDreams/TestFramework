@@ -37,6 +37,13 @@ public abstract partial class TestFramework
 		return CallHandlerAndReturnForActAndAssertions<TClass>(serviceProvider, setupHandler);
 	}
 
+	protected IActions ArrangeUnitTest(
+		Func<object> setupHandler
+		)
+	{
+		return new Actions(setupHandler.Invoke());
+	}
+
 	private IActions<TService> CallHandlerAndReturnForActAndAssertions<TService>(IServiceProvider serviceProvider, Action<IArrangeUnitOptions>? setupHandler)
 		where TService : class
 	{
