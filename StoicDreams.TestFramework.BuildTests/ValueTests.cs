@@ -10,9 +10,27 @@ public class ValueTests : TestFramework
 	{
 		IActions actions = ArrangeUnitTest(() => input);
 
-		actions.Act(value => TestTranslation((string)value));
+		actions.Act((string value) => TestTranslation(value));
 
-		actions.Assert(result => result.Should().Be(expectedResult));
+		actions.Assert((string? result) => result.Should().Be(expectedResult));
+	}
+
+	[Fact]
+	public void Verify_Exception_Thowing_Test()
+	{
+		IActions actions = ArrangeUnitTest();
+
+		actions.ActThrowsException(() => throw new Exception("Test"));
+
+		actions.Assert((Exception? result) => result.IsNotNull().Message.Should().Be("Test"));
+	}
+
+	[Fact]
+	public void Verify_Exception_Thowing_Test_Fails_To_Throw_Exception()
+	{
+		IActions actions = ArrangeUnitTest();
+
+		Assert.Throws<Exception>(() => actions.ActThrowsException(() => { }));
 	}
 
 	private string TestTranslation(string input)

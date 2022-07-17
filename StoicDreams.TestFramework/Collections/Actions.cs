@@ -7,14 +7,28 @@ public class Actions : IActions
 		Value = input;
 	}
 
-	public void Act(Func<object, object> action)
+	public void Act<T>(Func<T, object> action)
 	{
-		Result = action(Value);
+		Result = action((T)Value);
 	}
 
-	public void Assert(Action<object?> action)
+	public void ActThrowsException(Action action)
 	{
-		action(Result);
+		try
+		{
+			action.Invoke();
+		}
+		catch(Exception ex)
+		{
+			Result = ex;
+			return;
+		}
+		throw new Exception("Exception was expected but no exception was thrown");
+	}
+
+	public void Assert<T>(Action<T?> action)
+	{
+		action((T?)Result);
 	}
 
 	private object Value { get; }
@@ -57,7 +71,7 @@ public class Actions<TInstance> : IActions<TInstance>
 		}
 	}
 
-	public void Act(Func<IArrangement<TInstance>, Task> action)
+	public void ActAsync(Func<IArrangement<TInstance>, Task> action)
 	{
 		try
 		{
@@ -89,7 +103,7 @@ public class Actions<TInstance> : IActions<TInstance>
 		action?.Invoke(Arrangement);
 	}
 
-	public void Assert(Func<IArrangement<TInstance>, Task> action)
+	public void AssertAsync(Func<IArrangement<TInstance>, Task> action)
 	{
 		action?.Invoke(Arrangement).GetAwaiter().GetResult();
 	}

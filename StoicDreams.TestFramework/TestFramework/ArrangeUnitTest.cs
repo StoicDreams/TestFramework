@@ -37,6 +37,11 @@ public abstract partial class TestFramework
 		return CallHandlerAndReturnForActAndAssertions<TClass>(serviceProvider, setupHandler);
 	}
 
+	protected IActions ArrangeUnitTest(object? input = null)
+	{
+		return new Actions(input ?? new object());
+	}
+
 	protected IActions ArrangeUnitTest(
 		Func<object> setupHandler
 		)

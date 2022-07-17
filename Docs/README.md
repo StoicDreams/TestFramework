@@ -31,7 +31,7 @@ Add the [StoicDreams.TestFramework](https://www.nuget.org/packages/StoicDreams.T
 
 ```xml
 <ItemGroup>
-	<PackageReference Include="StoicDreams.TestFramework" Version="1.2.12" />
+	<PackageReference Include="StoicDreams.TestFramework" Version="1.3.1" />
 </ItemGroup>
 ```
 
