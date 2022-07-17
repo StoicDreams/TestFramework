@@ -10,11 +10,11 @@ public interface IActions
 	void Act<T>(Func<T, object> action);
 
 	/// <summary>
-	/// Asynchronous Act on test, returning result of action.
+	/// Act on test, returning result of action from async method.
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	/// <param name="action"></param>
-	void ActAsync<T>(Func<T, Task<object>> action);
+	void Act<T>(Func<T, Task<object>> action);
 
 	/// <summary>
 	/// Act on test, expecting an error to be thrown.
@@ -23,10 +23,10 @@ public interface IActions
 	void ActThrowsException(Action action);
 
 	/// <summary>
-	/// Asyncronous Act on test, expecting an error to be thrown.
+	/// Act on test, expecting an error to be thrown from async method.
 	/// </summary>
 	/// <param name="action"></param>
-	void ActAsyncThrowsException(Func<Task> action);
+	void ActThrowsException(Func<Task> action);
 
 	/// <summary>
 	/// Assert results of test, being passed result from last Act result.
@@ -55,28 +55,28 @@ public interface IActions<TInstance> where TInstance : class
 	void Act(Func<IArrangement<TInstance>, object?> action);
 
 	/// <summary>
-	/// Asyncronous Act on test.
+	/// Act on test.
 	/// </summary>
 	/// <param name="action"></param>
-	void ActAsync(Func<IArrangement<TInstance>, Task> action);
+	void Act(Func<IArrangement<TInstance>, Task> action);
 
 	/// <summary>
-	/// Asyncronous act on test, returning result.
+	/// Act on test, returning result from async method.
 	/// </summary>
 	/// <param name="action"></param>
-	void ActAsync(Func<IArrangement<TInstance>, Task<object?>> action);
+	void Act(Func<IArrangement<TInstance>, Task<object?>> action);
 
 	/// <summary>
-	/// Act on test, expecting an error to be thrown.
+	/// Act on test, expecting an error to be thrown calling method.
 	/// </summary>
 	/// <param name="action"></param>
 	void ActThrowsException(Action<IArrangement<TInstance>> action);
 
 	/// <summary>
-	/// Asyncronous Act on test, expecting an error to be thrown.
+	/// Act on test, expecting an error to be thrown calling async method.
 	/// </summary>
 	/// <param name="action"></param>
-	void ActAsyncThrowsException(Func<IArrangement<TInstance>, Task> action);
+	void ActThrowsException(Func<IArrangement<TInstance>, Task> action);
 
 	/// <summary>
 	/// Run assertions on results of test.
@@ -85,8 +85,8 @@ public interface IActions<TInstance> where TInstance : class
 	void Assert(Action<IArrangement<TInstance>> action);
 
 	/// <summary>
-	/// Asyncronous run of assertions on results of test.
+	/// Run assertions on results of test with ability to call async methods.
 	/// </summary>
 	/// <param name="action"></param>
-	void AssertAsync(Func<IArrangement<TInstance>, Task> action);
+	void Assert(Func<IArrangement<TInstance>, Task> action);
 }

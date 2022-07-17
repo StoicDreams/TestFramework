@@ -12,7 +12,7 @@ public class Actions : IActions
 		Result = action((T)Value);
 	}
 
-	public void ActAsync<T>(Func<T, Task<object>> action)
+	public void Act<T>(Func<T, Task<object>> action)
 	{
 		Result = action((T)Value).GetAwaiter().GetResult();
 	}
@@ -31,7 +31,7 @@ public class Actions : IActions
 		throw new Exception("Exception was expected but no exception was thrown");
 	}
 
-	public void ActAsyncThrowsException(Func<Task> action)
+	public void ActThrowsException(Func<Task> action)
 	{
 		try
 		{
@@ -74,13 +74,13 @@ public class Actions<TInstance> : IActions<TInstance>
 		Arrangement.Result = action?.Invoke(Arrangement);
 	}
 
-	public void ActAsync(Func<IArrangement<TInstance>, Task> action)
+	public void Act(Func<IArrangement<TInstance>, Task> action)
 	{
 		action?.Invoke(Arrangement).GetAwaiter().GetResult();
 	}
 
 
-	public void ActAsync(Func<IArrangement<TInstance>, Task<object?>> action)
+	public void Act(Func<IArrangement<TInstance>, Task<object?>> action)
 	{
 		Arrangement.Result = action?.Invoke(Arrangement).GetAwaiter().GetResult();
 	}
@@ -99,7 +99,7 @@ public class Actions<TInstance> : IActions<TInstance>
 		throw new Exception("Exception was expected but no exception was thrown");
 	}
 
-	public void ActAsyncThrowsException(Func<IArrangement<TInstance>, Task> action)
+	public void ActThrowsException(Func<IArrangement<TInstance>, Task> action)
 	{
 		try
 		{
@@ -118,7 +118,7 @@ public class Actions<TInstance> : IActions<TInstance>
 		action?.Invoke(Arrangement);
 	}
 
-	public void AssertAsync(Func<IArrangement<TInstance>, Task> action)
+	public void Assert(Func<IArrangement<TInstance>, Task> action)
 	{
 		action?.Invoke(Arrangement).GetAwaiter().GetResult();
 	}

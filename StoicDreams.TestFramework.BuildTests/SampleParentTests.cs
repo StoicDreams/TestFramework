@@ -73,7 +73,7 @@ public class SampleParentTests : TestFramework
 			});
 		});
 
-		actions.ActAsync(async arrangment => await Task.Run(() => arrangment.Service.DoSomethingElse(input)));
+		actions.Act(async arrangment => await Task.Run(() => arrangment.Service.DoSomethingElse(input)));
 
 		actions.Assert(arrangement =>
 		{
@@ -233,7 +233,7 @@ public class SampleParentTests : TestFramework
 			return childA;
 		});
 
-		actions.ActAsync(async arrangement => await Task.Run(() => arrangement.Service.DoSomething(input)));
+		actions.Act(async arrangement => await Task.Run(() => arrangement.Service.DoSomething(input)));
 
 		actions.Assert(arrangement =>
 		{
@@ -277,7 +277,7 @@ public class SampleParentTests : TestFramework
 			return childA;
 		});
 
-		actions.ActAsyncThrowsException(async arrangement => await Task.Run(() => arrangement.Service.DoSomething(input)));
+		actions.ActThrowsException(async arrangement => await Task.Run(() => arrangement.Service.DoSomething(input)));
 
 		actions.Assert(arrangement =>
 		{

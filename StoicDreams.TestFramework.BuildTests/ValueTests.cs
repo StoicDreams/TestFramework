@@ -23,7 +23,7 @@ public class ValueTests : TestFramework
 	{
 		IActions actions = ArrangeUnitTest(() => input);
 
-		actions.ActAsync(async (string value) => await MockReverseStringAsync(value));
+		actions.Act(async (string value) => await MockReverseStringAsync(value));
 
 		actions.Assert((string? result) => result.Should().Be(expectedResult));
 	}
@@ -53,7 +53,7 @@ public class ValueTests : TestFramework
 	{
 		IActions actions = ArrangeUnitTest();
 
-		actions.ActAsyncThrowsException(async () => await MockReverseStringAsync("anything", true));
+		actions.ActThrowsException(async () => await MockReverseStringAsync("anything", true));
 
 		actions.Assert((Exception? value) => value.IsNotNull().Message.Should().Be("Mocking an unexpected exception"));
 	}
