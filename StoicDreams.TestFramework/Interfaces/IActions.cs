@@ -10,10 +10,23 @@ public interface IActions
 	void Act<T>(Func<T, object> action);
 
 	/// <summary>
+	/// Asynchronous Act on test, returning result of action.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="action"></param>
+	void ActAsync<T>(Func<T, Task<object>> action);
+
+	/// <summary>
 	/// Act on test, expecting an error to be thrown.
 	/// </summary>
 	/// <param name="action"></param>
 	void ActThrowsException(Action action);
+
+	/// <summary>
+	/// Asyncronous Act on test, expecting an error to be thrown.
+	/// </summary>
+	/// <param name="action"></param>
+	void ActAsyncThrowsException(Func<Task> action);
 
 	/// <summary>
 	/// Assert results of test, being passed result from last Act result.
@@ -51,7 +64,19 @@ public interface IActions<TInstance> where TInstance : class
 	/// Asyncronous act on test, returning result.
 	/// </summary>
 	/// <param name="action"></param>
-	void Act(Func<IArrangement<TInstance>, Task<object?>> action);
+	void ActAsync(Func<IArrangement<TInstance>, Task<object?>> action);
+
+	/// <summary>
+	/// Act on test, expecting an error to be thrown.
+	/// </summary>
+	/// <param name="action"></param>
+	void ActThrowsException(Action<IArrangement<TInstance>> action);
+
+	/// <summary>
+	/// Asyncronous Act on test, expecting an error to be thrown.
+	/// </summary>
+	/// <param name="action"></param>
+	void ActAsyncThrowsException(Func<IArrangement<TInstance>, Task> action);
 
 	/// <summary>
 	/// Run assertions on results of test.

@@ -10,7 +10,20 @@ public class ValueTests : TestFramework
 	{
 		IActions actions = ArrangeUnitTest(() => input);
 
-		actions.Act((string value) => TestTranslation(value));
+		actions.Act((string value) => MockReverseString(value));
+
+		actions.Assert((string? result) => result.Should().Be(expectedResult));
+	}
+
+	[Theory]
+	[InlineData("", "")]
+	[InlineData("cba", "abc")]
+	[InlineData("crba", "abrc")]
+	public void Verify_Testing_Async_Translation_Of_Data(string expectedResult, string input)
+	{
+		IActions actions = ArrangeUnitTest(() => input);
+
+		actions.ActAsync(async (string value) => await MockReverseStringAsync(value));
 
 		actions.Assert((string? result) => result.Should().Be(expectedResult));
 	}
@@ -20,9 +33,9 @@ public class ValueTests : TestFramework
 	{
 		IActions actions = ArrangeUnitTest();
 
-		actions.ActThrowsException(() => throw new Exception("Test"));
+		actions.ActThrowsException(() => MockReverseString("anything", true));
 
-		actions.Assert((Exception? result) => result.IsNotNull().Message.Should().Be("Test"));
+		actions.Assert((Exception? result) => result.IsNotNull().Message.Should().Be("Mocking an unexpected exception"));
 	}
 
 	[Fact]
@@ -30,13 +43,34 @@ public class ValueTests : TestFramework
 	{
 		IActions actions = ArrangeUnitTest();
 
-		Assert.Throws<Exception>(() => actions.ActThrowsException(() => { }));
+		actions.ActThrowsException(() => actions.ActThrowsException(() => { }));
+
+		actions.Assert((Exception? value) => value.IsNotNull().Message.Should().Be("Exception was expected but no exception was thrown"));
 	}
 
-	private string TestTranslation(string input)
+	[Fact]
+	public void Verify_Async_Exception()
 	{
+		IActions actions = ArrangeUnitTest();
+
+		actions.ActAsyncThrowsException(async () => await MockReverseStringAsync("anything", true));
+
+		actions.Assert((Exception? value) => value.IsNotNull().Message.Should().Be("Mocking an unexpected exception"));
+	}
+
+	private string MockReverseString(string input, bool throwExeption = false)
+	{
+		if (throwExeption) { throw new Exception("Mocking an unexpected exception"); }
 		char[] array = input.ToCharArray();
 		Array.Reverse(array);
 		return string.Join("", array);
+	}
+
+	private Task<string> MockReverseStringAsync(string input, bool throwExeption = false)
+	{
+		if (throwExeption) { throw new Exception("Mocking an unexpected exception"); }
+		char[] array = input.ToCharArray();
+		Array.Reverse(array);
+		return Task.FromResult(string.Join("", array));
 	}
 }

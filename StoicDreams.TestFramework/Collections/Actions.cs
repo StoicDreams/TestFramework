@@ -12,6 +12,11 @@ public class Actions : IActions
 		Result = action((T)Value);
 	}
 
+	public void ActAsync<T>(Func<T, Task<object>> action)
+	{
+		Result = action((T)Value).GetAwaiter().GetResult();
+	}
+
 	public void ActThrowsException(Action action)
 	{
 		try
@@ -19,6 +24,20 @@ public class Actions : IActions
 			action.Invoke();
 		}
 		catch(Exception ex)
+		{
+			Result = ex;
+			return;
+		}
+		throw new Exception("Exception was expected but no exception was thrown");
+	}
+
+	public void ActAsyncThrowsException(Func<Task> action)
+	{
+		try
+		{
+			action.Invoke().GetAwaiter().GetResult();
+		}
+		catch (Exception ex)
 		{
 			Result = ex;
 			return;
@@ -47,55 +66,51 @@ public class Actions<TInstance> : IActions<TInstance>
 	
 	public void Act(Action<IArrangement<TInstance>> action)
 	{
-		try
-		{
-			action?.Invoke(Arrangement);
-		}
-		catch (Exception ex)
-		{
-			Arrangement.Result = ex;
-			throw;
-		}
+		action?.Invoke(Arrangement);
 	}
 
 	public void Act(Func<IArrangement<TInstance>, object?> action)
 	{
-		try
-		{
-			Arrangement.Result = action?.Invoke(Arrangement);
-		}
-		catch (Exception ex)
-		{
-			Arrangement.Result = ex;
-			throw;
-		}
+		Arrangement.Result = action?.Invoke(Arrangement);
 	}
 
 	public void ActAsync(Func<IArrangement<TInstance>, Task> action)
 	{
-		try
-		{
-			action?.Invoke(Arrangement).GetAwaiter().GetResult();
-		}
-		catch (Exception ex)
-		{
-			Arrangement.Result = ex;
-			throw;
-		}
+		action?.Invoke(Arrangement).GetAwaiter().GetResult();
 	}
 
 
-	public void Act(Func<IArrangement<TInstance>, Task<object?>> action)
+	public void ActAsync(Func<IArrangement<TInstance>, Task<object?>> action)
+	{
+		Arrangement.Result = action?.Invoke(Arrangement).GetAwaiter().GetResult();
+	}
+
+	public void ActThrowsException(Action<IArrangement<TInstance>> action)
 	{
 		try
 		{
-			Arrangement.Result = action?.Invoke(Arrangement).GetAwaiter().GetResult();
+			action.Invoke(Arrangement);
 		}
 		catch (Exception ex)
 		{
 			Arrangement.Result = ex;
-			throw;
+			return;
 		}
+		throw new Exception("Exception was expected but no exception was thrown");
+	}
+
+	public void ActAsyncThrowsException(Func<IArrangement<TInstance>, Task> action)
+	{
+		try
+		{
+			action.Invoke(Arrangement).GetAwaiter().GetResult();
+		}
+		catch (Exception ex)
+		{
+			Arrangement.Result = ex;
+			return;
+		}
+		throw new Exception("Exception was expected but no exception was thrown");
 	}
 
 	public void Assert(Action<IArrangement<TInstance>> action)
