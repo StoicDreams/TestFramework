@@ -31,7 +31,7 @@ Add the [StoicDreams.TestFramework](https://www.nuget.org/packages/StoicDreams.T
 
 ```xml
 <ItemGroup>
-	<PackageReference Include="StoicDreams.TestFramework" Version="1.4.1" />
+	<PackageReference Include="StoicDreams.TestFramework" Version="1.4.2" />
 </ItemGroup>
 ```
 
@@ -88,6 +88,6 @@ public class SampleChildATests : StoicDreams.TestFramework
 
 **[Erik Gassler](https://www.erikgassler.com/home) - [Stoic Dreams](https://www.stoicdreams.com/home)** - Just a simpleton who likes making stuff with bits and bytes.
 
-**Support** - Visit [my Patreon page](https://www.patreon.com/stoicdreams) if you would like to provide support.
+**Support** - Visit [Stoic Dreams' GitHub Sponsor page](https://github.com/sponsors/StoicDreams) if you would like to provide support.
 
 **Software Development Standards** - Check out my [Simple-Holistic-Agile Software Engineering Standards](https://www.softwarestandards.dev/home) website to see my standards for developing software.
