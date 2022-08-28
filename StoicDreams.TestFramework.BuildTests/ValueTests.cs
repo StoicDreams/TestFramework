@@ -58,6 +58,33 @@ public class ValueTests : TestFramework
 		actions.Assert((Exception? value) => value.IsNotNull().Message.Should().Be("Mocking an unexpected exception"));
 	}
 
+	[Fact]
+	public void Verify_IsNotNull_ReleasesNullStateCheck()
+	{
+		string? instance = TestGetNullableString(false);
+
+		instance.IsNotNull();
+
+		Assert.NotEmpty(instance.ToString());
+	}
+
+	[Fact]
+	public void Verify_IsNotNull_ThrowsErrorWhenNull()
+	{
+		string? instance = TestGetNullableString(true);
+
+		Assert.Throws<NullReferenceException>(() =>
+		{
+			instance.IsNotNull();
+		});
+	}
+
+	private string? TestGetNullableString(bool returnNull)
+	{
+		if (returnNull) { return null; }
+		return "Hello World";
+	}
+
 	private string MockReverseString(string input, bool throwExeption = false)
 	{
 		if (throwExeption) { throw new Exception("Mocking an unexpected exception"); }
