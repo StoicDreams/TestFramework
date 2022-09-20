@@ -14,11 +14,11 @@ Get-ChildItem -Path .\ -Filter *TestFramework.csproj -Recurse -File | ForEach-Ob
 function UpdateProjectVersion {
 	Param (
 		[string] $projectPath,
-		[string] $version
+		[string] $version,
+		[string] $rgxTargetXML,
+		[string] $newXML
 	)	
 	
-	$rgxTargetXML = '<PackageReference Include="StoicDreams.TestFramework" Version="([0-9\.]+)" />'
-	$newXML = '<PackageReference Include="StoicDreams.TestFramework" Version="'+$version+'" />'
 
 	if(!(Test-Path -Path $projectPath)) {
 		Write-Host "Not found - $projectPath" -BackgroundColor Red -ForegroundColor White
@@ -44,6 +44,17 @@ function UpdateProjectVersion {
 	Write-Host "Updated   - $projectPath" -ForegroundColor Green
 }
 
+$replaceList = @(
+	@{
+		RgxTargetXML = '<PackageReference Include="StoicDreams.TestFramework" Version="([0-9\.]+)" />'
+		NewXML = '<PackageReference Include="StoicDreams.TestFramework" Version="'+$version+'" />'
+	},
+	@{
+		RgxTargetXML = '<PackageReference Include="StoicDreams.TestFramework.Blazor" Version="([0-9\.]+)" />'
+		NewXML = '<PackageReference Include="StoicDreams.TestFramework.Blazor" Version="'+$version+'" />'
+	}
+)
+
 if($version -ne $null) {
 	Write-Host Found Version: $version -ForegroundColor Green
 	$rootpath = Get-Location
@@ -55,12 +66,15 @@ if($version -ne $null) {
 		$rootpath = $rootpath.ToString().ToLower()
 		Write-Host $rootpath
 	}
-	$newXML = '<PackageReference Include="StoicDreams.TestFramework" Version="'+$version+'" />'
-	Get-ChildItem -Path .\ -Filter *.csproj -Recurse -File | ForEach-Object {
-		UpdateProjectVersion $_.FullName $version
-	}
-	Get-ChildItem -Path .\ -Filter *README.md -Recurse -File | ForEach-Object {
-		UpdateProjectVersion $_.FullName $version
+	$replaceList | ForEach-Object {
+		$rgxTargetXML = $_.RgxTargetXML
+		$newXML = $_.NewXML
+		Get-ChildItem -Path .\ -Filter *.csproj -Recurse -File | ForEach-Object {
+			UpdateProjectVersion $_.FullName $version $rgxTargetXML $newXML
+		}
+		Get-ChildItem -Path .\ -Filter *README.md -Recurse -File | ForEach-Object {
+			UpdateProjectVersion $_.FullName $version $rgxTargetXML $newXML
+		}
 	}
 	Write-Host "Finished updates to Version: $version"
 } else {
