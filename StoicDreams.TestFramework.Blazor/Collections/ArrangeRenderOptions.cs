@@ -8,6 +8,13 @@ public class ArrangeRenderOptions : IArrangeRenderOptions
 	}
 
 	public Dictionary<string, object> Parameters { get; } = new();
+	public List<Action<object>> ParamHanlders { get; } = new();
+
+	public IArrangeRenderOptions AddParameter<TComponent>(Action<IRenderedComponent<TComponent>> setupHandler) where TComponent : IComponent
+	{
+		ParamHanlders.Add((Action<object>)setupHandler);
+		return this;
+	}
 
 	public IArrangeRenderOptions SetupServices(Action<IServiceCollection> setupHandler)
 	{

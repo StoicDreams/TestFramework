@@ -30,6 +30,13 @@ public abstract class TestFrameworkBlazor : TestFramework
 			{
 				builder.TryAdd(key, options.Parameters[key]);
 			}
+			foreach (Action<object> handler in options.ParamHanlders)
+			{
+				if (handler is Action<ComponentParameterCollectionBuilder<TComponent>> tHandler)
+				{
+					tHandler.Invoke(builder);
+				}
+			}
 		});
 		RenderActions<TComponent> actions = new(context, render);
 		return actions;
