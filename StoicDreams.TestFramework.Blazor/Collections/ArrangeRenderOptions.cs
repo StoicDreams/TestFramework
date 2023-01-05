@@ -12,7 +12,10 @@ public class ArrangeRenderOptions : IArrangeRenderOptions
 
 	public IArrangeRenderOptions AddParameter<TComponent>(Action<ComponentParameterCollectionBuilder<TComponent>> setupHandler) where TComponent : IComponent
 	{
-		ParamHandlers.Add((Action<object>)setupHandler);
+		if (setupHandler is Action<object> handler)
+		{
+			ParamHandlers.Add(handler);
+		}
 		return this;
 	}
 
