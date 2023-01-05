@@ -3,6 +3,29 @@ namespace StoicDreams;
 public class HelloWorldTests : TestFrameworkBlazor
 {
 	[Fact]
+	public void Verify_Render_With_Builder_Updates()
+	{
+		IRenderActions<World> actions = ArrangeRenderTest<World>(options =>
+		{
+			options.SetupComponentParameters<World>(b =>
+			{
+				b.AddChildContent(MockRender("Added Content"));
+			});
+		}, services =>
+		{
+			services.AddMock<ICache>();
+			return services;
+		});
+
+		actions.Act();
+
+		actions.Assert(a =>
+		{
+			Assert.Contains("Added Content", a.Render.Markup);
+		});
+	}
+
+	[Fact]
 	public void Verify_Render_With_Mocked_Children()
 	{
 		bool renderIsDisposed = false;

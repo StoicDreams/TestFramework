@@ -4,7 +4,7 @@ public interface IArrangeRenderOptions
 {
 	Dictionary<string, object> Parameters { get; }
 
-	IArrangeRenderOptions AddParameter<TComponent>(Action<ComponentParameterCollectionBuilder<TComponent>> setupHandler) where TComponent : IComponent;
+	IArrangeRenderOptions SetupComponentParameters<TComponent>(Action<ComponentParameterCollectionBuilder<TComponent>> setupHandler) where TComponent : IComponent;
 
 	IArrangeRenderOptions SetupServices(Action<IServiceCollection> setupHandler);
 
