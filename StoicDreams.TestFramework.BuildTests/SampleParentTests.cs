@@ -263,6 +263,38 @@ public class SampleParentTests : TestFramework
 		});
 	}
 
+	public class MockException : Exception
+	{
+		public MockException(string message) : base(message) { }
+	}
+
+	public class UnusedException : Exception
+	{
+		public UnusedException(string message) : base(message) { }
+	}
+
+	[Theory]
+	[InlineData("Test One")]
+	[InlineData("Test Two")]
+	public void Verify_Act_Throws_Specific_Exception(string input)
+	{
+		IActions<ISampleChildA> actions = ArrangeTest(options =>
+		{
+			ISampleChildA childA = Mock<ISampleChildA>(mock =>
+			{
+				mock.Setup(m => m.DoSomething(input)).Throws(new MockException("Mock exception"));
+			}).Object;
+			return childA;
+		});
+
+		actions.ActThrowsException<MockException>(arrangement => arrangement.Service.DoSomething(input));
+
+		actions.Assert(arrangement =>
+		{
+			Assert.Equal("Mock exception", arrangement.GetResult<Exception>().IsNotNull().Message);
+		});
+	}
+
 	[Theory]
 	[InlineData("Test One")]
 	[InlineData("Test Two")]
@@ -278,6 +310,28 @@ public class SampleParentTests : TestFramework
 		});
 
 		actions.ActThrowsException(async arrangement => await Task.Run(() => arrangement.Service.DoSomething(input)));
+
+		actions.Assert(arrangement =>
+		{
+			Assert.Equal("Mock exception", arrangement.GetResult<Exception>().IsNotNull().Message);
+		});
+	}
+
+	[Theory]
+	[InlineData("Test One")]
+	[InlineData("Test Two")]
+	public void Verify_Async_Act_Throws_Specific_Exception(string input)
+	{
+		IActions<ISampleChildA> actions = ArrangeTest(options =>
+		{
+			ISampleChildA childA = Mock<ISampleChildA>(mock =>
+			{
+				mock.Setup(m => m.DoSomething(input)).Throws(new MockException("Mock exception"));
+			}).Object;
+			return childA;
+		});
+
+		actions.ActThrowsException<MockException>(async arrangement => await Task.Run(() => arrangement.Service.DoSomething(input)));
 
 		actions.Assert(arrangement =>
 		{

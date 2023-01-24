@@ -113,6 +113,36 @@ public class Actions<TInstance> : IActions<TInstance>
 		throw new Exception("Exception was expected but no exception was thrown");
 	}
 
+	public void ActThrowsException<TException>(Action<IArrangement<TInstance>> action)
+		where TException : Exception
+	{
+		try
+		{
+			action.Invoke(Arrangement);
+		}
+		catch (TException ex)
+		{
+			Arrangement.Result = ex;
+			return;
+		}
+		throw new Exception("Exception was expected but no exception was thrown");
+	}
+
+	public void ActThrowsException<TException>(Func<IArrangement<TInstance>, Task> action)
+		where TException : Exception
+	{
+		try
+		{
+			action.Invoke(Arrangement).GetAwaiter().GetResult();
+		}
+		catch (TException ex)
+		{
+			Arrangement.Result = ex;
+			return;
+		}
+		throw new Exception("Exception was expected but no exception was thrown");
+	}
+
 	public void Assert(Action<IArrangement<TInstance>> action)
 	{
 		action?.Invoke(Arrangement);

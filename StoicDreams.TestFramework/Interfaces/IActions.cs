@@ -79,6 +79,18 @@ public interface IActions<TInstance> where TInstance : class
 	void ActThrowsException(Func<IArrangement<TInstance>, Task> action);
 
 	/// <summary>
+	/// Act on test, expecting an error to be thrown calling method.
+	/// </summary>
+	/// <param name="action"></param>
+	void ActThrowsException<TException>(Action<IArrangement<TInstance>> action) where TException : Exception;
+
+	/// <summary>
+	/// Act on test, expecting an error to be thrown calling async method.
+	/// </summary>
+	/// <param name="action"></param>
+	void ActThrowsException<TException>(Func<IArrangement<TInstance>, Task> action) where TException : Exception;
+
+	/// <summary>
 	/// Run assertions on results of test.
 	/// </summary>
 	/// <param name="action"></param>
