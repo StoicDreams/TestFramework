@@ -3,6 +3,19 @@
 public class ValueTests : TestFramework
 {
 	[Theory]
+	[InlineData("Test A")]
+	[InlineData("Test B")]
+	public void Verify_Test_Custom_Setup(string input)
+	{
+		IActions actions = ArrangeUnitTest(() => new Exception(input));
+
+		actions.Act((Exception value) => value.Message);
+
+		actions.Assert((string? result) => result.Should().Be(input));
+	}
+
+
+	[Theory]
 	[InlineData("", "")]
 	[InlineData("cba", "abc")]
 	[InlineData("crba", "abrc")]
