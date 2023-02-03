@@ -29,11 +29,12 @@ public abstract partial class TestFramework
 	/// <param name="setupHandler"></param>
 	/// <returns></returns>
 	protected IActions<TClass> ArrangeUnitTest<TClass>(
-		Action<IArrangeUnitOptions>? setupHandler = null
+		Action<IArrangeUnitOptions>? setupHandler = null,
+		Action<IServiceCollection>? setupServices = null
 		)
 		where TClass : class
 	{
-		IServiceProvider serviceProvider = MockServiceProvider<TClass>();
+		IServiceProvider serviceProvider = MockServiceProvider<TClass>(setupServices);
 		return CallHandlerAndReturnForActAndAssertions<TClass>(serviceProvider, setupHandler);
 	}
 

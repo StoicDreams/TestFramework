@@ -30,13 +30,14 @@ public abstract partial class TestFramework
 	/// </summary>
 	/// <typeparam name="TClass"></typeparam>
 	/// <returns></returns>
-	protected IServiceProvider MockServiceProvider<TClass>()
+	protected IServiceProvider MockServiceProvider<TClass>(Action<IServiceCollection>? setupHandler)
 		where TClass : class
 	{
 		IServiceCollection services = new ServiceCollection();
 		// Add the service being unit tested
 		services.AddSingleton<TClass>();
 		AddDependencies<TClass>(services);
+		setupHandler?.Invoke(services);
 		return services.BuildServiceProvider();
 	}
 
