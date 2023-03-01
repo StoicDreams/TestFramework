@@ -15,3 +15,4 @@ obj
 *.local.*
 desktop.ini
 *.DS_Store
+*.pubxml
