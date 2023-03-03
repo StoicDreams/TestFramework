@@ -11,8 +11,8 @@ stages:
   jobs:
   - job: TestFramework
     displayName: 'Build and Publish Test Framework'
-    pool:
-      vmImage: 'windows-latest'
+    pool: Default
+    #  vmImage: 'windows-latest'
     steps:
       - task: NuGetToolInstaller@1
         inputs:
@@ -49,7 +49,7 @@ stages:
           arguments: '--configuration $(buildConfiguration) --no-restore --collect: "XPlat Code Coverage"'
           publishTestResults: true,
           nobuild: true
-      - script: "dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.5.8"
+      - script: "dotnet tool update --global dotnet-reportgenerator-globaltool"
         displayName: "Install ReportGenerator tool"
       - script: 'reportgenerator -reports:**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/coverlet/reports -reporttypes:"Cobertura"'
         displayName: "Create reports"
@@ -58,16 +58,16 @@ stages:
         inputs:
           codeCoverageTool: "Cobertura"
           summaryFileLocation: "$(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml"
-      - task: Bash@3
+      - task: PowerShell@2
         displayName: 'Push Test Framework package to nuget store'
         inputs:
           targetType: inline
           script: dotnet nuget push --api-key $(NugetApiKey) --skip-duplicate --source $(NugetSource) '$(Agent.BuildDirectory)\NugetPackages\StoicDreams.TestFramework.*.nupkg' > nugetpush.txt; echo $(cat nugetpush.txt)
-      - task: Bash@3
+      - task: PowerShell@2
         displayName: 'Echo version number.'
         inputs:
           targetType: inline
-          script: pushResult=$(cat nugetpush.txt); re=".*StoicDreams\.TestFramework\.([0-9\.]+)\.nupkg.*";if [[ $pushResult =~ $re ]]; then echo ${BASH_REMATCH[1]}; fi
+          script: (cat nugetpush.txt | Out-String) -match ".*StoicDreams\.BlazorUI\.(?<version>[0-9\.]+)\.nupkg.*" | Out-Null ; Write-Host $Matches.version;
 
   - job: DelayToAllowNugetTimeToPublish
     displayName: 'Give Nuget.org time to process publishing'
@@ -85,8 +85,8 @@ stages:
     dependsOn:
     - DelayToAllowNugetTimeToPublish
     condition: succeeded()
-    pool:
-      vmImage: 'windows-latest'
+    pool: Default
+    #  vmImage: 'windows-latest'
     steps:
       - task: NuGetToolInstaller@1
         inputs:
@@ -117,7 +117,7 @@ stages:
           arguments: '--configuration $(buildConfiguration) --no-restore --collect: "XPlat Code Coverage"'
           publishTestResults: true,
           nobuild: true
-      - script: "dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.5.8"
+      - script: "dotnet tool update --global dotnet-reportgenerator-globaltool"
         displayName: "Install ReportGenerator tool"
       - script: 'reportgenerator -reports:**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/coverlet/reports -reporttypes:"Cobertura"'
         displayName: "Create reports"
@@ -126,13 +126,13 @@ stages:
         inputs:
           codeCoverageTool: "Cobertura"
           summaryFileLocation: "$(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml"
-      - task: Bash@3
+      - task: PowerShell@2
         displayName: 'Push Test Framework Blazor package to nuget store'
         inputs:
           targetType: inline
-          script: dotnet nuget push --api-key $(NugetApiKey) --skip-duplicate --source $(NugetSource) '$(Agent.BuildDirectory)\NugetPackages\StoicDreams.TestFramework.Blazor.*.nupkg' > nugetpush.txt; echo $(cat nugetpush.txt)
-      - task: Bash@3
+          script: dotnet nuget push --api-key $(NUGETAPIKEY) --skip-duplicate --source $(NUGETSOURCE) '$(Agent.BuildDirectory)\NugetPackages\StoicDreams.TestFramework.Blazor.*.nupkg' > nugetpush.txt; echo $(cat nugetpush.txt)
+      - task: PowerShell@2
         displayName: 'Echo version number.'
         inputs:
           targetType: inline
-          script: pushResult=$(cat nugetpush.txt); re=".*StoicDreams\.TestFramework\.Blazor\.([0-9\.]+)\.nupkg.*";if [[ $pushResult =~ $re ]]; then echo ${BASH_REMATCH[1]}; fi
+          script: (cat nugetpush.txt | Out-String) -match ".*StoicDreams\.BlazorUI\.(?<version>[0-9\.]+)\.nupkg.*" | Out-Null ; Write-Host $Matches.version;
