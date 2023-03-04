@@ -67,7 +67,7 @@ stages:
         displayName: 'Echo version number.'
         inputs:
           targetType: inline
-          script: (cat nugetpush.txt | Out-String) -match ".*StoicDreams\.BlazorUI\.(?<version>[0-9\.]+)\.nupkg.*" | Out-Null ; Write-Host $Matches.version;
+          script: (cat nugetpush.txt | Out-String) -match ".*StoicDreams\.TestFramework\.(?<version>[0-9\.]+)\.nupkg.*" | Out-Null ; Write-Host $Matches.version;
 
   - job: DelayToAllowNugetTimeToPublish
     displayName: 'Give Nuget.org time to process publishing'
@@ -135,4 +135,4 @@ stages:
         displayName: 'Echo version number.'
         inputs:
           targetType: inline
-          script: (cat nugetpush.txt | Out-String) -match ".*StoicDreams\.BlazorUI\.(?<version>[0-9\.]+)\.nupkg.*" | Out-Null ; Write-Host $Matches.version;
+          script: (cat nugetpush.txt | Out-String) -match ".*StoicDreams\.TestFramework\.Blazor\.(?<version>[0-9\.]+)\.nupkg.*" | Out-Null ; Write-Host $Matches.version;
