@@ -8,7 +8,7 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
 		Arrangement = new RenderArrangement<TComponent>(context, render);
 	}
 
-	public void Act(Action<IRenderArrangement<TComponent>>? action = null)
+	public IRenderActions<TComponent> Act(Action<IRenderArrangement<TComponent>>? action = null)
 	{
 		Arrangement.Result = null;
 		action?.Invoke(Arrangement);
@@ -20,21 +20,25 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
 		{
 			Arrangement.Result = ex.Message;
 		}
+		return this;
 	}
 
-	public void Act(Func<IRenderArrangement<TComponent>, object?> action)
+	public IRenderActions<TComponent> Act(Func<IRenderArrangement<TComponent>, object?> action)
 	{
 		Arrangement.Result = action?.Invoke(Arrangement);
+		return this;
 	}
 
-	public void Assert(Action<IRenderArrangement<TComponent>> action)
+	public IRenderActions<TComponent> Assert(Action<IRenderArrangement<TComponent>> action)
 	{
 		action.Invoke(Arrangement);
+		return this;
 	}
 
-	public void Assert(Func<IRenderArrangement<TComponent>, Task> action)
+	public IRenderActions<TComponent> Assert(Func<IRenderArrangement<TComponent>, Task> action)
 	{
 		Task.WaitAll(action.Invoke(Arrangement));
+		return this;
 	}
 
 	private RenderArrangement<TComponent> Arrangement { get; }

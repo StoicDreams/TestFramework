@@ -23,7 +23,7 @@ public class Actions : IActions
 		{
 			action.Invoke();
 		}
-		catch(Exception ex)
+		catch (Exception ex)
 		{
 			Result = ex;
 			return;
@@ -63,29 +63,33 @@ public class Actions<TInstance> : IActions<TInstance>
 		Service = service;
 		Arrangement = new Arrangement<TInstance>(serviceProvider, service);
 	}
-	
-	public void Act(Action<IArrangement<TInstance>> action)
+
+	public IActions<TInstance> Act(Action<IArrangement<TInstance>> action)
 	{
 		action?.Invoke(Arrangement);
+		return this;
 	}
 
-	public void Act(Func<IArrangement<TInstance>, object?> action)
+	public IActions<TInstance> Act(Func<IArrangement<TInstance>, object?> action)
 	{
 		Arrangement.Result = action?.Invoke(Arrangement);
+		return this;
 	}
 
-	public void Act(Func<IArrangement<TInstance>, Task> action)
+	public IActions<TInstance> Act(Func<IArrangement<TInstance>, Task> action)
 	{
 		action?.Invoke(Arrangement).GetAwaiter().GetResult();
+		return this;
 	}
 
 
-	public void Act(Func<IArrangement<TInstance>, Task<object?>> action)
+	public IActions<TInstance> Act(Func<IArrangement<TInstance>, Task<object?>> action)
 	{
 		Arrangement.Result = action?.Invoke(Arrangement).GetAwaiter().GetResult();
+		return this;
 	}
 
-	public void ActThrowsException(Action<IArrangement<TInstance>> action)
+	public IActions<TInstance> ActThrowsException(Action<IArrangement<TInstance>> action)
 	{
 		try
 		{
@@ -94,12 +98,12 @@ public class Actions<TInstance> : IActions<TInstance>
 		catch (Exception ex)
 		{
 			Arrangement.Result = ex;
-			return;
+			return this;
 		}
 		throw new Exception("Exception was expected but no exception was thrown");
 	}
 
-	public void ActThrowsException(Func<IArrangement<TInstance>, Task> action)
+	public IActions<TInstance> ActThrowsException(Func<IArrangement<TInstance>, Task> action)
 	{
 		try
 		{
@@ -108,12 +112,12 @@ public class Actions<TInstance> : IActions<TInstance>
 		catch (Exception ex)
 		{
 			Arrangement.Result = ex;
-			return;
+			return this;
 		}
 		throw new Exception("Exception was expected but no exception was thrown");
 	}
 
-	public void ActThrowsException<TException>(Action<IArrangement<TInstance>> action)
+	public IActions<TInstance> ActThrowsException<TException>(Action<IArrangement<TInstance>> action)
 		where TException : Exception
 	{
 		try
@@ -123,12 +127,12 @@ public class Actions<TInstance> : IActions<TInstance>
 		catch (TException ex)
 		{
 			Arrangement.Result = ex;
-			return;
+			return this;
 		}
 		throw new Exception("Exception was expected but no exception was thrown");
 	}
 
-	public void ActThrowsException<TException>(Func<IArrangement<TInstance>, Task> action)
+	public IActions<TInstance> ActThrowsException<TException>(Func<IArrangement<TInstance>, Task> action)
 		where TException : Exception
 	{
 		try
@@ -138,19 +142,21 @@ public class Actions<TInstance> : IActions<TInstance>
 		catch (TException ex)
 		{
 			Arrangement.Result = ex;
-			return;
+			return this;
 		}
 		throw new Exception("Exception was expected but no exception was thrown");
 	}
 
-	public void Assert(Action<IArrangement<TInstance>> action)
+	public IActions<TInstance> Assert(Action<IArrangement<TInstance>> action)
 	{
 		action?.Invoke(Arrangement);
+		return this;
 	}
 
-	public void Assert(Func<IArrangement<TInstance>, Task> action)
+	public IActions<TInstance> Assert(Func<IArrangement<TInstance>, Task> action)
 	{
 		action?.Invoke(Arrangement).GetAwaiter().GetResult();
+		return this;
 	}
 
 	private Arrangement<TInstance> Arrangement { get; }
