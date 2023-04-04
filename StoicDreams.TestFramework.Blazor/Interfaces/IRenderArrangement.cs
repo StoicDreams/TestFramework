@@ -44,7 +44,7 @@ public interface IRenderArrangement<TComponent>
 	/// <typeparam name="T"></typeparam>
 	/// <returns></returns>
 	T? GetNullableResult<T>();
-	
+
 	/// <summary>
 	/// Simulate functionality of NavigationManager for testing purposes.
 	/// </summary>

@@ -10,7 +10,7 @@ public class Arrangement<TInstance> : IArrangement<TInstance>
 	}
 
 	public TInstance Service { get; }
-	public Mock<T> GetMock<T>() where T: class => ServiceProvider.GetMock<T>();
+	public Mock<T> GetMock<T>() where T : class => ServiceProvider.GetMock<T>();
 	public T GetResult<T>()
 	{
 		if (Result == null)
@@ -20,6 +20,11 @@ public class Arrangement<TInstance> : IArrangement<TInstance>
 		return (T)Result;
 	}
 	public T? GetNullableResult<T>() => (T?)Result;
+
+	public T GetService<T>()
+	{
+		return ServiceProvider.GetService<T>() ?? throw new NotImplementedException($"Get service failed to load {typeof(T).Name}.");
+	}
 
 	internal object? Result { get; set; }
 

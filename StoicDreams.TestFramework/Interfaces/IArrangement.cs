@@ -27,4 +27,12 @@ public interface IArrangement<TInstance> where TInstance : class
 	/// <typeparam name="T"></typeparam>
 	/// <returns></returns>
 	Mock<T> GetMock<T>() where T : class;
+
+	/// <summary>
+	/// Get a service created during test arrangment.
+	/// Will throw NotImplementedException if service is missing.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <returns></returns>
+	T GetService<T>();
 }
