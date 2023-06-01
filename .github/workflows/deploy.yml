@@ -1,0 +1,15 @@
+name: Build and Publish Test Framework
+
+on:
+  push:
+    branches:
+    - main
+
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
