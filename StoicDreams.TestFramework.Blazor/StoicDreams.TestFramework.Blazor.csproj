@@ -1,59 +1,62 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
 
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Authors>Erik Gassler</Authors>
-		<Company>Stoic Dreams</Company>
-		<Product>Stoic Dreams Blazor Test Framework</Product>
-		<Description>
-Extended functionality of Stoic Dreams Test Framework, adding funtionality to handle testing against rendered .razor components for unit and integration testing.
-		</Description>
-		<Version>1.4.52</Version>
-		<Copyright>2022-2023 Stoic Dreams</Copyright>
-		<PackageId>StoicDreams.TestFramework.Blazor</PackageId>
-		<PackageProjectUrl>https://www.stoicdreams.com</PackageProjectUrl>
-		<PackageLicenseExpression></PackageLicenseExpression>
-		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-		<PackageIcon>ms-icon-310x310.png</PackageIcon>
-		<OutputPath>bin</OutputPath>
-		<OutputType>Library</OutputType>
-		<PackageReleaseNotes>Development Release</PackageReleaseNotes>
-		<PackageOutputPath>..\..\NugetPackages</PackageOutputPath>
-		<PackOnBuild>true</PackOnBuild>
-		<Platform>AnyCPU</Platform>
-		<PublishReadyToRun>True</PublishReadyToRun>
-		<IncludeSourceFilesProjectOutputGroup>True</IncludeSourceFilesProjectOutputGroup>
-		<PackageType>Dependency</PackageType>
-		<RootNamespace>StoicDreams</RootNamespace>
-		<ApplicationIcon>favicon.ico</ApplicationIcon>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/StoicDreams/TestFramework/tree/master/StoicDreams.TestFramework.Blazor</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
-		<PackageTags>Stoic Dreams;Blazor;Moq;Unit Test;Integration Test;Testing</PackageTags>
-	</PropertyGroup>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Authors>Erik Gassler</Authors>
+        <Company>Stoic Dreams</Company>
+        <Product>Stoic Dreams Blazor Test Framework</Product>
+        <Description>
+            Extended functionality of Stoic Dreams Test Framework, adding funtionality to handle testing against rendered .razor components for unit and integration testing.
+        </Description>
+        <Version>1.4.52</Version>
+        <Copyright>2022-2023 Stoic Dreams</Copyright>
+        <PackageId>StoicDreams.TestFramework.Blazor</PackageId>
+        <PackageProjectUrl>https://www.stoicdreams.com</PackageProjectUrl>
+        <PackageLicenseExpression></PackageLicenseExpression>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <PackageIcon>ms-icon-310x310.png</PackageIcon>
+        <OutputPath>bin</OutputPath>
+        <OutputType>Library</OutputType>
+        <PackageReleaseNotes>Development Release</PackageReleaseNotes>
+        <PackageOutputPath>..\..\NugetPackages</PackageOutputPath>
+        <PackOnBuild>true</PackOnBuild>
+        <Platform>AnyCPU</Platform>
+        <PublishReadyToRun>True</PublishReadyToRun>
+        <IncludeSourceFilesProjectOutputGroup>True</IncludeSourceFilesProjectOutputGroup>
+        <PackageType>Dependency</PackageType>
+        <RootNamespace>StoicDreams</RootNamespace>
+        <ApplicationIcon>favicon.ico</ApplicationIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <RepositoryUrl>https://github.com/StoicDreams/TestFramework/tree/master/StoicDreams.TestFramework.Blazor</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>Stoic Dreams;Blazor;Moq;Unit Test;Integration Test;Testing</PackageTags>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="bunit" Version="1.18.4" />
-		<PackageReference Include="StoicDreams.TestFramework" Version="1.4.52" />
-	</ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="bunit" Version="1.18.4" />
+    </ItemGroup>
 
-	<ItemGroup>
-		<None Include=".\ms-icon-310x310.png">
-			<Pack>True</Pack>
-			<PackagePath></PackagePath>
-		</None>
-		<None Include="..\Docs\LICENSE.txt">
-			<Pack>True</Pack>
-			<PackagePath></PackagePath>
-		</None>
-		<None Include="..\Docs\README.md">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-	</ItemGroup>
+    <ItemGroup>
+        <None Include=".\ms-icon-310x310.png">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+        <None Include="..\Docs\LICENSE.txt">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+        <None Include="..\Docs\README.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\StoicDreams.TestFramework\StoicDreams.TestFramework.csproj" />
+    </ItemGroup>
 
 </Project>

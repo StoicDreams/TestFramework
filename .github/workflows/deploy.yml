@@ -7,9 +7,33 @@ on:
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
+  BUILD_CONFIGURATION: 'Release'
+  NUGET_SOURCE: 'https://api.nuget.org/v3/index.json'
 
 jobs:
   build-and-deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore --configuration ${{ env.BUILD_CONFIGURATION }}
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --configuration ${{ env.BUILD_CONFIGURATION }}
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Push Test Framework package to nuget store
+      run: dotnet nuget push --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate --source ${{ env.NUGET_SOURCE}} 'NugetPackages\StoicDreams.TestFramework.*.nupkg' > nugetpushtf.txt; echo $(cat nugetpushtf.txt)
+    - name: Echo version number
+      run: (cat nugetpush.txt | Out-String) -match ".*StoicDreams\.TestFramework\.(?<version>[0-9\.]+)\.nupkg.*" | Out-Null ; Write-Host $Matches.version;
+    - name: Push Blazor Test Framework package to nuget store
+      run: dotnet nuget push --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate --source ${{ env.NUGET_SOURCE}} 'NugetPackages\StoicDreams.TestFramework.Blazor.*.nupkg' > nugetpushbtf.txt; echo $(cat nugetpushbtf.txt)
+    - name: Echo version number
+      run: (cat nugetpush.txt | Out-String) -match ".*StoicDreams\.TestFramework\.Blazor\.(?<version>[0-9\.]+)\.nupkg.*" | Out-Null ; Write-Host $Matches.version;
