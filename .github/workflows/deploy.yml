@@ -36,10 +36,10 @@ jobs:
     - name: Push Test Framework package to nuget store
       run: dotnet nuget push --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate --source ${{ env.NUGET_SOURCE}} '**/NugetPackages/StoicDreams.TestFramework.*.nupkg' > nugetpushtf.txt; echo $(cat nugetpushtf.txt)
     - name: Echo version number
-      run: (cat nugetpush.txt | Out-String) -match ".*StoicDreams/.TestFramework/.(?<version>[0-9/.]+)/.nupkg.*" | Out-Null ; Write-Host $Matches.version;
+      run: echo $(cat nugetpushtf.txt)
     - name: Pack Blazor Test Framework
       run: dotnet pack StoicDreams.TestFramework.Blazor/StoicDreams.TestFramework.Blazor.csproj --no-build --no-restore --configuration ${{ env.BUILD_CONFIGURATION }} --output NugetPackages
     - name: Push Blazor Test Framework package to nuget store
       run: dotnet nuget push --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate --source ${{ env.NUGET_SOURCE}} '**/NugetPackages/StoicDreams.TestFramework.Blazor.*.nupkg' > nugetpushbtf.txt; echo $(cat nugetpushbtf.txt)
     - name: Echo version number
-      run: (cat nugetpush.txt | Out-String) -match ".*StoicDreams/.TestFramework/.Blazor/.(?<version>[0-9/.]+)/.nupkg.*" | Out-Null ; Write-Host $Matches.version;
+      run: echo $(cat nugetpushbtf.txt)
