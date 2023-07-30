@@ -30,7 +30,7 @@ jobs:
     - name: Pack Test Framework
       run: dotnet pack **/StoicDreams.TestFramework/StoicDreams.TestFramework.csproj --no-build --no-restore --configuration ${{ env.BUILD_CONFIGURATION }} --output NugetPackages
     - name: View Files
-      run: Dir -Recurse ./ | SELECT FullName
+      run: ls -R
     - name: Push Test Framework package to nuget store
       run: dotnet nuget push --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate --source ${{ env.NUGET_SOURCE}} '**/NugetPackages/StoicDreams.TestFramework.*.nupkg' > nugetpushtf.txt; echo $(cat nugetpushtf.txt)
     - name: Echo version number
