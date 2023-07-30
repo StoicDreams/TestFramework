@@ -27,8 +27,10 @@ jobs:
       run: dotnet build --no-restore --configuration ${{ env.BUILD_CONFIGURATION }}
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration ${{ env.BUILD_CONFIGURATION }}
+    - name: View Files
+      run: ls -R
     - name: Pack Test Framework
-      run: dotnet pack **/StoicDreams.TestFramework/StoicDreams.TestFramework.csproj --no-build --no-restore --configuration ${{ env.BUILD_CONFIGURATION }} --output NugetPackages
+      run: dotnet pack StoicDreams.TestFramework/StoicDreams.TestFramework.csproj --no-build --no-restore --configuration ${{ env.BUILD_CONFIGURATION }} --output NugetPackages
     - name: View Files
       run: ls -R
     - name: Push Test Framework package to nuget store
@@ -36,7 +38,7 @@ jobs:
     - name: Echo version number
       run: (cat nugetpush.txt | Out-String) -match ".*StoicDreams/.TestFramework/.(?<version>[0-9/.]+)/.nupkg.*" | Out-Null ; Write-Host $Matches.version;
     - name: Pack Blazor Test Framework
-      run: dotnet pack **/StoicDreams.TestFramework.Blazor/StoicDreams.TestFramework.Blazor.csproj --no-build --no-restore --configuration ${{ env.BUILD_CONFIGURATION }} --output NugetPackages
+      run: dotnet pack StoicDreams.TestFramework.Blazor/StoicDreams.TestFramework.Blazor.csproj --no-build --no-restore --configuration ${{ env.BUILD_CONFIGURATION }} --output NugetPackages
     - name: Push Blazor Test Framework package to nuget store
       run: dotnet nuget push --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate --source ${{ env.NUGET_SOURCE}} '**/NugetPackages/StoicDreams.TestFramework.Blazor.*.nupkg' > nugetpushbtf.txt; echo $(cat nugetpushbtf.txt)
     - name: Echo version number
