@@ -1,32 +1,32 @@
 ﻿namespace StoicDreams;
 
 public class Arrangement<TInstance> : IArrangement<TInstance>
-	where TInstance : class
+    where TInstance : class
 {
-	public Arrangement(IServiceProvider serviceProvider, TInstance service)
-	{
-		ServiceProvider = serviceProvider;
-		Service = service;
-	}
+    public Arrangement(IServiceProvider serviceProvider, TInstance service)
+    {
+        ServiceProvider = serviceProvider;
+        Service = service;
+    }
 
-	public TInstance Service { get; }
-	public Mock<T> GetMock<T>() where T : class => ServiceProvider.GetMock<T>();
-	public T GetResult<T>()
-	{
-		if (Result == null)
-		{
-			throw new NullReferenceException($"Expecting result of type {typeof(T).FullName} but null was returned.");
-		}
-		return (T)Result;
-	}
-	public T? GetNullableResult<T>() => (T?)Result;
+    public TInstance Service { get; }
+    public T GetMock<T>() where T : class => ServiceProvider.GetMock<T>();
+    public T GetResult<T>()
+    {
+        if (Result == null)
+        {
+            throw new NullReferenceException($"Expecting result of type {typeof(T).FullName} but null was returned.");
+        }
+        return (T)Result;
+    }
+    public T? GetNullableResult<T>() => (T?)Result;
 
-	public T GetService<T>()
-	{
-		return ServiceProvider.GetService<T>() ?? throw new NotImplementedException($"Get service failed to load {typeof(T).Name}.");
-	}
+    public T GetService<T>()
+    {
+        return ServiceProvider.GetService<T>() ?? throw new NotImplementedException($"Get service failed to load {typeof(T).Name}.");
+    }
 
-	internal object? Result { get; set; }
+    internal object? Result { get; set; }
 
-	private IServiceProvider ServiceProvider { get; }
+    private IServiceProvider ServiceProvider { get; }
 }

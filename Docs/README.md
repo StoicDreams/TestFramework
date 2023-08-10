@@ -4,7 +4,7 @@
 
 This library includes an `abstract` class called `TestFramework` that developers can inherit from their test classes to access helper methods for unit and integration tests.
 
-Functionality includes extending and simplifying functionality from the `Moq` mocking framework.
+Functionality includes extending and simplifying functionality from the `NSubstitute` mocking framework (We moved away from `Moq` over security concerns that came up with their `4.20` release.)
 
 ## Project Goals
 
@@ -12,9 +12,9 @@ The goal of this library is to provide a framework to use in unit tests and inte
 
 ### Framework Features
 
-- Inclusion of Moq mocking framework to use for mocking components.
+- Inclusion of NSubstitute mocking framework to use for mocking components.
 - Inclusion of FluentAssertions framework to use for human readable assertions.
-- Automatic default mocking (using Moq's Mock framework) of a class's constructor dependencies when running unit tests.
+- Automatic default mocking (using NSubstitute's Mock framework) of a class's constructor dependencies when running unit tests.
 - Test framework agnostic: While we use XUnit, we have no restrictions against using other frameworks such as NUnit, MSTest, etc.
 
 ### Noted Restrictions
@@ -31,7 +31,7 @@ Add the [StoicDreams.TestFramework](https://www.nuget.org/packages/StoicDreams.T
 
 ```xml
 <ItemGroup>
-	<PackageReference Include="StoicDreams.TestFramework" Version="1.4.53" />
+	<PackageReference Include="StoicDreams.TestFramework" Version="1.5.1" />
 </ItemGroup>
 ```
 
@@ -66,15 +66,13 @@ public class SampleChildATests : StoicDreams.TestFramework
 	[InlineData("Test Two")]
 	public void Verify_DoSomething_ReturnsExpectedData(string input)
 	{
-		IActions<SampleParent> actions = ArrangeUnitTest<SampleParent>(options =>
+		ArrangeUnitTest<SampleParent>(options =>
 		{
-			options.GetMock<ISampleChildA>().Setup(m => m.DoSomething(input)).Returns($"Mock A: {input}");
-			options.GetMock<ISampleChildB>().Setup(m => m.DoSomething(input)).Returns($"Mock B: {input}");
-		});
-
-		actions.Act(arrangment => arrangment.Service.DoSomething(input));
-
-		actions.Assert(arrangement =>
+			options.GetMock<ISampleChildA>().DoSomething(input).Returns($"Mock A: {input}");
+			options.GetMock<ISampleChildB>().DoSomething(input).Returns($"Mock B: {input}");
+		})
+        .Act(arrangment => arrangment.Service.DoSomething(input))
+        .Assert(arrangement =>
 		{
 			string? result = arrangement.GetResult<string>();
 			result.Should().NotBeNullOrWhiteSpace();

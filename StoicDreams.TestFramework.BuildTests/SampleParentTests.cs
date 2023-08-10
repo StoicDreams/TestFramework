@@ -2,340 +2,336 @@
 
 public class SampleParentTests : TestFramework
 {
-	[Theory]
-	[InlineData("Test One")]
-	[InlineData("Test Two")]
-	public void Verify_DoSomething_ReturnsExpectedData(string input)
-	{
-		IActions<SampleParent> actions = ArrangeUnitTest<SampleParent>(options =>
-		{
-			options.GetMock<ISampleChildA>().Setup(m => m.DoSomething(input)).Returns($"Mock A: {input}");
-			options.GetMock<ISampleChildB>().Setup(m => m.DoSomething(input)).Returns($"Mock B: {input}");
-		});
+    [Theory]
+    [InlineData("Test One")]
+    [InlineData("Test Two")]
+    public void Verify_DoSomething_ReturnsExpectedData(string input)
+    {
+        IActions<SampleParent> actions = ArrangeUnitTest<SampleParent>(options =>
+        {
+            options.GetMock<ISampleChildA>().DoSomething(input).Returns($"Mock A: {input}");
+            options.GetMock<ISampleChildB>().DoSomething(input).Returns($"Mock B: {input}");
+        });
 
-		actions.Act(arrangment => arrangment.Service.DoSomething(input));
+        actions.Act(arrangment => arrangment.Service.DoSomething(input));
 
-		actions.Assert(arrangement =>
-		{
-			string? result = arrangement.GetNullableResult<string>();
-			result.Should().NotBeNullOrWhiteSpace();
-			result.Should().BeEquivalentTo($"Parent: Mock A: {input} - Mock B: {input}");
-		});
-	}
+        actions.Assert(arrangement =>
+        {
+            string? result = arrangement.GetNullableResult<string>();
+            result.Should().NotBeNullOrWhiteSpace();
+            result.Should().BeEquivalentTo($"Parent: Mock A: {input} - Mock B: {input}");
+        });
+    }
 
-	[Theory]
-	[InlineData("Test One")]
-	[InlineData("Test Two")]
-	public void Verify_DoSomethingElse_ReturnsExpectedData(string input)
-	{
-		IActions<SampleParent> actions = ArrangeUnitTest<SampleParent>(options =>
-		{
-			options.GetMock<ISampleChildA>(mock =>
-			{
-				mock.Setup(m => m.DoSomethingElse(input)).Verifiable();
-				mock.Setup(m => m.Value).Returns($"Mock A: {input}");
-			});
-			options.GetMock<ISampleChildB>(mock =>
-			{
-				mock.Setup(m => m.DoSomethingElse(input)).Verifiable();
-				mock.Setup(m => m.Value).Returns($"Mock B: {input}");
-			});
-		});
+    [Theory]
+    [InlineData("Test One")]
+    [InlineData("Test Two")]
+    public void Verify_DoSomethingElse_ReturnsExpectedData(string input)
+    {
+        IActions<SampleParent> actions = ArrangeUnitTest<SampleParent>(options =>
+        {
+            options.GetMock<ISampleChildA>(mock =>
+            {
+                mock.Value.Returns($"Mock A: {input}");
+            });
+            options.GetMock<ISampleChildB>(mock =>
+            {
+                mock.Value.Returns($"Mock B: {input}");
+            });
+        });
 
-		actions.Act(arrangment => arrangment.Service.DoSomethingElse(input));
+        actions.Act(arrangment => arrangment.Service.DoSomethingElse(input));
 
-		actions.Assert(arrangement =>
-		{
-			string result = arrangement.Service.Value;
-			result.Should().NotBeNullOrWhiteSpace();
-			result.Should().BeEquivalentTo($"Parent: Mock A: {input} - Mock B: {input}");
-			arrangement.GetMock<ISampleChildA>().Verify();
-			arrangement.GetMock<ISampleChildB>().Verify();
-		});
-	}
+        actions.Assert(arrangement =>
+        {
+            string result = arrangement.Service.Value;
+            result.Should().NotBeNullOrWhiteSpace();
+            result.Should().BeEquivalentTo($"Parent: Mock A: {input} - Mock B: {input}");
+            arrangement.GetMock<ISampleChildA>().Received().DoSomethingElse(input);
+            arrangement.GetMock<ISampleChildB>().Received().DoSomethingElse(input);
+        });
+    }
 
-	[Theory]
-	[InlineData("Test One")]
-	[InlineData("Test Two")]
-	public void Verify_Async_DoSomethingElse_ReturnsExpectedData(string input)
-	{
-		IActions<SampleParent> actions = ArrangeUnitTest<SampleParent>(options =>
-		{
-			options.GetMock<ISampleChildA>(mock =>
-			{
-				mock.Setup(m => m.DoSomethingElse(input)).Verifiable();
-				mock.Setup(m => m.Value).Returns($"Mock A: {input}");
-			});
-			options.GetMock<ISampleChildB>(mock =>
-			{
-				mock.Setup(m => m.DoSomethingElse(input)).Verifiable();
-				mock.Setup(m => m.Value).Returns($"Mock B: {input}");
-			});
-		});
+    [Theory]
+    [InlineData("Test One")]
+    [InlineData("Test Two")]
+    public void Verify_Async_DoSomethingElse_ReturnsExpectedData(string input)
+    {
+        IActions<SampleParent> actions = ArrangeUnitTest<SampleParent>(options =>
+        {
+            options.GetMock<ISampleChildA>(mock =>
+            {
+                mock.Value.Returns($"Mock A: {input}");
+            });
+            options.GetMock<ISampleChildB>(mock =>
+            {
+                mock.Value.Returns($"Mock B: {input}");
+            });
+        });
 
-		actions.Act(async arrangment => await Task.Run(() => arrangment.Service.DoSomethingElse(input)));
+        actions.Act(async arrangment => await Task.Run(() => arrangment.Service.DoSomethingElse(input)));
 
-		actions.Assert(arrangement =>
-		{
-			string result = arrangement.Service.Value;
-			result.Should().NotBeNullOrWhiteSpace();
-			result.Should().BeEquivalentTo($"Parent: Mock A: {input} - Mock B: {input}");
-			arrangement.GetMock<ISampleChildA>().Verify();
-			arrangement.GetMock<ISampleChildB>().Verify();
-		});
-	}
+        actions.Assert(arrangement =>
+        {
+            string result = arrangement.Service.Value;
+            result.Should().NotBeNullOrWhiteSpace();
+            result.Should().BeEquivalentTo($"Parent: Mock A: {input} - Mock B: {input}");
+            arrangement.GetMock<ISampleChildA>().Received().DoSomethingElse(input);
+            arrangement.GetMock<ISampleChildB>().Received().DoSomethingElse(input);
+        });
+    }
 
-	[Theory]
-	[InlineData("Test One", "Else One")]
-	[InlineData("Test Two", "Else Two")]
-	public void Verify_Raw_Integration_Test(string inputDoSomething, string inputDoSomethingElse)
-	{
-		IActions<ISampleParent> actions = ArrangeIntegrationTest<ISampleParent>(startupHandlers: SampleStartup.ConfigureServices);
+    [Theory]
+    [InlineData("Test One", "Else One")]
+    [InlineData("Test Two", "Else Two")]
+    public void Verify_Raw_Integration_Test(string inputDoSomething, string inputDoSomethingElse)
+    {
+        IActions<ISampleParent> actions = ArrangeIntegrationTest<ISampleParent>(startupHandlers: SampleStartup.ConfigureServices);
 
-		actions.Act(arrangement =>
-		{
-			arrangement.Service.DoSomethingElse(inputDoSomethingElse);
-			return arrangement.Service.DoSomething(inputDoSomething);
-		});
+        actions.Act(arrangement =>
+        {
+            arrangement.Service.DoSomethingElse(inputDoSomethingElse);
+            return arrangement.Service.DoSomething(inputDoSomething);
+        });
 
-		actions.Assert(arrangement =>
-		{
-			string somethingResult = arrangement.GetResult<string>();
-			string elseResult = arrangement.Service.Value;
-			somethingResult.Should().NotBeNullOrWhiteSpace();
-			elseResult.Should().NotBeNullOrWhiteSpace();
-			somethingResult.Should().NotBeEquivalentTo(elseResult);
-			Assert.Equal($"Parent: Something A: {inputDoSomething} - Something B: Something A: {inputDoSomething}", somethingResult);
-			Assert.Equal($"Parent: Something Else A: {inputDoSomethingElse} - Something Else B: Something Else A: {inputDoSomethingElse}", elseResult);
-		});
-	}
+        actions.Assert(arrangement =>
+        {
+            string somethingResult = arrangement.GetResult<string>();
+            string elseResult = arrangement.Service.Value;
+            somethingResult.Should().NotBeNullOrWhiteSpace();
+            elseResult.Should().NotBeNullOrWhiteSpace();
+            somethingResult.Should().NotBeEquivalentTo(elseResult);
+            Assert.Equal($"Parent: Something A: {inputDoSomething} - Something B: Something A: {inputDoSomething}", somethingResult);
+            Assert.Equal($"Parent: Something Else A: {inputDoSomethingElse} - Something Else B: Something Else A: {inputDoSomethingElse}", elseResult);
+        });
+    }
 
-	[Theory]
-	[InlineData("Test One", "Else One")]
-	[InlineData("Test Two", "Else Two")]
-	public void Verify_Itegration_Testing_Overwriting_Service_With_Mock(string inputDoSomething, string inputDoSomethingElse)
-	{
-		IActions<ISampleParent> actions = ArrangeIntegrationTest<ISampleParent>(options =>
-		{
-			options.ReplaceServiceWithMock<ISampleChildB>(mock =>
-			{
-				mock.Setup(m => m.DoSomething(inputDoSomething)).Returns($"Mocked {inputDoSomething}");
-				mock.Setup(m => m.DoSomethingElse(inputDoSomethingElse)).Verifiable();
-				mock.Setup(m => m.Value).Returns($"Mocked {inputDoSomethingElse}");
-			});
-		}, SampleStartup.ConfigureServices);
+    [Theory]
+    [InlineData("Test One", "Else One")]
+    [InlineData("Test Two", "Else Two")]
+    public void Verify_Itegration_Testing_Overwriting_Service_With_Mock(string inputDoSomething, string inputDoSomethingElse)
+    {
+        IActions<ISampleParent> actions = ArrangeIntegrationTest<ISampleParent>(options =>
+        {
+            options.ReplaceServiceWithMock<ISampleChildB>(mock =>
+            {
+                mock.DoSomething(inputDoSomething).Returns($"Mocked {inputDoSomething}");
+                mock.Value.Returns($"Mocked {inputDoSomethingElse}");
+            });
+        }, SampleStartup.ConfigureServices);
 
-		actions.Act(arrangement =>
-		{
-			arrangement.Service.DoSomethingElse(inputDoSomethingElse);
-			return arrangement.Service.DoSomething(inputDoSomething);
-		});
+        actions.Act(arrangement =>
+        {
+            arrangement.Service.DoSomethingElse(inputDoSomethingElse);
+            return arrangement.Service.DoSomething(inputDoSomething);
+        });
 
-		actions.Assert(arrangement =>
-		{
-			string somethingResult = arrangement.GetResult<string>();
-			string elseResult = arrangement.Service.Value;
-			somethingResult.Should().NotBeNullOrWhiteSpace();
-			elseResult.Should().NotBeNullOrWhiteSpace();
-			somethingResult.Should().NotBeEquivalentTo(elseResult);
-			Assert.Equal($"Parent: Something A: {inputDoSomething} - Mocked {inputDoSomething}", somethingResult);
-			Assert.Equal($"Parent: Something Else A: {inputDoSomethingElse} - Mocked {inputDoSomethingElse}", elseResult);
-		});
-	}
+        actions.Assert(arrangement =>
+        {
+            string somethingResult = arrangement.GetResult<string>();
+            string elseResult = arrangement.Service.Value;
+            somethingResult.Should().NotBeNullOrWhiteSpace();
+            elseResult.Should().NotBeNullOrWhiteSpace();
+            somethingResult.Should().NotBeEquivalentTo(elseResult);
+            arrangement.GetMock<ISampleChildB>().Received().DoSomethingElse(inputDoSomethingElse);
+            Assert.Equal($"Parent: Something A: {inputDoSomething} - Mocked {inputDoSomething}", somethingResult);
+            Assert.Equal($"Parent: Something Else A: {inputDoSomethingElse} - Mocked {inputDoSomethingElse}", elseResult);
+        });
+    }
 
-	[Theory]
-	[InlineData("Test One", "Else One")]
-	[InlineData("Test Two", "Else Two")]
-	public void Verify_Itegration_Using_Passed_In_IServiceCollection(string inputDoSomething, string inputDoSomethingElse)
-	{
-		IServiceCollection customServices = new ServiceCollection();
-		IActions<ISampleParent> actions = ArrangeIntegrationTest<ISampleParent>(options =>
-		{
-			options.ReplaceServiceWithMock<ISampleChildB>(mock =>
-			{
-				mock.Setup(m => m.DoSomething(inputDoSomething)).Returns($"Mocked {inputDoSomething}");
-				mock.Setup(m => m.DoSomethingElse(inputDoSomethingElse)).Verifiable();
-				mock.Setup(m => m.Value).Returns($"Mocked {inputDoSomethingElse}");
-			});
-		}, SampleStartup.ConfigureServices);
+    [Theory]
+    [InlineData("Test One", "Else One")]
+    [InlineData("Test Two", "Else Two")]
+    public void Verify_Itegration_Using_Passed_In_IServiceCollection(string inputDoSomething, string inputDoSomethingElse)
+    {
+        IServiceCollection customServices = new ServiceCollection();
+        IActions<ISampleParent> actions = ArrangeIntegrationTest<ISampleParent>(options =>
+        {
+            options.ReplaceServiceWithMock<ISampleChildB>(mock =>
+            {
+                mock.DoSomething(inputDoSomething).Returns($"Mocked {inputDoSomething}");
+                mock.Value.Returns($"Mocked {inputDoSomethingElse}");
+            });
+        }, SampleStartup.ConfigureServices);
 
-		actions.Act(arrangement =>
-		{
-			arrangement.Service.DoSomethingElse(inputDoSomethingElse);
-			return arrangement.Service.DoSomething(inputDoSomething);
-		});
+        actions.Act(arrangement =>
+        {
+            arrangement.Service.DoSomethingElse(inputDoSomethingElse);
+            return arrangement.Service.DoSomething(inputDoSomething);
+        });
 
-		actions.Assert(arrangement =>
-		{
-			string somethingResult = arrangement.GetResult<string>();
-			string elseResult = arrangement.Service.Value;
-			somethingResult.Should().NotBeNullOrWhiteSpace();
-			elseResult.Should().NotBeNullOrWhiteSpace();
-			somethingResult.Should().NotBeEquivalentTo(elseResult);
-			Assert.Equal($"Parent: Something A: {inputDoSomething} - Mocked {inputDoSomething}", somethingResult);
-			Assert.Equal($"Parent: Something Else A: {inputDoSomethingElse} - Mocked {inputDoSomethingElse}", elseResult);
-		});
-	}
+        actions.Assert(arrangement =>
+        {
+            string somethingResult = arrangement.GetResult<string>();
+            string elseResult = arrangement.Service.Value;
+            somethingResult.Should().NotBeNullOrWhiteSpace();
+            elseResult.Should().NotBeNullOrWhiteSpace();
+            somethingResult.Should().NotBeEquivalentTo(elseResult);
+            arrangement.GetMock<ISampleChildB>().Received().DoSomethingElse(inputDoSomethingElse);
+            Assert.Equal($"Parent: Something A: {inputDoSomething} - Mocked {inputDoSomething}", somethingResult);
+            Assert.Equal($"Parent: Something Else A: {inputDoSomethingElse} - Mocked {inputDoSomethingElse}", elseResult);
+        });
+    }
 
-	[Theory]
-	[InlineData("Test One")]
-	[InlineData("Test Two")]
-	public void Verify_ArrangeTest_Explicitly_Adds_Service(string input)
-	{
-		IActions<ISampleParent> actions = ArrangeTest<ISampleParent>(options =>
-		{
-			// For this type of test we need to explicitly add the service we're going to test
-			options.AddService<ISampleParent, SampleParent>();
-			// And explicitly add any dependent services, using mocks if desired.
-			options.AddMock<ISampleChildA>();
-			options.AddMock<ISampleChildB>();
-			// Demonstrating that adding the service without the expected interface will not properly override previous entries.
-			options.AddService<SampleChildA>(() => { return new SampleChildA(); });
-			options.AddService<SampleChildB>();
-		});
+    [Theory]
+    [InlineData("Test One")]
+    [InlineData("Test Two")]
+    public void Verify_ArrangeTest_Explicitly_Adds_Service(string input)
+    {
+        IActions<ISampleParent> actions = ArrangeTest<ISampleParent>(options =>
+        {
+            // For this type of test we need to explicitly add the service we're going to test
+            options.AddService<ISampleParent, SampleParent>();
+            // And explicitly add any dependent services, using mocks if desired.
+            options.AddMock<ISampleChildA>();
+            options.AddMock<ISampleChildB>();
+            // Demonstrating that adding the service without the expected interface will not properly override previous entries.
+            options.AddService<SampleChildA>(() => { return new SampleChildA(); });
+            options.AddService<SampleChildB>();
+        });
 
-		actions.Act(arrangement => arrangement.Service.DoSomething(input));
+        actions.Act(arrangement => arrangement.Service.DoSomething(input));
 
-		actions.Assert(arrangement =>
-		{
-			// Final result is from mocked services, not the classes that were improperly added without their expected interfaces.
-			Assert.Equal($"Parent:  - ", arrangement.GetResult<string>());
-		});
-	}
+        actions.Assert(arrangement =>
+        {
+            // Final result is from mocked services, not the classes that were improperly added without their expected interfaces.
+            Assert.Equal($"Parent:  - ", arrangement.GetResult<string>());
+        });
+    }
 
-	[Theory]
-	[InlineData("Test One")]
-	[InlineData("Test Two")]
-	public void Verify_ArrangeTest_Returning_Service_To_Test(string input)
-	{
-		IActions<ISampleChildA> actions = ArrangeTest(options =>
-		{
-			ISampleChildA childA = new SampleChildA();
-			return childA;
-		});
+    [Theory]
+    [InlineData("Test One")]
+    [InlineData("Test Two")]
+    public void Verify_ArrangeTest_Returning_Service_To_Test(string input)
+    {
+        IActions<ISampleChildA> actions = ArrangeTest(options =>
+        {
+            ISampleChildA childA = new SampleChildA();
+            return childA;
+        });
 
-		actions.Act(arrangement => arrangement.Service.DoSomething(input));
+        actions.Act(arrangement => arrangement.Service.DoSomething(input));
 
-		actions.Assert(arrangement =>
-		{
-			Assert.Equal($"Something A: {input}", arrangement.GetResult<string>());
-		});
-	}
+        actions.Assert(arrangement =>
+        {
+            Assert.Equal($"Something A: {input}", arrangement.GetResult<string>());
+        });
+    }
 
-	[Theory]
-	[InlineData("Test One")]
-	[InlineData("Test Two")]
-	public void Verify_Async_ArrangeTest_Returning_Service_To_Test(string input)
-	{
-		IActions<ISampleChildA> actions = ArrangeTest(options =>
-		{
-			ISampleChildA childA = new SampleChildA();
-			return childA;
-		});
+    [Theory]
+    [InlineData("Test One")]
+    [InlineData("Test Two")]
+    public void Verify_Async_ArrangeTest_Returning_Service_To_Test(string input)
+    {
+        IActions<ISampleChildA> actions = ArrangeTest(options =>
+        {
+            ISampleChildA childA = new SampleChildA();
+            return childA;
+        });
 
-		actions.Act(async arrangement => await Task.Run(() => arrangement.Service.DoSomething(input)));
+        actions.Act(async arrangement => await Task.Run(() => arrangement.Service.DoSomething(input)));
 
-		actions.Assert(arrangement =>
-		{
-			Assert.Equal($"Something A: {input}", arrangement.GetResult<string>());
-		});
-	}
+        actions.Assert(arrangement =>
+        {
+            Assert.Equal($"Something A: {input}", arrangement.GetResult<string>());
+        });
+    }
 
-	[Theory]
-	[InlineData("Test One")]
-	[InlineData("Test Two")]
-	public void Verify_Act_Throws_Exception(string input)
-	{
-		IActions<ISampleChildA> actions = ArrangeTest(options =>
-		{
-			ISampleChildA childA = Mock<ISampleChildA>(mock =>
-			{
-				mock.Setup(m => m.DoSomething(input)).Throws(new Exception("Mock exception"));
-			}).Object;
-			return childA;
-		});
+    [Theory]
+    [InlineData("Test One")]
+    [InlineData("Test Two")]
+    public void Verify_Act_Throws_Exception(string input)
+    {
+        IActions<ISampleChildA> actions = ArrangeTest(options =>
+        {
+            ISampleChildA childA = Mock<ISampleChildA>(mock =>
+            {
+                mock.DoSomething(input).Returns(input => throw new Exception("Mock exception"));
+            });
+            return childA;
+        });
 
-		actions.ActThrowsException(arrangement => arrangement.Service.DoSomething(input));
+        actions.ActThrowsException(arrangement => arrangement.Service.DoSomething(input));
 
-		actions.Assert(arrangement =>
-		{
-			Assert.Equal("Mock exception", arrangement.GetResult<Exception>().IsNotNull().Message);
-		});
-	}
+        actions.Assert(arrangement =>
+        {
+            Assert.Equal("Mock exception", arrangement.GetResult<Exception>().IsNotNull().Message);
+        });
+    }
 
-	public class MockException : Exception
-	{
-		public MockException(string message) : base(message) { }
-	}
+    public class MockException : Exception
+    {
+        public MockException(string message) : base(message) { }
+    }
 
-	public class UnusedException : Exception
-	{
-		public UnusedException(string message) : base(message) { }
-	}
+    public class UnusedException : Exception
+    {
+        public UnusedException(string message) : base(message) { }
+    }
 
-	[Theory]
-	[InlineData("Test One")]
-	[InlineData("Test Two")]
-	public void Verify_Act_Throws_Specific_Exception(string input)
-	{
-		IActions<ISampleChildA> actions = ArrangeTest(options =>
-		{
-			ISampleChildA childA = Mock<ISampleChildA>(mock =>
-			{
-				mock.Setup(m => m.DoSomething(input)).Throws(new MockException("Mock exception"));
-			}).Object;
-			return childA;
-		});
+    [Theory]
+    [InlineData("Test One")]
+    [InlineData("Test Two")]
+    public void Verify_Act_Throws_Specific_Exception(string input)
+    {
+        IActions<ISampleChildA> actions = ArrangeTest(options =>
+        {
+            ISampleChildA childA = Mock<ISampleChildA>(mock =>
+            {
+                mock.DoSomething(input).Throws(new MockException("Mock exception"));
+            });
+            return childA;
+        });
 
-		actions.ActThrowsException<MockException>(arrangement => arrangement.Service.DoSomething(input));
+        actions.ActThrowsException<MockException>(arrangement => arrangement.Service.DoSomething(input));
 
-		actions.Assert(arrangement =>
-		{
-			Assert.Equal("Mock exception", arrangement.GetResult<Exception>().IsNotNull().Message);
-		});
-	}
+        actions.Assert(arrangement =>
+        {
+            Assert.Equal("Mock exception", arrangement.GetResult<Exception>().IsNotNull().Message);
+        });
+    }
 
-	[Theory]
-	[InlineData("Test One")]
-	[InlineData("Test Two")]
-	public void Verify_Async_Act_Throws_Exception(string input)
-	{
-		IActions<ISampleChildA> actions = ArrangeTest(options =>
-		{
-			ISampleChildA childA = Mock<ISampleChildA>(mock =>
-			{
-				mock.Setup(m => m.DoSomething(input)).Throws(new Exception("Mock exception"));
-			}).Object;
-			return childA;
-		});
+    [Theory]
+    [InlineData("Test One")]
+    [InlineData("Test Two")]
+    public void Verify_Async_Act_Throws_Exception(string input)
+    {
+        IActions<ISampleChildA> actions = ArrangeTest(options =>
+        {
+            ISampleChildA childA = Mock<ISampleChildA>(mock =>
+            {
+                mock.DoSomething(input).Throws(new Exception("Mock exception"));
+            });
+            return childA;
+        });
 
-		actions.ActThrowsException(async arrangement => await Task.Run(() => arrangement.Service.DoSomething(input)));
+        actions.ActThrowsException(async arrangement => await Task.Run(() => arrangement.Service.DoSomething(input)));
 
-		actions.Assert(arrangement =>
-		{
-			Assert.Equal("Mock exception", arrangement.GetResult<Exception>().IsNotNull().Message);
-		});
-	}
+        actions.Assert(arrangement =>
+        {
+            Assert.Equal("Mock exception", arrangement.GetResult<Exception>().IsNotNull().Message);
+        });
+    }
 
-	[Theory]
-	[InlineData("Test One")]
-	[InlineData("Test Two")]
-	public void Verify_Async_Act_Throws_Specific_Exception(string input)
-	{
-		IActions<ISampleChildA> actions = ArrangeTest(options =>
-		{
-			ISampleChildA childA = Mock<ISampleChildA>(mock =>
-			{
-				mock.Setup(m => m.DoSomething(input)).Throws(new MockException("Mock exception"));
-			}).Object;
-			return childA;
-		});
+    [Theory]
+    [InlineData("Test One")]
+    [InlineData("Test Two")]
+    public void Verify_Async_Act_Throws_Specific_Exception(string input)
+    {
+        IActions<ISampleChildA> actions = ArrangeTest(options =>
+        {
+            ISampleChildA childA = Mock<ISampleChildA>(mock =>
+            {
+                mock.DoSomething(input).Throws(new MockException("Mock exception"));
+            });
+            return childA;
+        });
 
-		actions.ActThrowsException<MockException>(async arrangement => await Task.Run(() => arrangement.Service.DoSomething(input)));
+        actions.ActThrowsException<MockException>(async arrangement => await Task.Run(() => arrangement.Service.DoSomething(input)));
 
-		actions.Assert(arrangement =>
-		{
-			Assert.Equal("Mock exception", arrangement.GetResult<Exception>().IsNotNull().Message);
-		});
-	}
+        actions.Assert(arrangement =>
+        {
+            Assert.Equal("Mock exception", arrangement.GetResult<Exception>().IsNotNull().Message);
+        });
+    }
 }
