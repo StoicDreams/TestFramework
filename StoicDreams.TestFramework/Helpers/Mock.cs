@@ -11,6 +11,13 @@ public class Mock<T>
         _instance = Substitute.For<T>();
     }
 
+    private Mock(T instance)
+    {
+        _instance = instance;
+    }
+
+    public static implicit operator Mock<T>(T instance) => new(instance);
+
     private T _instance { get; }
     public T Object => _instance;
 
