@@ -1,4 +1,6 @@
-﻿namespace StoicDreams;
+﻿using Moq;
+
+namespace StoicDreams;
 
 public interface IArrangeRenderOptions
 {
@@ -10,7 +12,7 @@ public interface IArrangeRenderOptions
 
     IArrangeRenderOptions SetupServices(Func<IServiceCollection, IServiceCollection> setupHandler);
 
-    IArrangeRenderOptions AddMock<TService>(Action<TService>? setupHandler = null) where TService : class;
+    IArrangeRenderOptions AddMock<TService>(Action<Mock<TService>>? setupHandler = null) where TService : class;
 
     IArrangeRenderOptions AddStub<TComponent>() where TComponent : IComponent;
 

@@ -1,4 +1,6 @@
-﻿namespace StoicDreams;
+﻿using Moq;
+
+namespace StoicDreams;
 
 public class ArrangeUnitOptions : IArrangeUnitOptions
 {
@@ -7,12 +9,20 @@ public class ArrangeUnitOptions : IArrangeUnitOptions
         ServiceProvider = serviceProvider;
     }
 
-    public T GetMock<T>(Action<T>? setupHandler = null)
+    public Mock<T> GetMock<T>(Action<Mock<T>>? setupHandler = null)
         where T : class
     {
-        T mock = ServiceProvider.GetMock<T>();
+        Mock<T> mock = ServiceProvider.GetMock<T>();
         setupHandler?.Invoke(mock);
         return mock;
+    }
+
+    public T GetService<T>(Action<T>? setupHandler = null)
+        where T : class
+    {
+        T service = ServiceProvider.GetRequiredService<T>();
+        setupHandler?.Invoke(service);
+        return service;
     }
 
     private IServiceProvider ServiceProvider { get; }

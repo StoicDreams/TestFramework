@@ -1,4 +1,6 @@
-﻿namespace StoicDreams;
+﻿using Moq;
+
+namespace StoicDreams;
 
 public interface IRenderArrangement<TComponent>
     where TComponent : IComponent
@@ -20,7 +22,7 @@ public interface IRenderArrangement<TComponent>
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    T GetMock<T>() where T : class;
+    Mock<T> GetMock<T>() where T : class;
 
     /// <summary>
     /// Get a service T.

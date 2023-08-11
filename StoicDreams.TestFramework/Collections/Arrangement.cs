@@ -1,4 +1,6 @@
-﻿namespace StoicDreams;
+﻿using Moq;
+
+namespace StoicDreams;
 
 public class Arrangement<TInstance> : IArrangement<TInstance>
     where TInstance : class
@@ -10,7 +12,7 @@ public class Arrangement<TInstance> : IArrangement<TInstance>
     }
 
     public TInstance Service { get; }
-    public T GetMock<T>() where T : class => ServiceProvider.GetMock<T>();
+    public Mock<T> GetMock<T>() where T : class => ServiceProvider.GetMock<T>();
     public T GetResult<T>()
     {
         if (Result == null)

@@ -1,4 +1,6 @@
-﻿namespace StoicDreams;
+﻿using Moq;
+
+namespace StoicDreams;
 
 public class ArrangeRenderOptions : IArrangeRenderOptions
 {
@@ -31,7 +33,7 @@ public class ArrangeRenderOptions : IArrangeRenderOptions
         return this;
     }
 
-    public IArrangeRenderOptions AddMock<TService>(Action<TService>? setupHandler = null)
+    public IArrangeRenderOptions AddMock<TService>(Action<Mock<TService>>? setupHandler = null)
         where TService : class
     {
         Context.Services.AddMock(setupHandler);

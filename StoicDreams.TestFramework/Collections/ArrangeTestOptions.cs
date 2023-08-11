@@ -1,4 +1,6 @@
-﻿namespace StoicDreams;
+﻿using Moq;
+
+namespace StoicDreams;
 
 public class ArrangeTestOptions : IArrangeTestOptions
 {
@@ -7,10 +9,17 @@ public class ArrangeTestOptions : IArrangeTestOptions
         Services = services;
     }
 
-    public IArrangeTestOptions AddMock<TService>(Action<TService>? setupHandler = null)
+    public IArrangeTestOptions AddMock<TService>(Action<Mock<TService>>? setupHandler = null)
         where TService : class
     {
         Services.AddMock(setupHandler);
+        return this;
+    }
+
+    public IArrangeTestOptions AddSub<TService>(Action<TService>? setupHandler = null)
+        where TService : class
+    {
+        Services.AddSub(setupHandler);
         return this;
     }
 
@@ -34,6 +43,14 @@ public class ArrangeTestOptions : IArrangeTestOptions
     {
         TService service = setupHandler();
         Services.AddSingleton(service);
+        return this;
+    }
+
+    public IArrangeTestOptions AddService<TService>(Func<TService, TService> setupHandler)
+        where TService : class
+    {
+        TService service = Substitute.For<TService>();
+        setupHandler.Invoke(service);
         return this;
     }
 

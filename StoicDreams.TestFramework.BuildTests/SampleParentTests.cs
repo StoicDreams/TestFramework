@@ -9,8 +9,8 @@ public class SampleParentTests : TestFramework
     {
         ArrangeUnitTest<SampleParent>(options =>
         {
-            options.GetMock<ISampleChildA>().DoSomething(input).Returns($"Mock A: {input}");
-            options.GetMock<ISampleChildB>().DoSomething(input).Returns($"Mock B: {input}");
+            options.GetService<ISampleChildA>().DoSomething(input).Returns($"Mock A: {input}");
+            options.GetService<ISampleChildB>().DoSomething(input).Returns($"Mock B: {input}");
         })
         .Act(arrangment => arrangment.Service.DoSomething(input))
         .Assert(arrangement =>
@@ -28,11 +28,11 @@ public class SampleParentTests : TestFramework
     {
         ArrangeUnitTest<SampleParent>(options =>
         {
-            options.GetMock<ISampleChildA>(mock =>
+            options.GetService<ISampleChildA>(mock =>
             {
                 mock.Value.Returns($"Mock A: {input}");
             });
-            options.GetMock<ISampleChildB>(mock =>
+            options.GetService<ISampleChildB>(mock =>
             {
                 mock.Value.Returns($"Mock B: {input}");
             });
@@ -43,8 +43,8 @@ public class SampleParentTests : TestFramework
             string result = arrangement.Service.Value;
             result.Should().NotBeNullOrWhiteSpace();
             result.Should().BeEquivalentTo($"Parent: Mock A: {input} - Mock B: {input}");
-            arrangement.GetMock<ISampleChildA>().Received().DoSomethingElse(input);
-            arrangement.GetMock<ISampleChildB>().Received().DoSomethingElse(input);
+            arrangement.GetService<ISampleChildA>().Received().DoSomethingElse(input);
+            arrangement.GetService<ISampleChildB>().Received().DoSomethingElse(input);
         });
     }
 
@@ -55,11 +55,11 @@ public class SampleParentTests : TestFramework
     {
         ArrangeUnitTest<SampleParent>(options =>
         {
-            options.GetMock<ISampleChildA>(mock =>
+            options.GetService<ISampleChildA>(mock =>
             {
                 mock.Value.Returns($"Mock A: {input}");
             });
-            options.GetMock<ISampleChildB>(mock =>
+            options.GetService<ISampleChildB>(mock =>
             {
                 mock.Value.Returns($"Mock B: {input}");
             });
@@ -70,8 +70,8 @@ public class SampleParentTests : TestFramework
             string result = arrangement.Service.Value;
             result.Should().NotBeNullOrWhiteSpace();
             result.Should().BeEquivalentTo($"Parent: Mock A: {input} - Mock B: {input}");
-            arrangement.GetMock<ISampleChildA>().Received().DoSomethingElse(input);
-            arrangement.GetMock<ISampleChildB>().Received().DoSomethingElse(input);
+            arrangement.GetService<ISampleChildA>().Received().DoSomethingElse(input);
+            arrangement.GetService<ISampleChildB>().Received().DoSomethingElse(input);
         });
     }
 
@@ -105,7 +105,7 @@ public class SampleParentTests : TestFramework
     {
         ArrangeIntegrationTest<ISampleParent>(options =>
         {
-            options.ReplaceServiceWithMock<ISampleChildB>(mock =>
+            options.ReplaceServiceWithSub<ISampleChildB>(mock =>
             {
                 mock.DoSomething(inputDoSomething).Returns($"Mocked {inputDoSomething}");
                 mock.Value.Returns($"Mocked {inputDoSomethingElse}");
@@ -123,7 +123,7 @@ public class SampleParentTests : TestFramework
             somethingResult.Should().NotBeNullOrWhiteSpace();
             elseResult.Should().NotBeNullOrWhiteSpace();
             somethingResult.Should().NotBeEquivalentTo(elseResult);
-            arrangement.GetMock<ISampleChildB>().Received().DoSomethingElse(inputDoSomethingElse);
+            arrangement.GetService<ISampleChildB>().Received().DoSomethingElse(inputDoSomethingElse);
             Assert.Equal($"Parent: Something A: {inputDoSomething} - Mocked {inputDoSomething}", somethingResult);
             Assert.Equal($"Parent: Something Else A: {inputDoSomethingElse} - Mocked {inputDoSomethingElse}", elseResult);
         });
@@ -137,7 +137,7 @@ public class SampleParentTests : TestFramework
         IServiceCollection customServices = new ServiceCollection();
         ArrangeIntegrationTest<ISampleParent>(options =>
         {
-            options.ReplaceServiceWithMock<ISampleChildB>(mock =>
+            options.ReplaceServiceWithSub<ISampleChildB>(mock =>
             {
                 mock.DoSomething(inputDoSomething).Returns($"Mocked {inputDoSomething}");
                 mock.Value.Returns($"Mocked {inputDoSomethingElse}");
@@ -155,7 +155,7 @@ public class SampleParentTests : TestFramework
             somethingResult.Should().NotBeNullOrWhiteSpace();
             elseResult.Should().NotBeNullOrWhiteSpace();
             somethingResult.Should().NotBeEquivalentTo(elseResult);
-            arrangement.GetMock<ISampleChildB>().Received().DoSomethingElse(inputDoSomethingElse);
+            arrangement.GetService<ISampleChildB>().Received().DoSomethingElse(inputDoSomethingElse);
             Assert.Equal($"Parent: Something A: {inputDoSomething} - Mocked {inputDoSomething}", somethingResult);
             Assert.Equal($"Parent: Something Else A: {inputDoSomethingElse} - Mocked {inputDoSomethingElse}", elseResult);
         });
@@ -171,8 +171,8 @@ public class SampleParentTests : TestFramework
             // For this type of test we need to explicitly add the service we're going to test
             options.AddService<ISampleParent, SampleParent>();
             // And explicitly add any dependent services, using mocks if desired.
-            options.AddMock<ISampleChildA>();
-            options.AddMock<ISampleChildB>();
+            options.AddSub<ISampleChildA>();
+            options.AddSub<ISampleChildB>();
             // Demonstrating that adding the service without the expected interface will not properly override previous entries.
             options.AddService<SampleChildA>(() => { return new SampleChildA(); });
             options.AddService<SampleChildB>();
@@ -226,7 +226,7 @@ public class SampleParentTests : TestFramework
     {
         ArrangeTest(options =>
         {
-            ISampleChildA childA = Mock<ISampleChildA>(mock =>
+            ISampleChildA childA = Sub<ISampleChildA>(mock =>
             {
                 mock.DoSomething(input).Returns(input => throw new Exception("Mock exception"));
             });
@@ -256,7 +256,7 @@ public class SampleParentTests : TestFramework
     {
         ArrangeTest(options =>
         {
-            ISampleChildA childA = Mock<ISampleChildA>(mock =>
+            ISampleChildA childA = Sub<ISampleChildA>(mock =>
             {
                 mock.DoSomething(input).Throws(new MockException("Mock exception"));
             });
@@ -276,7 +276,7 @@ public class SampleParentTests : TestFramework
     {
         ArrangeTest(options =>
         {
-            ISampleChildA childA = Mock<ISampleChildA>(mock =>
+            ISampleChildA childA = Sub<ISampleChildA>(mock =>
             {
                 mock.DoSomething(input).Throws(new Exception("Mock exception"));
             });
@@ -296,7 +296,7 @@ public class SampleParentTests : TestFramework
     {
         ArrangeTest(options =>
         {
-            ISampleChildA childA = Mock<ISampleChildA>(mock =>
+            ISampleChildA childA = Sub<ISampleChildA>(mock =>
             {
                 mock.DoSomething(input).Throws(new MockException("Mock exception"));
             });

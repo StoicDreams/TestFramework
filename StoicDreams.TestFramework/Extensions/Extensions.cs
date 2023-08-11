@@ -1,4 +1,5 @@
-﻿using NSubstitute.Core;
+﻿using Moq;
+using NSubstitute.Core;
 using System.Reflection;
 
 namespace StoicDreams;
@@ -29,10 +30,10 @@ public static class Extensions
     /// <typeparam name="T"></typeparam>
     /// <param name="serviceProvider"></param>
     /// <returns></returns>
-    public static T GetMock<T>(this IServiceProvider serviceProvider)
+    public static Mock<T> GetMock<T>(this IServiceProvider serviceProvider)
         where T : class
     {
-        return serviceProvider.GetServiceThrows<T>();
+        return serviceProvider.GetServiceThrows<Mock<T>>();
     }
 
     /// <summary>
@@ -46,26 +47,47 @@ public static class Extensions
     /// <returns></returns>
     public static IServiceCollection AddMock<T>(
         this IServiceCollection services,
-        Action<T>? setupHandler = null,
+        Action<Mock<T>>? setupHandler = null,
         ServiceLifetime lifetime = ServiceLifetime.Singleton
         )
         where T : class
     {
-        T mock = Substitute.For<T>();
+        T sub = Substitute.For<T>();
+        Mock<T> mock = new();
         setupHandler?.Invoke(mock);
         services.AddSingleton(mock);
         switch (lifetime)
         {
             case ServiceLifetime.Singleton:
-                services.AddSingleton(mock);
+                services.AddSingleton(mock.Object);
                 break;
             case ServiceLifetime.Transient:
-                services.AddTransient(_ => mock);
+                services.AddTransient(_ => mock.Object);
                 break;
             case ServiceLifetime.Scoped:
-                services.AddScoped(_ => mock);
+                services.AddScoped(_ => mock.Object);
                 break;
         }
+        return services;
+    }
+
+    /// <summary>
+    /// Add a substitution of an interface|class for injection into test elements.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="services"></param>
+    /// <param name="setupHandler"></param>
+    /// <param name="lifetime"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddSub<T>(
+        this IServiceCollection services,
+        Action<T>? setupHandler = null
+        )
+        where T : class
+    {
+        T sub = Substitute.For<T>();
+        setupHandler?.Invoke(sub);
+        services.AddSingleton(sub);
         return services;
     }
 

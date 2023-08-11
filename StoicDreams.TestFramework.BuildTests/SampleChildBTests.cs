@@ -9,7 +9,7 @@ public class SampleChildBTests : TestFramework
     {
         ArrangeUnitTest<SampleChildB>(options =>
         {
-            options.GetMock<ISampleChildA>().DoSomething(input).Returns($"Mock A: {input}");
+            options.GetService<ISampleChildA>().DoSomething(input).Returns($"Mock A: {input}");
         })
         .Act(arrangment => arrangment.Service.DoSomething(input))
         .Assert(arrangement =>
@@ -27,7 +27,7 @@ public class SampleChildBTests : TestFramework
     {
         ArrangeUnitTest<SampleChildB>(options =>
         {
-            options.GetMock<ISampleChildA>(mock =>
+            options.GetService<ISampleChildA>(mock =>
             {
                 mock.Value.Returns($"Mock A: {input}");
             });
@@ -38,7 +38,7 @@ public class SampleChildBTests : TestFramework
             string? result = arrangement.Service.Value;
             result.Should().NotBeNullOrWhiteSpace();
             result.Should().BeEquivalentTo($"Something Else B: Mock A: {input}");
-            arrangement.GetMock<ISampleChildA>().Received().DoSomethingElse(input);
+            arrangement.GetService<ISampleChildA>().Received().DoSomethingElse(input);
         });
     }
 }

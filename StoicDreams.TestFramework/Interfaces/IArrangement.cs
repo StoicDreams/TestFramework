@@ -1,4 +1,6 @@
-﻿namespace StoicDreams;
+﻿using Moq;
+
+namespace StoicDreams;
 
 public interface IArrangement<TInstance> where TInstance : class
 {
@@ -22,11 +24,11 @@ public interface IArrangement<TInstance> where TInstance : class
     T? GetNullableResult<T>();
 
     /// <summary>
-    /// Get a mock created during test arrangment.
+    /// Get a Moq Mock mock created during test arrangment.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    T GetMock<T>() where T : class;
+    Mock<T> GetMock<T>() where T : class;
 
     /// <summary>
     /// Get a service created during test arrangment.
