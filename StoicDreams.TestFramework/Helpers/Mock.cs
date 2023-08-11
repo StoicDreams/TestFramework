@@ -11,7 +11,7 @@ public class Mock<T>
         _instance = Substitute.For<T>();
     }
 
-    private Mock(T instance)
+    internal Mock(T instance)
     {
         _instance = instance;
     }
@@ -131,5 +131,13 @@ public class Mock<T>
     {
         _instance.Returns(ci => returnThis((A)ci[0], (B)ci[1], (C)ci[2], (D)ci[3], (E)ci[4]));
         return this;
+    }
+
+    [Obsolete("""
+        This TestFramework is no longer using Moq and this method of validation is not supported by NSubstitute.
+        Each desire call must be individually and explicitly validated within assertions.
+        """)]
+    public void Verify()
+    {
     }
 }
