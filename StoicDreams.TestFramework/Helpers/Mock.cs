@@ -16,6 +16,12 @@ public class Mock<T>
         _instance = instance;
     }
 
+    public Mock<T> Setup<R>(Func<T, R> setup)
+    {
+        setup.Invoke(_instance);
+        return this;
+    }
+
     public static implicit operator Mock<T>(T instance) => new(instance);
 
     private T _instance { get; }
@@ -87,6 +93,41 @@ public class Mock<T>
     }
 
     public Mock<T> Returns<A, B, C, D, E>(Func<A, B, C, D, E, object> returnThis)
+    {
+        _instance.Returns(ci => returnThis((A)ci[0], (B)ci[1], (C)ci[2], (D)ci[3], (E)ci[4]));
+        return this;
+    }
+
+    public Mock<T> ReturnsAsync<A>(A returnThis)
+    {
+        return this.Returns<A>(_ => returnThis!);
+    }
+
+    public Mock<T> ReturnsAsync<A>(Func<A, object> returnThis)
+    {
+        _instance.Returns(ci => returnThis((A)ci[0]));
+        return this;
+    }
+
+    public Mock<T> ReturnsAsync<A, B>(Func<A, B, object> returnThis)
+    {
+        _instance.Returns(ci => returnThis((A)ci[0], (B)ci[1]));
+        return this;
+    }
+
+    public Mock<T> ReturnsAsync<A, B, C>(Func<A, B, C, object> returnThis)
+    {
+        _instance.Returns(ci => returnThis((A)ci[0], (B)ci[1], (C)ci[2]));
+        return this;
+    }
+
+    public Mock<T> ReturnsAsync<A, B, C, D>(Func<A, B, C, D, object> returnThis)
+    {
+        _instance.Returns(ci => returnThis((A)ci[0], (B)ci[1], (C)ci[2], (D)ci[3]));
+        return this;
+    }
+
+    public Mock<T> ReturnsAsync<A, B, C, D, E>(Func<A, B, C, D, E, object> returnThis)
     {
         _instance.Returns(ci => returnThis((A)ci[0], (B)ci[1], (C)ci[2], (D)ci[3], (E)ci[4]));
         return this;
