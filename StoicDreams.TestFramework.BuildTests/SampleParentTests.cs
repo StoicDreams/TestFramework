@@ -11,7 +11,7 @@ public class SampleParentTests : TestFramework
         {
             options.GetService<ISampleChildA>().DoSomething(input).Returns($"Mock A: {input}");
             options.GetService<ISampleChildB>().DoSomething(input).Returns($"Mock B: {input}");
-        })
+        }, MockTypes.NSubstitute)
         .Act(arrangment => arrangment.Service.DoSomething(input))
         .Assert(arrangement =>
         {
@@ -36,7 +36,7 @@ public class SampleParentTests : TestFramework
             {
                 mock.Value.Returns($"Mock B: {input}");
             });
-        })
+        }, MockTypes.NSubstitute)
         .Act(arrangment => arrangment.Service.DoSomethingElse(input))
         .Assert(arrangement =>
         {
@@ -63,7 +63,7 @@ public class SampleParentTests : TestFramework
             {
                 mock.Value.Returns($"Mock B: {input}");
             });
-        })
+        }, MockTypes.NSubstitute)
         .Act(async arrangment => await Task.Run(() => arrangment.Service.DoSomethingElse(input)))
         .Assert(arrangement =>
         {
