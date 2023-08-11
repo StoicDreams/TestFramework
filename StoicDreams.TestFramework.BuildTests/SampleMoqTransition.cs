@@ -1,4 +1,6 @@
-﻿namespace StoicDreams.Tests;
+﻿using Moq;
+
+namespace StoicDreams.Tests;
 
 public class SampleMoqTransition : TestFramework
 {
@@ -6,7 +8,7 @@ public class SampleMoqTransition : TestFramework
     public void VerifyReturnsWithObject()
     {
         Mock<ISampleParent> mockParent = new();
-        mockParent.Setup(m => m.DoSomething(IsAny<string>()))
+        mockParent.Setup(m => m.DoSomething(It.IsAny<string>()))
             .Returns("World");
 
         string something = mockParent.Object.DoSomething("Hello");
@@ -18,7 +20,7 @@ public class SampleMoqTransition : TestFramework
     {
         string result = "Missing";
         Mock<ISampleParent> mockParent = new();
-        mockParent.Setup(m => m.DoSomething(IsAny<string>()))
+        mockParent.Setup(m => m.DoSomething(It.IsAny<string>()))
             .Returns<string>(input => result = input);
 
         string something = mockParent.Object.DoSomething("Hello");
@@ -32,7 +34,7 @@ public class SampleMoqTransition : TestFramework
         string resultA = "Missing";
         int resultB = 0;
         Mock<ISampleParent> mockParent = new();
-        mockParent.Setup(m => m.DoSomethingMoreArgs(IsAny<string>(), IsAny<int>()))
+        mockParent.Setup(m => m.DoSomethingMoreArgs(It.IsAny<string>(), It.IsAny<int>()))
             .Returns<string, int>((a, b) =>
             {
                 resultA = a;
@@ -51,32 +53,33 @@ public class SampleMoqTransition : TestFramework
     {
         string result = "Missing";
         Mock<ISampleParent> mockParent = new();
-        mockParent.Setup(m => m.DoSomething(IsAny<string>()))
+        mockParent.Setup(m => m.DoSomething(It.IsAny<string>()))
+            .Returns("Returned")
             .Callback((string input) => result = input);
 
         string something = mockParent.Object.DoSomething("Hello");
+        Assert.Equal("Returned", something);
         Assert.Equal("Hello", result);
-        Assert.Equal("Hello", something);
     }
 
     [Fact]
     public void VerifyParentInterfaceUsingMock()
     {
         Mock<ISampleParent> mockParent = new();
-        mockParent.Setup(m => m.DoSomethingElse(IsAny<string>()));
+        mockParent.Setup(m => m.DoSomethingElse(It.IsAny<string>()));
     }
 
     [Fact]
     public void VerifyChildAInterfaceUsingMock()
     {
         Mock<ISampleChildA> mockParent = new();
-        mockParent.Setup(m => m.DoSomethingElse(IsAny<string>()));
+        mockParent.Setup(m => m.DoSomethingElse(It.IsAny<string>()));
     }
 
     [Fact]
     public void VerifyChildBInterfaceUsingMock()
     {
         Mock<ISampleChildB> mockParent = new();
-        mockParent.Setup(m => m.DoSomethingElse(IsAny<string>()));
+        mockParent.Setup(m => m.DoSomethingElse(It.IsAny<string>()));
     }
 }
