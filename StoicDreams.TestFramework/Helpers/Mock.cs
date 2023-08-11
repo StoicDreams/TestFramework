@@ -33,6 +33,12 @@ public class Mock<T>
         return this;
     }
 
+    public Mock<T> Verify(Action<T> setup)
+    {
+        setup.Invoke(_instance);
+        return this;
+    }
+
     public Mock<T> Callback<A>(Func<A, object> returnThis)
     {
         _instance.Returns(ci => returnThis((A)ci[0]));
@@ -138,6 +144,14 @@ public class Mock<T>
         Each desire call must be individually and explicitly validated within assertions.
         """)]
     public void Verify()
+    {
+    }
+
+    [Obsolete("""
+        This TestFramework is no longer using Moq and this method of validation is not supported by NSubstitute.
+        Each desire call must be individually and explicitly validated within assertions.
+        """)]
+    public void VerifyAll()
     {
     }
 }
