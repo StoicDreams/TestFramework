@@ -1,4 +1,4 @@
-﻿namespace StoicDreams.Helpers;
+﻿namespace StoicDreams;
 
 /// <summary>
 /// Helper for transitioning legacy tests using Moq to NSubstitute.

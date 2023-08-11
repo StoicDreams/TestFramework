@@ -1,6 +1,4 @@
-﻿using StoicDreams.Helpers;
-
-namespace StoicDreams.Tests;
+﻿namespace StoicDreams.Tests;
 
 public class SampleMoqTransition : TestFramework
 {
