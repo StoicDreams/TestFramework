@@ -35,7 +35,20 @@ public class Mock<T>
 
     public Mock<T> Verify(Action<T> setup)
     {
-        setup.Invoke(_instance);
+        setup.Invoke(_instance.Received());
+        return this;
+    }
+
+    public Mock<T> Verify(Action<T> setup, Times times)
+    {
+        if (times == 0)
+        {
+            setup.Invoke(_instance.DidNotReceive());
+        }
+        else
+        {
+            setup.Invoke(_instance.Received(times));
+        }
         return this;
     }
 
