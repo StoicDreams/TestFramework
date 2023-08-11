@@ -25,6 +25,12 @@ function UpdateProjectVersion {
 		return;
 	}
 	$content = Get-Content -Path $projectPath
+	if ($projectPath.Contains("TestFramework.Blazor")) {
+		Write-Host "Special content update $projectPath"
+		$content = $content -replace '<Version>([0-9\.]+)</Version>', ('<Version>'+$version+'</Version>')
+    	$content | Set-Content -Path $projectPath
+        return;
+	}
 	$oldMatch = $content -match $rgxTargetXML
 	if($oldMatch.Length -eq 0) {
 		#Write-Host "Doesn't use TestFramework - $projectPath"
@@ -36,10 +42,6 @@ function UpdateProjectVersion {
 		return;
 	}
 	$newContent = $content -replace $rgxTargetXML, $newXML
-	if ($projectPath.Contains("TestFramework.Blazor")) {
-		Write-Host "Special content update $projectPath"
-		$newContent = $newContent -replace '<Version>([0-9\.]+)</Version>', ('<Version>'+$version+'</Version>')
-	}
 	$newContent | Set-Content -Path $projectPath
 	Write-Host "Updated   - $projectPath" -ForegroundColor Green
 }

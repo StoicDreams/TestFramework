@@ -1,6 +1,8 @@
 # Stoic Dreams Test Framework
-###### Nuget: [www.nuget.org/packages/StoicDreams.TestFramework](https://www.nuget.org/packages/StoicDreams.TestFramework/)
-###### GitHub: [github.com/StoicDreams/TestFramework](https://github.com/StoicDreams/TestFramework)
+
+Nuget: [www.nuget.org/packages/StoicDreams.TestFramework](https://www.nuget.org/packages/StoicDreams.TestFramework/)
+
+GitHub: [github.com/StoicDreams/TestFramework](https://github.com/StoicDreams/TestFramework)
 
 This library includes an `abstract` class called `TestFramework` that developers can inherit from their test classes to access helper methods for unit and integration tests.
 
@@ -31,7 +33,7 @@ Add the [StoicDreams.TestFramework](https://www.nuget.org/packages/StoicDreams.T
 
 ```xml
 <ItemGroup>
-	<PackageReference Include="StoicDreams.TestFramework" Version="1.5.2" />
+	<PackageReference Include="StoicDreams.TestFramework" Version="1.5.3" />
 </ItemGroup>
 ```
 
