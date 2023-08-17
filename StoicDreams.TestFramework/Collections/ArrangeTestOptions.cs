@@ -16,6 +16,13 @@ public class ArrangeTestOptions : IArrangeTestOptions
         return this;
     }
 
+    public IArrangeTestOptions AddMock<TService>(Mock<TService> mock)
+        where TService : class
+    {
+        Services.AddMock(mock);
+        return this;
+    }
+
     public IArrangeTestOptions AddSub<TService>(Action<TService>? setupHandler = null)
         where TService : class
     {

@@ -70,6 +70,29 @@ public static class Extensions
         }
         return services;
     }
+    public static IServiceCollection AddMock<T>(
+        this IServiceCollection services,
+        Mock<T> mock,
+        ServiceLifetime lifetime = ServiceLifetime.Singleton
+        )
+        where T : class
+    {
+        T sub = Substitute.For<T>();
+        services.AddSingleton(mock);
+        switch (lifetime)
+        {
+            case ServiceLifetime.Singleton:
+                services.AddSingleton(mock.Object);
+                break;
+            case ServiceLifetime.Transient:
+                services.AddTransient(_ => mock.Object);
+                break;
+            case ServiceLifetime.Scoped:
+                services.AddScoped(_ => mock.Object);
+                break;
+        }
+        return services;
+    }
 
     /// <summary>
     /// Add a substitution of an interface|class for injection into test elements.

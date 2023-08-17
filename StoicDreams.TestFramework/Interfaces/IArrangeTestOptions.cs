@@ -15,6 +15,15 @@ public interface IArrangeTestOptions
         where TService : class;
 
     /// <summary>
+    /// Add an instance of a mock.
+    /// </summary>
+    /// <typeparam name="TService"></typeparam>
+    /// <param name="mock"></param>
+    /// <returns></returns>
+    IArrangeTestOptions AddMock<TService>(Mock<TService> mock)
+        where TService : class;
+
+    /// <summary>
     /// Add a substituted service.
     /// </summary>
     /// <typeparam name="TService"></typeparam>
