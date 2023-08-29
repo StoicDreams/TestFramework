@@ -122,18 +122,12 @@ public static class Extensions
         }
         MethodInfo? methodInfo = service.GetType().GetMethod(
             method,
-            BindingFlags.NonPublic | BindingFlags.Instance
-            );
-        if (methodInfo == null)
-        {
-            throw new NullReferenceException($"Method {method} not found in service {(typeof(TService).FullName)}.");
-        }
+            BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.SetField | BindingFlags.SetProperty
+            ) ?? throw new NullReferenceException($"Method {method} not found in service {(typeof(TService).FullName)}.");
         TReturns? result = (TReturns?)methodInfo.Invoke(service, input);
-        if (result == null)
-        {
-            throw new NullReferenceException($"Method {(typeof(TService).FullName)}.{method} unexpectedly returned null.");
-        }
-        return result;
+        return result == null
+            ? throw new NullReferenceException($"Method {(typeof(TService).FullName)}.{method} unexpectedly returned null.")
+            : result;
     }
 
     public static ConfiguredCall Throws<T>(this T value, Exception exception, params Func<CallInfo, T>[] returnThese)
