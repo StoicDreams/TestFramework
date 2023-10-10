@@ -33,7 +33,7 @@ Add the [StoicDreams.TestFramework](https://www.nuget.org/packages/StoicDreams.T
 
 ```xml
 <ItemGroup>
-	<PackageReference Include="StoicDreams.TestFramework" Version="1.5.14" />
+ <PackageReference Include="StoicDreams.TestFramework" Version="1.5.14" />
 </ItemGroup>
 ```
 
@@ -42,6 +42,7 @@ Add assembly settings that will allow testing to access internal classes for the
 This update needs to be added to any project that utilizes `internal` classes.
 
 `Usings.cs`
+
 ```csharp
 // Your existing global using statements
 global using System;
@@ -58,35 +59,36 @@ using System.Runtime.CompilerServices;
 Inherit the StoicDreams.TestFramework class in all test files.
 
 `ExampleTests.cs` (See a full [example on GitHub](https://github.com/StoicDreams/TestFramework/blob/master/StoicDreams.TestFramework.Tests/SampleParentTests.cs))
+
 ```csharp
 namespace MyCompany.MyApp;
 
 public class SampleChildATests : StoicDreams.TestFramework
 {
-	[Theory]
-	[InlineData("Test One")]
-	[InlineData("Test Two")]
-	public void Verify_DoSomething_ReturnsExpectedData(string input)
-	{
-		ArrangeUnitTest<SampleParent>(options =>
-		{
-			options.GetMock<ISampleChildA>().DoSomething(input).Returns($"Mock A: {input}");
-			options.GetMock<ISampleChildB>().DoSomething(input).Returns($"Mock B: {input}");
-		})
+ [Theory]
+ [InlineData("Test One")]
+ [InlineData("Test Two")]
+ public void Verify_DoSomething_ReturnsExpectedData(string input)
+ {
+  ArrangeUnitTest<SampleParent>(options =>
+  {
+   options.GetMock<ISampleChildA>().DoSomething(input).Returns($"Mock A: {input}");
+   options.GetMock<ISampleChildB>().DoSomething(input).Returns($"Mock B: {input}");
+  })
         .Act(arrangment => arrangment.Service.DoSomething(input))
         .Assert(arrangement =>
-		{
-			string? result = arrangement.GetResult<string>();
-			result.Should().NotBeNullOrWhiteSpace();
-			result.Should().BeEquivalentTo($"Parent: Mock A: {input} - Mock B: {input}");
-		});
-	}
+  {
+   string? result = arrangement.GetResult<string>();
+   result.Should().NotBeNullOrWhiteSpace();
+   result.Should().BeEquivalentTo($"Parent: Mock A: {input} - Mock B: {input}");
+  });
+ }
 }
 ```
 
 ## Author
 
-**[Erik Gassler](https://www.erikgassler.com/home) - [Stoic Dreams](https://www.stoicdreams.com/home)** - Just a simpleton who likes making stuff with bits and bytes.
+**[Erik Gassler](https://www.erikgassler.com/home) - [Stoic Dreams](https://www.stoicdreams.com/home)** - Forging solutions for tomorrow's software development.
 
 **Support** - Visit [Stoic Dreams' GitHub Sponsor page](https://github.com/sponsors/StoicDreams) if you would like to provide support.
 
