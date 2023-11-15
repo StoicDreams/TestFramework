@@ -1,6 +1,4 @@
-﻿using Moq;
-
-namespace StoicDreams;
+﻿namespace StoicDreams;
 
 public class RenderArrangement<TComponent> : IRenderArrangement<TComponent>
     where TComponent : IComponent
@@ -17,8 +15,6 @@ public class RenderArrangement<TComponent> : IRenderArrangement<TComponent>
     {
         Context.DisposeComponents();
     }
-
-    public Mock<T> GetMock<T>() where T : class => Context.Services.GetMock<T>();
 
     public T GetService<T>()
         where T : class

@@ -1,28 +1,7 @@
-﻿using Moq;
-
-namespace StoicDreams;
+﻿namespace StoicDreams;
 
 public interface IArrangeTestOptions
 {
-    /// <summary>
-    /// Add a Moq mocked service.
-    /// Note: This framework will eventually deprecated Moq features due to security concerns. It is highly recommended to use one of the AddSub or AddService options.
-    /// </summary>
-    /// <typeparam name="TService"></typeparam>
-    /// <param name="setupHandler"></param>
-    /// <returns></returns>
-    IArrangeTestOptions AddMock<TService>(Action<Mock<TService>>? setupHandler = null)
-        where TService : class;
-
-    /// <summary>
-    /// Add an instance of a mock.
-    /// </summary>
-    /// <typeparam name="TService"></typeparam>
-    /// <param name="mock"></param>
-    /// <returns></returns>
-    IArrangeTestOptions AddMock<TService>(Mock<TService> mock)
-        where TService : class;
-
     /// <summary>
     /// Add a substituted service.
     /// </summary>

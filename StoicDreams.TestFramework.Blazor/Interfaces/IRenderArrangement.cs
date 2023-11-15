@@ -1,6 +1,4 @@
-﻿using Moq;
-
-namespace StoicDreams;
+﻿namespace StoicDreams;
 
 public interface IRenderArrangement<TComponent>
     where TComponent : IComponent
@@ -16,13 +14,6 @@ public interface IRenderArrangement<TComponent>
     /// This calls Dispose() and/or DisposeAsync on the rendered component as well as any children that are IDisposable.
     /// </summary>
     void DetachRender();
-
-    /// <summary>
-    /// Get a mock that was setup during arrangement.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    Mock<T> GetMock<T>() where T : class;
 
     /// <summary>
     /// Get a service T.

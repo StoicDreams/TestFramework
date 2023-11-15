@@ -1,6 +1,4 @@
-﻿using Moq;
-
-namespace StoicDreams;
+﻿namespace StoicDreams;
 
 public abstract partial class TestFramework
 {
@@ -11,14 +9,4 @@ public abstract partial class TestFramework
         setupHandler?.Invoke(mock);
         return mock;
     }
-
-    static protected Mock<T> Mock<T>(Action<Mock<T>>? setupHandler = null)
-        where T : class
-    {
-        Mock<T> mock = new();
-        setupHandler?.Invoke(mock);
-        return mock;
-    }
-
-    static protected T IsAny<T>() => It.IsAny<T>();
 }

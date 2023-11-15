@@ -24,6 +24,24 @@ public class SampleParentTests : TestFramework
     [Theory]
     [InlineData("Test One")]
     [InlineData("Test Two")]
+    public void Verify_DoSomething_ReturnsNull(string input)
+    {
+        ArrangeUnitTest<SampleParent>(options =>
+        {
+            options.GetService<ISampleChildA>().DoSomething(input).Returns($"Mock A: {input}");
+            options.GetService<ISampleChildB>().DoSomething(input).Returns($"Mock B: {input}");
+        }, MockTypes.NSubstitute)
+        .Act(arrangment => (string?)null)
+        .Assert(arrangement =>
+        {
+            string? result = arrangement.GetNullableResult<string>();
+            result.Should().BeNull();
+        });
+    }
+
+    [Theory]
+    [InlineData("Test One")]
+    [InlineData("Test Two")]
     public void Verify_DoSomethingElse_ReturnsExpectedData(string input)
     {
         ArrangeUnitTest<SampleParent>(options =>

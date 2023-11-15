@@ -1,26 +1,10 @@
-﻿using Moq;
-
-namespace StoicDreams;
+﻿namespace StoicDreams;
 
 public class ArrangeTestOptions : IArrangeTestOptions
 {
     public ArrangeTestOptions(IServiceCollection services)
     {
         Services = services;
-    }
-
-    public IArrangeTestOptions AddMock<TService>(Action<Mock<TService>>? setupHandler = null)
-        where TService : class
-    {
-        Services.AddMock(setupHandler);
-        return this;
-    }
-
-    public IArrangeTestOptions AddMock<TService>(Mock<TService> mock)
-        where TService : class
-    {
-        Services.AddMock(mock);
-        return this;
     }
 
     public IArrangeTestOptions AddSub<TService>(Action<TService>? setupHandler = null)

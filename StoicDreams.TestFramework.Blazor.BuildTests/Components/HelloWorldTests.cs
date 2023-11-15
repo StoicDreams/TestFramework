@@ -13,7 +13,7 @@ public class HelloWorldTests : TestFrameworkBlazor
             });
         }, services =>
         {
-            services.AddMock<ICache>();
+            services.AddSub<ICache>();
             return services;
         })
         .Assert(a =>
@@ -33,7 +33,7 @@ public class HelloWorldTests : TestFrameworkBlazor
             options.Parameters.Add("OnDispose", () => { renderIsDisposed = true; });
         }, services =>
         {
-            services.AddMock<ICache>();
+            services.AddSub<ICache>();
             return services;
         })
         .Act(a => a.Render.Markup)

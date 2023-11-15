@@ -22,7 +22,7 @@ stages:
         displayName: 'Load the SDK'
         inputs:
           packageType: 'sdk'
-          version: '7.x'
+          version: '8.x'
           includePreviewVersions: false
       - task: DotNetCoreCLI@2
         displayName: 'Restore nuget packages for Test Framework'
@@ -96,7 +96,7 @@ stages:
         displayName: 'Load the SDK'
         inputs:
           packageType: 'sdk'
-          version: '7.x'
+          version: '8.x'
           includePreviewVersions: false
       - task: DotNetCoreCLI@2
         displayName: 'Restore nuget packages'
