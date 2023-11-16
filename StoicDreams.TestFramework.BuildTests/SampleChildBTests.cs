@@ -10,7 +10,7 @@ public class SampleChildBTests : TestFramework
         ArrangeUnitTest<SampleChildB>(options =>
         {
             options.GetService<ISampleChildA>().DoSomething(input).Returns($"Mock A: {input}");
-        }, MockTypes.NSubstitute)
+        })
         .Act(arrangment => arrangment.Service.DoSomething(input))
         .Assert(arrangement =>
         {
@@ -31,7 +31,7 @@ public class SampleChildBTests : TestFramework
             {
                 mock.Value.Returns($"Mock A: {input}");
             });
-        }, MockTypes.NSubstitute)
+        })
         .Act(arrangment => arrangment.Service.DoSomethingElse(input))
         .Assert(arrangement =>
         {

@@ -1,20 +1,13 @@
 ﻿namespace StoicDreams;
 
-public enum MockTypes
-{
-    NSubstitute,
-    Moq
-}
-
 public abstract partial class TestFramework
 {
     protected IActions<TClass> ArrangeUnitTest<TClass>(
-        Action<IArrangeUnitOptions>? setupHandler = null,
-        MockTypes mockType = MockTypes.Moq
+        Action<IArrangeUnitOptions>? setupHandler = null
         )
         where TClass : class
     {
-        IServiceProvider serviceProvider = MockServiceProvider<TClass>(null, mockType);
+        IServiceProvider serviceProvider = MockServiceProvider<TClass>(null);
         return CallHandlerAndReturnForActAndAssertions<TClass>(serviceProvider, setupHandler);
     }
 
@@ -28,13 +21,12 @@ public abstract partial class TestFramework
     /// <param name="setupHandler"></param>
     /// <returns></returns>
     protected IActions<TInterface> ArrangeUnitTest<TInterface, TClass>(
-        Action<IArrangeUnitOptions>? setupHandler = null,
-        MockTypes mockType = MockTypes.Moq
+        Action<IArrangeUnitOptions>? setupHandler = null
         )
         where TClass : class, TInterface
         where TInterface : class
     {
-        IServiceProvider serviceProvider = MockServiceProvider<TInterface, TClass>(mockType);
+        IServiceProvider serviceProvider = MockServiceProvider<TInterface, TClass>();
         return CallHandlerAndReturnForActAndAssertions<TInterface>(serviceProvider, setupHandler);
     }
 
@@ -47,12 +39,11 @@ public abstract partial class TestFramework
     /// <returns></returns>
     protected IActions<TClass> ArrangeUnitTest<TClass>(
         Action<IArrangeUnitOptions>? setupHandler,
-        Action<IServiceCollection>? setupServices,
-        MockTypes mockType = MockTypes.Moq
+        Action<IServiceCollection>? setupServices
         )
         where TClass : class
     {
-        IServiceProvider serviceProvider = MockServiceProvider<TClass>(setupServices, mockType);
+        IServiceProvider serviceProvider = MockServiceProvider<TClass>(setupServices);
         return CallHandlerAndReturnForActAndAssertions<TClass>(serviceProvider, setupHandler);
     }
 

@@ -4,8 +4,6 @@ namespace StoicDreams;
 
 public abstract partial class TestFramework
 {
-    private MockTypes MockType { get; set; }
-
     /// <summary>
     /// Create an instance of IServiceProvider to use explicitely for unit testing a component TClass with interface TInterface.
     /// A Singleton instance of TClass:TInterface is added as well as mocked instances of parameter dependencies of the first constructor.
@@ -14,11 +12,10 @@ public abstract partial class TestFramework
     /// <typeparam name="TInterface"></typeparam>
     /// <typeparam name="TClass"></typeparam>
     /// <returns></returns>
-    protected IServiceProvider MockServiceProvider<TInterface, TClass>(MockTypes mockType)
+    protected IServiceProvider MockServiceProvider<TInterface, TClass>()
         where TInterface : class
         where TClass : class, TInterface
     {
-        MockType = mockType;
         IServiceCollection services = new ServiceCollection();
         // Add the service being unit tested
         services.AddSingleton<TInterface, TClass>();
@@ -33,10 +30,9 @@ public abstract partial class TestFramework
     /// </summary>
     /// <typeparam name="TClass"></typeparam>
     /// <returns></returns>
-    protected IServiceProvider MockServiceProvider<TClass>(Action<IServiceCollection>? setupHandler, MockTypes mockType)
+    protected IServiceProvider MockServiceProvider<TClass>(Action<IServiceCollection>? setupHandler)
         where TClass : class
     {
-        MockType = mockType;
         IServiceCollection services = new ServiceCollection();
         // Add the service being unit tested
         services.AddSingleton<TClass>();

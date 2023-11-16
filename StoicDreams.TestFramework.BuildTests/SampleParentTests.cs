@@ -11,7 +11,7 @@ public class SampleParentTests : TestFramework
         {
             options.GetService<ISampleChildA>().DoSomething(input).Returns($"Mock A: {input}");
             options.GetService<ISampleChildB>().DoSomething(input).Returns($"Mock B: {input}");
-        }, MockTypes.NSubstitute)
+        })
         .Act(arrangment => arrangment.Service.DoSomething(input))
         .Assert(arrangement =>
         {
@@ -24,13 +24,51 @@ public class SampleParentTests : TestFramework
     [Theory]
     [InlineData("Test One")]
     [InlineData("Test Two")]
+    public void Verify_DoSomethingWithIsAny_ReturnsExpectedData(string input)
+    {
+        ArrangeUnitTest<SampleParent>(options =>
+        {
+            options.GetService<ISampleChildA>().DoSomething(IsAny<string>()).Returns($"Mock A: {input}");
+            options.GetService<ISampleChildB>().DoSomething(Is(input)).Returns($"Mock B: {input}");
+        })
+        .Act(act => act.Service.DoSomething(input))
+        .Assert(assert =>
+        {
+            string? result = assert.GetNullableResult<string>();
+            result.Should().NotBeNullOrWhiteSpace();
+            Assert.Equal($"Parent: Mock A: {input} - Mock B: {input}", result);
+        });
+    }
+
+    [Theory]
+    [InlineData("Test One")]
+    [InlineData("Test Two")]
+    public void Verify_DoSomethingWithIsPredicate_ReturnsExpectedData(string input)
+    {
+        ArrangeUnitTest<SampleParent>(options =>
+        {
+            options.GetService<ISampleChildA>().DoSomething(IsAny<string>()).Returns($"Mock A: {input}");
+            options.GetService<ISampleChildB>().DoSomething(Is<string>(x => x == input)).Returns($"Mock B: {input}");
+        })
+        .Act(act => act.Service.DoSomething(input))
+        .Assert(assert =>
+        {
+            string? result = assert.GetNullableResult<string>();
+            result.Should().NotBeNullOrWhiteSpace();
+            Assert.Equal($"Parent: Mock A: {input} - Mock B: {input}", result);
+        });
+    }
+
+    [Theory]
+    [InlineData("Test One")]
+    [InlineData("Test Two")]
     public void Verify_DoSomething_ReturnsNull(string input)
     {
         ArrangeUnitTest<SampleParent>(options =>
         {
             options.GetService<ISampleChildA>().DoSomething(input).Returns($"Mock A: {input}");
             options.GetService<ISampleChildB>().DoSomething(input).Returns($"Mock B: {input}");
-        }, MockTypes.NSubstitute)
+        })
         .Act(arrangment => (string?)null)
         .Assert(arrangement =>
         {
@@ -54,7 +92,7 @@ public class SampleParentTests : TestFramework
             {
                 mock.Value.Returns($"Mock B: {input}");
             });
-        }, MockTypes.NSubstitute)
+        })
         .Act(arrangment => arrangment.Service.DoSomethingElse(input))
         .Assert(arrangement =>
         {
@@ -81,7 +119,7 @@ public class SampleParentTests : TestFramework
             {
                 mock.Value.Returns($"Mock B: {input}");
             });
-        }, MockTypes.NSubstitute)
+        })
         .Act(async arrangment => await Task.Run(() => arrangment.Service.DoSomethingElse(input)))
         .Assert(arrangement =>
         {

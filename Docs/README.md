@@ -33,7 +33,7 @@ Add the [StoicDreams.TestFramework](https://www.nuget.org/packages/StoicDreams.T
 
 ```xml
 <ItemGroup>
- <PackageReference Include="StoicDreams.TestFramework" Version="1.6.0" />
+ <PackageReference Include="StoicDreams.TestFramework" Version="1.6.1" />
 </ItemGroup>
 ```
 
@@ -72,11 +72,11 @@ public class SampleChildATests : StoicDreams.TestFramework
  {
   ArrangeUnitTest<SampleParent>(options =>
   {
-   options.GetMock<ISampleChildA>().DoSomething(input).Returns($"Mock A: {input}");
-   options.GetMock<ISampleChildB>().DoSomething(input).Returns($"Mock B: {input}");
+   options.GetService<ISampleChildA>().DoSomething(input).Returns($"Mock A: {input}");
+   options.GetService<ISampleChildB>().DoSomething(input).Returns($"Mock B: {input}");
   })
-        .Act(arrangment => arrangment.Service.DoSomething(input))
-        .Assert(arrangement =>
+  .Act(arrangment => arrangment.Service.DoSomething(input))
+  .Assert(arrangement =>
   {
    string? result = arrangement.GetResult<string>();
    result.Should().NotBeNullOrWhiteSpace();
