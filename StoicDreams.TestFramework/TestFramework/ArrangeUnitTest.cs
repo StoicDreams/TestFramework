@@ -13,7 +13,7 @@ public abstract partial class TestFramework
 
     /// <summary>
     /// Arrange a Unit Test given it's class type but returning it's interface.
-    /// Constructor dependencies will be automaticaly mocked.
+    /// Constructor dependencies will be automatically mocked.
     /// Using this setup method helps assert in tests methods being tested are accessible at the interface level.
     /// </summary>
     /// <typeparam name="TInterface">Interface of class being tested</typeparam>
