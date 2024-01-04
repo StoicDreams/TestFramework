@@ -87,4 +87,57 @@ public class HelloWorldTests : TestFrameworkBlazor
             a.GetResult<string>().Should().Contain("The component has been removed from the render tree");
         });
     }
+
+    [Fact]
+    public void Verify_Render_Integration_Test_AsyncAct_Properly_Throws_Exception()
+    {
+        try
+        {
+            ArrangeRenderTest<HelloWorld>(null, SampleBlazorLib.SampleStartup.Startup)
+            .Act(async a =>
+            {
+                await Task.CompletedTask;
+                throw new Exception("Something unexpected happened!");
+            })
+            .Assert(a =>
+            {
+                throw new Exception("This should not be reached!");
+            });
+        }
+        catch (Exception ex)
+        {
+            if (ex.Message == "Something unexpected happened!") return;
+        }
+        throw new Exception("Testing failed to throw expected exception.");
+    }
+
+    [Fact]
+    public void Verify_Render_Integration_Test_Act_Throws_Exception()
+    {
+        ArrangeRenderTest<HelloWorld>(null, SampleBlazorLib.SampleStartup.Startup)
+        .ActThrowsException(async a =>
+        {
+            await Task.CompletedTask;
+            throw new Exception("Something unexpected happened!");
+        })
+        .Assert(a =>
+        {
+            Assert.Equal("Something unexpected happened!", a.GetResult<string>());
+        });
+    }
+
+    [Fact]
+    public void Verify_Render_Integration_Test_Act_Throws_Explicit_Exception()
+    {
+        ArrangeRenderTest<HelloWorld>(null, SampleBlazorLib.SampleStartup.Startup)
+        .ActThrowsException<InvalidCastException>(async a =>
+        {
+            await Task.CompletedTask;
+            throw new InvalidCastException("Something unexpected happened!");
+        })
+        .Assert(a =>
+        {
+            Assert.Equal("Something unexpected happened!", a.GetResult<string>());
+        });
+    }
 }
