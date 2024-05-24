@@ -12,7 +12,7 @@ public abstract partial class TestFramework
     /// <typeparam name="TInterface"></typeparam>
     /// <typeparam name="TClass"></typeparam>
     /// <returns></returns>
-    protected IServiceProvider MockServiceProvider<TInterface, TClass>()
+    protected static IServiceProvider MockServiceProvider<TInterface, TClass>()
         where TInterface : class
         where TClass : class, TInterface
     {
@@ -30,7 +30,7 @@ public abstract partial class TestFramework
     /// </summary>
     /// <typeparam name="TClass"></typeparam>
     /// <returns></returns>
-    protected IServiceProvider MockServiceProvider<TClass>(Action<IServiceCollection>? setupHandler)
+    protected static IServiceProvider MockServiceProvider<TClass>(Action<IServiceCollection>? setupHandler)
         where TClass : class
     {
         IServiceCollection services = new ServiceCollection();
@@ -41,7 +41,7 @@ public abstract partial class TestFramework
         return services.BuildServiceProvider();
     }
 
-    private void AddDependencies<TClass>(IServiceCollection services)
+    private static void AddDependencies<TClass>(IServiceCollection services)
     {
         ParameterInfo[] infoArray = GetParameterInfo<TClass>();
         foreach (ParameterInfo info in infoArray)
@@ -53,7 +53,7 @@ public abstract partial class TestFramework
         }
     }
 
-    private ParameterInfo[] GetParameterInfo<TClass>()
+    private static ParameterInfo[] GetParameterInfo<TClass>()
     {
         try
         {

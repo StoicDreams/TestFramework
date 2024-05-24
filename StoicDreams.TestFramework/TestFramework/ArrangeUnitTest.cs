@@ -2,7 +2,7 @@
 
 public abstract partial class TestFramework
 {
-    protected IActions<TClass> ArrangeUnitTest<TClass>(
+    protected static IActions<TClass> ArrangeUnitTest<TClass>(
         Action<IArrangeUnitOptions>? setupHandler = null
         )
         where TClass : class
@@ -20,7 +20,7 @@ public abstract partial class TestFramework
     /// <typeparam name="TClass">Class being tested</typeparam>
     /// <param name="setupHandler"></param>
     /// <returns></returns>
-    protected IActions<TInterface> ArrangeUnitTest<TInterface, TClass>(
+    protected static IActions<TInterface> ArrangeUnitTest<TInterface, TClass>(
         Action<IArrangeUnitOptions>? setupHandler = null
         )
         where TClass : class, TInterface
@@ -37,7 +37,7 @@ public abstract partial class TestFramework
     /// <typeparam name="TClass">Class being tested</typeparam>
     /// <param name="setupHandler"></param>
     /// <returns></returns>
-    protected IActions<TClass> ArrangeUnitTest<TClass>(
+    protected static IActions<TClass> ArrangeUnitTest<TClass>(
         Action<IArrangeUnitOptions>? setupHandler,
         Action<IServiceCollection>? setupServices
         )
@@ -47,19 +47,19 @@ public abstract partial class TestFramework
         return CallHandlerAndReturnForActAndAssertions<TClass>(serviceProvider, setupHandler);
     }
 
-    protected IActions ArrangeUnitTest(object? input = null)
+    protected static IActions ArrangeUnitTest(object? input = null)
     {
         return new Actions(input ?? new object());
     }
 
-    protected IActions ArrangeUnitTest(
+    protected static IActions ArrangeUnitTest(
         Func<object> setupHandler
         )
     {
         return new Actions(setupHandler.Invoke());
     }
 
-    private IActions<TService> CallHandlerAndReturnForActAndAssertions<TService>(IServiceProvider serviceProvider, Action<IArrangeUnitOptions>? setupHandler)
+    private static IActions<TService> CallHandlerAndReturnForActAndAssertions<TService>(IServiceProvider serviceProvider, Action<IArrangeUnitOptions>? setupHandler)
         where TService : class
     {
         #region Call setup handler from caller if defined
