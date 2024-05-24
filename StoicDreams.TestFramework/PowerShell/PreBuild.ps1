@@ -2,13 +2,9 @@
 
 Clear-Host;
 
-while (Test-Path './StoicDreams.TestFramework') {
-	Set-Location './StoicDreams.TestFramework'
-}
-
-if (!(Test-Path './PowerShell')) {
-	Set-Location ..
-}
+$start_loc = Get-Location;
+Set-Location $PSScriptRoot;
+Set-Location ..
 
 if (!(Test-Path './StoicDreams.TestFramework.csproj')) {
 	throw "This script is expected to be run from the root of the StoicDreams.TestFramework project."
@@ -80,3 +76,5 @@ if ($version -ne $null) {
 		UpdateProjectVersion $_.FullName $version
 	}
 }
+
+Set-Location $start_loc;

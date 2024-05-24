@@ -4,13 +4,9 @@ $rgxTargetGetVersion = '<Version>(.+)</Version>'
 $rgxTargetXML = '<PackageReference Include="StoicDreams.TestFramework" Version="([0-9\.]+)" />'
 Clear-Host;
 
-while (Test-Path './StoicDreams.TestFramework') {
-	Set-Location './StoicDreams.TestFramework'
-}
-
-if (!(Test-Path './PowerShell')) {
-	Set-Location ..
-}
+$start_loc = Get-Location;
+Set-Location $PSScriptRoot;
+Set-Location ..
 
 if (!(Test-Path './StoicDreams.TestFramework.csproj')) {
 	throw "This script is expected to be run from the root of the StoicDreams.TestFramework project."
@@ -95,3 +91,5 @@ if ($version -ne $null) {
 else {
 	Write-Host Current version was not found -ForegroundColor Red
 }
+
+Set-Location $start_loc;
