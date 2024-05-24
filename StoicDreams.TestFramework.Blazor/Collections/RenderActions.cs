@@ -11,23 +11,39 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
     public IRenderActions<TComponent> Act(Action<IRenderArrangement<TComponent>>? action = null)
     {
         Arrangement.Result = null;
-        action?.Invoke(Arrangement);
-        if (Arrangement.Render.IsDisposed)
+        try
         {
-            Arrangement.Result = "The component has been removed from the render tree";
+            action?.Invoke(Arrangement);
+            if (Arrangement.Render.IsDisposed)
+            {
+                Arrangement.Result = "The component has been removed from the render tree";
+            }
+            else
+            {
+                Arrangement.Result = Arrangement.Render.Markup;
+            }
         }
-        else
+        catch (Exception)
         {
-            Arrangement.Result = Arrangement.Render.Markup;
+            Console.WriteLine("Action caused exception:\nMarkup:{0}", Arrangement.Render.Markup);
+            throw;
         }
         return this;
     }
 
     public IRenderActions<TComponent> Act(Func<IRenderArrangement<TComponent>, Task>? action = null)
     {
-        Arrangement.Result = null;
-        action?.Invoke(Arrangement).GetAwaiter().GetResult();
-        Arrangement.Result = Arrangement.Render.Markup;
+        try
+        {
+            Arrangement.Result = null;
+            action?.Invoke(Arrangement).GetAwaiter().GetResult();
+            Arrangement.Result = Arrangement.Render.Markup;
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Action caused exception:\nMarkup:{0}", Arrangement.Render.Markup);
+            throw;
+        }
         return this;
     }
 
@@ -100,25 +116,57 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
 
     public IRenderActions<TComponent> Act(Func<IRenderArrangement<TComponent>, object?> action)
     {
-        Arrangement.Result = action?.Invoke(Arrangement);
+        try
+        {
+            Arrangement.Result = action?.Invoke(Arrangement);
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Action caused exception:\nMarkup:{0}", Arrangement.Render.Markup);
+            throw;
+        }
         return this;
     }
 
     public IRenderActions<TComponent> Act(Func<IRenderArrangement<TComponent>, Task<object?>> action)
     {
-        Arrangement.Result = action?.Invoke(Arrangement).GetAwaiter().GetResult();
+        try
+        {
+            Arrangement.Result = action?.Invoke(Arrangement).GetAwaiter().GetResult();
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Action caused exception:\nMarkup:{0}", Arrangement.Render.Markup);
+            throw;
+        }
         return this;
     }
 
     public IRenderActions<TComponent> Assert(Action<IRenderArrangement<TComponent>> action)
     {
-        action.Invoke(Arrangement);
+        try
+        {
+            action.Invoke(Arrangement);
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Failed Assertion:\nMarkup:{0}", Arrangement.Render.Markup);
+            throw;
+        }
         return this;
     }
 
     public IRenderActions<TComponent> Assert(Func<IRenderArrangement<TComponent>, Task> action)
     {
-        Task.WaitAll(action.Invoke(Arrangement));
+        try
+        {
+            Task.WaitAny(action.Invoke(Arrangement));
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Failed Assertion:\nMarkup:{0}", Arrangement.Render.Markup);
+            throw;
+        }
         return this;
     }
 

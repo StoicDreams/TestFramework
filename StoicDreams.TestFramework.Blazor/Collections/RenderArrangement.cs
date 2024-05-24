@@ -19,12 +19,7 @@ public class RenderArrangement<TComponent> : IRenderArrangement<TComponent>
     public T GetService<T>()
         where T : class
     {
-        T? service = Context.Services.GetService<T>();
-        if (service == null)
-        {
-            throw new NullReferenceException($"Failed to get service {typeof(T).FullName}.");
-        }
-        return service;
+        return Context.Services.GetService<T>() ?? throw new NullReferenceException($"Failed to get service {typeof(T).FullName}.");
     }
 
     public T GetResult<T>()
