@@ -106,7 +106,7 @@ public class HelloWorldTests : TestFrameworkBlazor
         }
         catch (Exception ex)
         {
-            if (ex.Message == "Something unexpected happened!") return;
+            if (ex.Message.StartsWith("Something unexpected happened!")) return;
         }
         throw new Exception("Testing failed to throw expected exception.");
     }

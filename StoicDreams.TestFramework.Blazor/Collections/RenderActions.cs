@@ -23,10 +23,9 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
                 Arrangement.Result = Arrangement.Render.Markup;
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            Console.WriteLine("Action caused exception:\nMarkup:{0}", Arrangement.Render.Markup);
-            throw;
+            throw new Exception(Arrangement.BuildExceptionMessage(ex.Message));
         }
         return this;
     }
@@ -39,10 +38,9 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
             action?.Invoke(Arrangement).GetAwaiter().GetResult();
             Arrangement.Result = Arrangement.Render.Markup;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            Console.WriteLine("Action caused exception:\nMarkup:{0}", Arrangement.Render.Markup);
-            throw;
+            throw new Exception(Arrangement.BuildExceptionMessage(ex.Message));
         }
         return this;
     }
@@ -60,7 +58,7 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
             return this;
         }
 
-        throw new Exception($"Expected exception was not thrown.");
+        throw new Exception(Arrangement.BuildExceptionMessage("Expected exception was not thrown."));
     }
 
     public IRenderActions<TComponent> ActThrowsException(Func<IRenderArrangement<TComponent>, Task>? action = null)
@@ -76,7 +74,7 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
             return this;
         }
 
-        throw new Exception($"Expected exception was not thrown.");
+        throw new Exception(Arrangement.BuildExceptionMessage("Expected exception was not thrown."));
     }
 
     public IRenderActions<TComponent> ActThrowsException<TException>(Action<IRenderArrangement<TComponent>>? action = null)
@@ -94,7 +92,7 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
             return this;
         }
         catch (Exception) { }
-        throw new Exception($"Expected exception of type {typeof(TException).Name} was not thrown.");
+        throw new Exception(Arrangement.BuildExceptionMessage($"Expected exception of type {typeof(TException).Name} was not thrown."));
     }
 
     public IRenderActions<TComponent> ActThrowsException<TException>(Func<IRenderArrangement<TComponent>, Task>? action = null)
@@ -111,7 +109,7 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
             return this;
         }
         catch (Exception) { }
-        throw new Exception($"Expected exception of type {typeof(TException).Name} was not thrown.");
+        throw new Exception(Arrangement.BuildExceptionMessage($"Expected exception of type {typeof(TException).Name} was not thrown."));
     }
 
     public IRenderActions<TComponent> Act(Func<IRenderArrangement<TComponent>, object?> action)
@@ -120,10 +118,9 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
         {
             Arrangement.Result = action?.Invoke(Arrangement);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            Console.WriteLine("Action caused exception:\nMarkup:{0}", Arrangement.Render.Markup);
-            throw;
+            throw new Exception(Arrangement.BuildExceptionMessage(ex.Message));
         }
         return this;
     }
@@ -134,10 +131,9 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
         {
             Arrangement.Result = action?.Invoke(Arrangement).GetAwaiter().GetResult();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            Console.WriteLine("Action caused exception:\nMarkup:{0}", Arrangement.Render.Markup);
-            throw;
+            throw new Exception(Arrangement.BuildExceptionMessage(ex.Message));
         }
         return this;
     }
@@ -148,10 +144,9 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
         {
             action.Invoke(Arrangement);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            Console.WriteLine("Failed Assertion:\nMarkup:{0}", Arrangement.Render.Markup);
-            throw;
+            throw new Exception(Arrangement.BuildExceptionMessage(ex.Message));
         }
         return this;
     }
@@ -162,10 +157,9 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
         {
             Task.WaitAny(action.Invoke(Arrangement));
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            Console.WriteLine("Failed Assertion:\nMarkup:{0}", Arrangement.Render.Markup);
-            throw;
+            throw new Exception(Arrangement.BuildExceptionMessage(ex.Message));
         }
         return this;
     }
