@@ -33,6 +33,8 @@ public class RenderArrangement<TComponent> : IRenderArrangement<TComponent>
 
     public T? GetNullableResult<T>() => (T?)Result;
 
+    public string AlertsCssSelector { get; set; } = ".mud-alert-message";
+
     public FakeNavigationManager NavManager => Context.Services.GetRequiredService<FakeNavigationManager>();
 
     internal object? Result { get; set; }

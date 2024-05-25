@@ -14,10 +14,10 @@ public static partial class BlazorExtensions
     /// <param name="alertCssSelector"></param>
     /// <returns></returns>
 
-    public static string GetAlerts<TComponent>(this IRenderArrangement<TComponent> act, string alertCssSelector = ".mud-alert-message")
+    public static string GetAlerts<TComponent>(this IRenderArrangement<TComponent> act)
         where TComponent : IComponent
     {
-        return string.Join(Environment.NewLine, act.Render.FindAll(alertCssSelector).Select(alert => alert.GetInnerText().Trim())).Trim();
+        return string.Join(Environment.NewLine, act.Render.FindAll(act.AlertsCssSelector).Select(alert => alert.GetInnerText().Trim())).Trim();
     }
 
     /// <summary>
@@ -28,11 +28,11 @@ public static partial class BlazorExtensions
     /// <param name="message"></param>
     /// <param name="alertCssSelector"></param>
     /// <returns></returns>
-    public static string BuildExceptionMessage<TComponent>(this IRenderArrangement<TComponent> act, string message, string alertCssSelector = ".mud-alert-message")
+    public static string BuildExceptionMessage<TComponent>(this IRenderArrangement<TComponent> act, string message)
         where TComponent : IComponent
     {
         if (message.Contains("Markup:")) return message;
-        return string.Join(Environment.NewLine, message, $"Page: {act.NavManager.GetRelativeUrl()}", "Alerts:", GetAlerts(act, alertCssSelector), "Markup:", act.Render.Markup.RemoveStyleHtml());
+        return string.Join(Environment.NewLine, message, $"Page: {act.NavManager.GetRelativeUrl()}", "Alerts:", act.GetAlerts(), "Markup:", act.Render.Markup.RemoveStyleHtml());
     }
 
     /// <summary>
