@@ -1,4 +1,6 @@
-﻿namespace StoicDreams;
+﻿using StoicDreams.Collections;
+
+namespace StoicDreams;
 
 public abstract class TestFrameworkBlazor : TestFramework
 {

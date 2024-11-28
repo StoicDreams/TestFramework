@@ -1,4 +1,4 @@
-﻿namespace StoicDreams;
+﻿namespace StoicDreams.Collections;
 
 public class RenderActions<TComponent> : IRenderActions<TComponent>
     where TComponent : IComponent
@@ -155,7 +155,7 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
     {
         try
         {
-            Task.WaitAny(action.Invoke(Arrangement));
+            action.Invoke(Arrangement).GetAwaiter().GetResult();
         }
         catch (Exception ex)
         {
