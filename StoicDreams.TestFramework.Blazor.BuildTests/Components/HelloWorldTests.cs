@@ -1,4 +1,4 @@
-namespace StoicDreams.Components;
+namespace StoicDreams;
 
 public class HelloWorldTests : TestFrameworkBlazor
 {

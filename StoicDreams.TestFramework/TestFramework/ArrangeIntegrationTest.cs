@@ -28,7 +28,8 @@ public abstract partial class TestFramework
 
         IServiceProvider serviceProvider = services.BuildServiceProvider().CreateScope().ServiceProvider;
         TService? service = serviceProvider.GetService<TService>() ?? throw new NullReferenceException($"Failed to load service {(typeof(TService).FullName)}");
-        IActions<TService> actions = new Actions<TService>(serviceProvider, service);
+        Actions<TService> actions = new(serviceProvider, service);
+        actions.SetConsoleWatch(options.ConsoleWatch);
         return actions;
     }
 }

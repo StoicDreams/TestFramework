@@ -1,4 +1,4 @@
-﻿namespace StoicDreams.Collections;
+﻿namespace StoicDreams;
 
 public class RenderActions<TComponent> : IRenderActions<TComponent>
     where TComponent : IComponent
@@ -13,19 +13,22 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
         Arrangement.Result = null;
         try
         {
-            action?.Invoke(Arrangement);
-            if (Arrangement.Render.IsDisposed)
+            ConsoleHelper.WatchConsole(() =>
             {
-                Arrangement.Result = "The component has been removed from the render tree";
-            }
-            else
-            {
-                Arrangement.Result = Arrangement.Render.Markup;
-            }
+                action?.Invoke(Arrangement);
+                if (Arrangement.Render.IsDisposed)
+                {
+                    Arrangement.Result = "The component has been removed from the render tree";
+                }
+                else
+                {
+                    Arrangement.Result = Arrangement.Render.Markup;
+                }
+            });
         }
         catch (Exception ex)
         {
-            throw new Exception(Arrangement.BuildExceptionMessage(ex.Message));
+            throw new ActException(Arrangement.BuildExceptionMessage(ex.Message));
         }
         return this;
     }
@@ -34,13 +37,16 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
     {
         try
         {
-            Arrangement.Result = null;
-            action?.Invoke(Arrangement).GetAwaiter().GetResult();
-            Arrangement.Result = Arrangement.Render.Markup;
+            ConsoleHelper.WatchConsole(() =>
+            {
+                Arrangement.Result = null;
+                action?.Invoke(Arrangement).GetAwaiter().GetResult();
+                Arrangement.Result = Arrangement.Render.Markup;
+            });
         }
         catch (Exception ex)
         {
-            throw new Exception(Arrangement.BuildExceptionMessage(ex.Message));
+            throw new ActException(Arrangement.BuildExceptionMessage(ex.Message));
         }
         return this;
     }
@@ -50,7 +56,10 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
         Arrangement.Result = null;
         try
         {
-            action?.Invoke(Arrangement);
+            ConsoleHelper.WatchConsole(() =>
+            {
+                action?.Invoke(Arrangement);
+            });
         }
         catch (Exception ex)
         {
@@ -58,7 +67,7 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
             return this;
         }
 
-        throw new Exception(Arrangement.BuildExceptionMessage("Expected exception was not thrown."));
+        throw new ActException(Arrangement.BuildExceptionMessage("Expected exception was not thrown."));
     }
 
     public IRenderActions<TComponent> ActThrowsException(Func<IRenderArrangement<TComponent>, Task>? action = null)
@@ -66,7 +75,10 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
         Arrangement.Result = null;
         try
         {
-            action?.Invoke(Arrangement).GetAwaiter().GetResult();
+            ConsoleHelper.WatchConsole(() =>
+            {
+                action?.Invoke(Arrangement).GetAwaiter().GetResult();
+            });
         }
         catch (Exception ex)
         {
@@ -74,17 +86,20 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
             return this;
         }
 
-        throw new Exception(Arrangement.BuildExceptionMessage("Expected exception was not thrown."));
+        throw new ActException(Arrangement.BuildExceptionMessage("Expected exception was not thrown."));
     }
 
     public IRenderActions<TComponent> ActThrowsException<TException>(Action<IRenderArrangement<TComponent>>? action = null)
         where TException : Exception
     {
         Arrangement.Result = null;
-        action?.Invoke(Arrangement);
         try
         {
-            Arrangement.Result = Arrangement.Render.Markup;
+            ConsoleHelper.WatchConsole(() =>
+            {
+                action?.Invoke(Arrangement);
+                Arrangement.Result = Arrangement.Render.Markup;
+            });
         }
         catch (TException expected)
         {
@@ -92,7 +107,7 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
             return this;
         }
         catch (Exception) { }
-        throw new Exception(Arrangement.BuildExceptionMessage($"Expected exception of type {typeof(TException).Name} was not thrown."));
+        throw new ActException(Arrangement.BuildExceptionMessage($"Expected exception of type {typeof(TException).Name} was not thrown."));
     }
 
     public IRenderActions<TComponent> ActThrowsException<TException>(Func<IRenderArrangement<TComponent>, Task>? action = null)
@@ -101,7 +116,10 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
         Arrangement.Result = null;
         try
         {
-            action?.Invoke(Arrangement).GetAwaiter().GetResult();
+            ConsoleHelper.WatchConsole(() =>
+            {
+                action?.Invoke(Arrangement).GetAwaiter().GetResult();
+            });
         }
         catch (TException expected)
         {
@@ -109,18 +127,21 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
             return this;
         }
         catch (Exception) { }
-        throw new Exception(Arrangement.BuildExceptionMessage($"Expected exception of type {typeof(TException).Name} was not thrown."));
+        throw new ActException(Arrangement.BuildExceptionMessage($"Expected exception of type {typeof(TException).Name} was not thrown."));
     }
 
     public IRenderActions<TComponent> Act(Func<IRenderArrangement<TComponent>, object?> action)
     {
         try
         {
-            Arrangement.Result = action?.Invoke(Arrangement);
+            ConsoleHelper.WatchConsole(() =>
+            {
+                Arrangement.Result = action?.Invoke(Arrangement);
+            });
         }
         catch (Exception ex)
         {
-            throw new Exception(Arrangement.BuildExceptionMessage(ex.Message));
+            throw new ActException(Arrangement.BuildExceptionMessage(ex.Message));
         }
         return this;
     }
@@ -129,11 +150,14 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
     {
         try
         {
-            Arrangement.Result = action?.Invoke(Arrangement).GetAwaiter().GetResult();
+            ConsoleHelper.WatchConsole(() =>
+            {
+                Arrangement.Result = action?.Invoke(Arrangement).GetAwaiter().GetResult();
+            });
         }
         catch (Exception ex)
         {
-            throw new Exception(Arrangement.BuildExceptionMessage(ex.Message));
+            throw new ActException(Arrangement.BuildExceptionMessage(ex.Message));
         }
         return this;
     }
@@ -142,11 +166,14 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
     {
         try
         {
-            action.Invoke(Arrangement);
+            ConsoleHelper.WatchConsole(() =>
+            {
+                action.Invoke(Arrangement);
+            });
         }
         catch (Exception ex)
         {
-            throw new Exception(Arrangement.BuildExceptionMessage(ex.Message));
+            throw new AssertException(Arrangement.BuildExceptionMessage(ex.Message));
         }
         return this;
     }
@@ -155,14 +182,23 @@ public class RenderActions<TComponent> : IRenderActions<TComponent>
     {
         try
         {
-            action.Invoke(Arrangement).GetAwaiter().GetResult();
+            ConsoleHelper.WatchConsole(() =>
+            {
+                action.Invoke(Arrangement).GetAwaiter().GetResult();
+            });
         }
         catch (Exception ex)
         {
-            throw new Exception(Arrangement.BuildExceptionMessage(ex.Message));
+            throw new AssertException(Arrangement.BuildExceptionMessage(ex.Message));
         }
         return this;
     }
 
+    internal void SetConsoleWatch(string[] consoleWatch)
+    {
+        ConsoleHelper.ConsoleWatch = consoleWatch;
+    }
+
+    private ConsoleHelper ConsoleHelper { get; } = new();
     private RenderArrangement<TComponent> Arrangement { get; }
 }

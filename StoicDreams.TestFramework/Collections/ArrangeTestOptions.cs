@@ -45,5 +45,12 @@ public class ArrangeTestOptions : IArrangeTestOptions
         return this;
     }
 
+    public IArrangeTestOptions WatchConsole(params string[] messages)
+    {
+        ConsoleWatch = messages;
+        return this;
+    }
+
+    internal string[] ConsoleWatch { get; set; } = [];
     private IServiceCollection Services { get; }
 }

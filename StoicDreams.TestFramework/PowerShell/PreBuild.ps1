@@ -1,5 +1,8 @@
 ﻿# This pre-build process will update the current version number within this solution.
-
+param (
+	[switch]$major,
+	[switch]$minor
+)
 Clear-Host;
 
 $start_loc = Get-Location;
@@ -12,24 +15,32 @@ if (!(Test-Path './StoicDreams.TestFramework.csproj')) {
 
 $rgxTargetGetVersion = '<Version>([0-9]+)\.([0-9]+)\.([0-9]+)</Version>'
 
-$alphaversion = 1
-$betaversion = 0
-$rcversion = 0
+$majorDigit = 1
+$minorDigit = 0
+$patchDigit = 0
 
 Get-ChildItem -Path .\ -Filter *TestFramework.csproj -Recurse -File | ForEach-Object {
 	Write-Host $_
 	$result = Select-String -Path $_.FullName -Pattern $rgxTargetGetVersion
 	if ($result.Matches.Count -gt 0) {
-		$alphaversion = [int]$result.Matches[0].Groups[1].Value
-		$betaversion = [int]$result.Matches[0].Groups[2].Value
-		$rcversion = [int]$result.Matches[0].Groups[3].Value
+		$majorDigit = [int]$result.Matches[0].Groups[1].Value
+		$minorDigit = [int]$result.Matches[0].Groups[2].Value
+		$patchDigit = [int]$result.Matches[0].Groups[3].Value
 	}
 }
 
-Write-Host "Release Version: [$($alphaversion)]_[$($betaversion)]_[$($rcversion)]";
-$rcversion = $rcversion + 1;
+Write-Host "Release Version: [$($majorDigit)]_[$($minorDigit)]_[$($patchDigit)]";
+if ($major) {
+	$patchDigit = 0;
+	$majorDigit = $majorDigit + 1;
+} elseif ($minor) {
+	$patchDigit = 0;
+	$minorDigit = $minorDigit + 1;
+} else {
+	$patchDigit = $patchDigit + 1;
+}
 
-$version = "$alphaversion.$betaversion.$rcversion";
+$version = "$majorDigit.$minorDigit.$patchDigit";
 Write-Host "New Version: $($version)";
 
 function UpdateProjectVersion {

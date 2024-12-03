@@ -18,5 +18,13 @@ public class ArrangeIntegrationOptions : IArrangeIntegrationOptions
         return this;
     }
 
+    public IArrangeIntegrationOptions WatchConsole(params string[] messages)
+    {
+        ConsoleWatch = messages;
+        return this;
+    }
+
+    internal string[] ConsoleWatch { get; set; } = [];
+
     public IServiceCollection Services { get; }
 }

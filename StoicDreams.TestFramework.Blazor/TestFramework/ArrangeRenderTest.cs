@@ -1,6 +1,4 @@
-﻿using StoicDreams.Collections;
-
-namespace StoicDreams;
+﻿namespace StoicDreams;
 
 public abstract class TestFrameworkBlazor : TestFramework
 {
@@ -41,6 +39,7 @@ public abstract class TestFrameworkBlazor : TestFramework
             }
         });
         RenderActions<TComponent> actions = new(context, render);
+        actions.SetConsoleWatch(options.ConsoleWatch);
         return actions;
     }
 }

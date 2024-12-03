@@ -63,15 +63,13 @@ public abstract partial class TestFramework
         where TService : class
     {
         #region Call setup handler from caller if defined
-        setupHandler?.Invoke(new ArrangeUnitOptions(serviceProvider));
+        ArrangeUnitOptions arrangement = new(serviceProvider);
+        setupHandler?.Invoke(arrangement);
         #endregion
 
-        TService? service = serviceProvider.GetService<TService>();
-        if (service == null)
-        {
-            throw new NullReferenceException($"Failed to load service {(typeof(TService).FullName)}");
-        }
-        IActions<TService> actions = new Actions<TService>(serviceProvider, service);
+        TService? service = serviceProvider.GetService<TService>() ?? throw new NullReferenceException($"Failed to load service {(typeof(TService).FullName)}");
+        Actions<TService> actions = new(serviceProvider, service);
+        actions.SetConsoleWatch(arrangement.ConsoleWatch);
         return actions;
     }
 }

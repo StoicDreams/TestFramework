@@ -15,5 +15,13 @@ public class ArrangeUnitOptions : IArrangeUnitOptions
         return service;
     }
 
+    public IArrangeUnitOptions WatchConsole(params string[] messages)
+    {
+        ConsoleWatch = messages;
+        return this;
+    }
+
+    internal string[] ConsoleWatch { get; set; } = [];
+
     private IServiceProvider ServiceProvider { get; }
 }

@@ -7,8 +7,8 @@ public class ArrangeRenderOptions : IArrangeRenderOptions
         Context = context;
     }
 
-    public Dictionary<string, object> Parameters { get; } = new();
-    public List<object> ParamHandlers { get; } = new();
+    public Dictionary<string, object> Parameters { get; } = [];
+    public List<object> ParamHandlers { get; } = [];
 
     public IArrangeRenderOptions SetupComponentParameters<TComponent>(Action<ComponentParameterCollectionBuilder<TComponent>> setupHandler) where TComponent : IComponent
     {
@@ -55,14 +55,14 @@ public class ArrangeRenderOptions : IArrangeRenderOptions
     public IArrangeRenderOptions AddStub<TComponent>(Func<CapturedParameterView<TComponent>, string> replacementTemplate)
          where TComponent : IComponent
     {
-        Context.ComponentFactories.AddStub<TComponent>(replacementTemplate);
+        Context.ComponentFactories.AddStub(replacementTemplate);
         return this;
     }
 
     public IArrangeRenderOptions AddStub<TComponent>(RenderFragment<CapturedParameterView<TComponent>> replacementTemplate)
          where TComponent : IComponent
     {
-        Context.ComponentFactories.AddStub<TComponent>(replacementTemplate);
+        Context.ComponentFactories.AddStub(replacementTemplate);
         return this;
     }
 
@@ -84,5 +84,12 @@ public class ArrangeRenderOptions : IArrangeRenderOptions
         return this;
     }
 
+    public IArrangeRenderOptions WatchConsole(params string[] messages)
+    {
+        ConsoleWatch = messages;
+        return this;
+    }
+
     public TestContext Context { get; }
+    internal string[] ConsoleWatch { get; set; } = [];
 }

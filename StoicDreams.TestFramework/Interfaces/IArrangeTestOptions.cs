@@ -46,4 +46,11 @@ public interface IArrangeTestOptions
     /// <returns></returns>
     IArrangeTestOptions AddService<TService>(Func<TService, TService> setupHandler)
         where TService : class;
+
+    /// <summary>
+    /// Add messages to watch for in Console logs and throw error if any messages are found.
+    /// </summary>
+    /// <param name="messages"></param>
+    /// <returns></returns>
+    IArrangeTestOptions WatchConsole(params string[] messages);
 }

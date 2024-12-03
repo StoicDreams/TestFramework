@@ -12,11 +12,12 @@ public abstract partial class TestFramework
     public static IActions<TService> ArrangeTest<TService>(IServiceCollection services, Func<IArrangeTestOptions, TService> setupHandler)
         where TService : class
     {
-        IArrangeTestOptions options = new ArrangeTestOptions(services);
+        ArrangeTestOptions options = new(services);
         TService service = setupHandler(options);
         services.AddSingleton(service);
         IServiceProvider serviceProvider = services.BuildServiceProvider().CreateScope().ServiceProvider;
-        IActions<TService> actions = new Actions<TService>(serviceProvider, service);
+        Actions<TService> actions = new(serviceProvider, service);
+        actions.SetConsoleWatch(options.ConsoleWatch);
         return actions;
     }
 
@@ -30,11 +31,12 @@ public abstract partial class TestFramework
     public static IActions<TService> ArrangeTest<TService>(IServiceCollection services, Action<IArrangeTestOptions> setupHandler)
         where TService : class
     {
-        IArrangeTestOptions options = new ArrangeTestOptions(services);
+        ArrangeTestOptions options = new(services);
         setupHandler(options);
         IServiceProvider serviceProvider = services.BuildServiceProvider().CreateScope().ServiceProvider;
         TService service = serviceProvider.GetServiceThrows<TService>();
-        IActions<TService> actions = new Actions<TService>(serviceProvider, service);
+        Actions<TService> actions = new(serviceProvider, service);
+        actions.SetConsoleWatch(options.ConsoleWatch);
         return actions;
     }
 }

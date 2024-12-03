@@ -9,13 +9,19 @@ public class Actions : IActions
 
     public IActions Act<T>(Func<T, object> action)
     {
-        Result = action((T)Value);
+        ConsoleHelper.WatchConsole(() =>
+        {
+            Result = action((T)Value);
+        });
         return this;
     }
 
     public IActions Act<T>(Func<T, Task<object>> action)
     {
-        Result = action((T)Value).GetAwaiter().GetResult();
+        ConsoleHelper.WatchConsole(() =>
+        {
+            Result = action((T)Value).GetAwaiter().GetResult();
+        });
         return this;
     }
 
@@ -23,28 +29,34 @@ public class Actions : IActions
     {
         try
         {
-            action.Invoke();
+            ConsoleHelper.WatchConsole(() =>
+            {
+                action.Invoke();
+            });
         }
         catch (Exception ex)
         {
             Result = ex;
             return this;
         }
-        throw new Exception("Exception was expected but no exception was thrown");
+        throw new ActException("Exception was expected but no exception was thrown");
     }
 
     public IActions ActThrowsException(Func<Task> action)
     {
         try
         {
-            action.Invoke().GetAwaiter().GetResult();
+            ConsoleHelper.WatchConsole(() =>
+            {
+                action.Invoke().GetAwaiter().GetResult();
+            });
         }
         catch (Exception ex)
         {
             Result = ex;
             return this;
         }
-        throw new Exception("Exception was expected but no exception was thrown");
+        throw new ActException("Exception was expected but no exception was thrown");
     }
 
     public IActions ActThrowsException<TException>(Action action)
@@ -52,7 +64,10 @@ public class Actions : IActions
     {
         try
         {
-            action.Invoke();
+            ConsoleHelper.WatchConsole(() =>
+            {
+                action.Invoke();
+            });
         }
         catch (TException ex)
         {
@@ -61,9 +76,9 @@ public class Actions : IActions
         }
         catch (Exception ex)
         {
-            throw new Exception($"Exception of type {typeof(TException).FullName} was expected but {ex.GetType().FullName} was thrown instead.", ex);
+            throw new ActException($"Exception of type {typeof(TException).FullName} was expected but {ex.GetType().FullName} was thrown instead.", ex);
         }
-        throw new Exception("Exception was expected but no exception was thrown");
+        throw new ActException("Exception was expected but no exception was thrown");
     }
 
     public IActions ActThrowsException<TException>(Func<Task> action)
@@ -71,7 +86,10 @@ public class Actions : IActions
     {
         try
         {
-            action.Invoke().GetAwaiter().GetResult();
+            ConsoleHelper.WatchConsole(() =>
+            {
+                action.Invoke().GetAwaiter().GetResult();
+            });
         }
         catch (TException ex)
         {
@@ -80,17 +98,26 @@ public class Actions : IActions
         }
         catch (Exception ex)
         {
-            throw new Exception($"Exception of type {typeof(TException).FullName} was expected but {ex.GetType().FullName} was thrown instead.", ex);
+            throw new ActException($"Exception of type {typeof(TException).FullName} was expected but {ex.GetType().FullName} was thrown instead.", ex);
         }
-        throw new Exception("Exception was expected but no exception was thrown");
+        throw new ActException("Exception was expected but no exception was thrown");
     }
 
     public IActions Assert<T>(Action<T?> action)
     {
-        action((T?)Result);
+        ConsoleHelper.WatchConsole(() =>
+        {
+            action((T?)Result);
+        });
         return this;
     }
 
+    internal void SetConsoleWatch(string[] consoleWatch)
+    {
+        ConsoleHelper.ConsoleWatch = consoleWatch;
+    }
+
+    private ConsoleHelper ConsoleHelper { get; } = new();
     private object Value { get; }
     private object? Result { get; set; }
 }
@@ -107,26 +134,38 @@ public class Actions<TInstance> : IActions<TInstance>
 
     public IActions<TInstance> Act(Action<IArrangement<TInstance>> action)
     {
-        action?.Invoke(Arrangement);
+        ConsoleHelper.WatchConsole(() =>
+        {
+            action?.Invoke(Arrangement);
+        });
         return this;
     }
 
     public IActions<TInstance> Act(Func<IArrangement<TInstance>, object?> action)
     {
-        Arrangement.Result = action?.Invoke(Arrangement);
+        ConsoleHelper.WatchConsole(() =>
+        {
+            Arrangement.Result = action?.Invoke(Arrangement);
+        });
         return this;
     }
 
     public IActions<TInstance> Act(Func<IArrangement<TInstance>, Task> action)
     {
-        action?.Invoke(Arrangement).GetAwaiter().GetResult();
+        ConsoleHelper.WatchConsole(() =>
+        {
+            action?.Invoke(Arrangement).GetAwaiter().GetResult();
+        });
         return this;
     }
 
 
     public IActions<TInstance> Act(Func<IArrangement<TInstance>, Task<object?>> action)
     {
-        Arrangement.Result = action?.Invoke(Arrangement).GetAwaiter().GetResult();
+        ConsoleHelper.WatchConsole(() =>
+        {
+            Arrangement.Result = action?.Invoke(Arrangement).GetAwaiter().GetResult();
+        });
         return this;
     }
 
@@ -134,28 +173,34 @@ public class Actions<TInstance> : IActions<TInstance>
     {
         try
         {
-            action.Invoke(Arrangement);
+            ConsoleHelper.WatchConsole(() =>
+            {
+                action.Invoke(Arrangement);
+            });
         }
         catch (Exception ex)
         {
             Arrangement.Result = ex;
             return this;
         }
-        throw new Exception("Exception was expected but no exception was thrown");
+        throw new ActException("Exception was expected but no exception was thrown");
     }
 
     public IActions<TInstance> ActThrowsException(Func<IArrangement<TInstance>, Task> action)
     {
         try
         {
-            action.Invoke(Arrangement).GetAwaiter().GetResult();
+            ConsoleHelper.WatchConsole(() =>
+            {
+                action.Invoke(Arrangement).GetAwaiter().GetResult();
+            });
         }
         catch (Exception ex)
         {
             Arrangement.Result = ex;
             return this;
         }
-        throw new Exception("Exception was expected but no exception was thrown");
+        throw new ActException("Exception was expected but no exception was thrown");
     }
 
     public IActions<TInstance> ActThrowsException<TException>(Action<IArrangement<TInstance>> action)
@@ -163,7 +208,10 @@ public class Actions<TInstance> : IActions<TInstance>
     {
         try
         {
-            action.Invoke(Arrangement);
+            ConsoleHelper.WatchConsole(() =>
+            {
+                action.Invoke(Arrangement);
+            });
         }
         catch (TException ex)
         {
@@ -172,9 +220,9 @@ public class Actions<TInstance> : IActions<TInstance>
         }
         catch (Exception ex)
         {
-            throw new Exception($"Exception of type {typeof(TException).FullName} was expected but {ex.GetType().FullName} was thrown instead.", ex);
+            throw new ActException($"Exception of type {typeof(TException).FullName} was expected but {ex.GetType().FullName} was thrown instead.", ex);
         }
-        throw new Exception("Exception was expected but no exception was thrown");
+        throw new ActException("Exception was expected but no exception was thrown");
     }
 
     public IActions<TInstance> ActThrowsException<TException>(Func<IArrangement<TInstance>, Task> action)
@@ -182,7 +230,10 @@ public class Actions<TInstance> : IActions<TInstance>
     {
         try
         {
-            action.Invoke(Arrangement).GetAwaiter().GetResult();
+            ConsoleHelper.WatchConsole(() =>
+            {
+                action.Invoke(Arrangement).GetAwaiter().GetResult();
+            });
         }
         catch (TException ex)
         {
@@ -191,23 +242,35 @@ public class Actions<TInstance> : IActions<TInstance>
         }
         catch (Exception ex)
         {
-            throw new Exception($"Exception of type {typeof(TException).FullName} was expected but {ex.GetType().FullName} was thrown instead.", ex);
+            throw new ActException($"Exception of type {typeof(TException).FullName} was expected but {ex.GetType().FullName} was thrown instead.", ex);
         }
-        throw new Exception("Exception was expected but no exception was thrown");
+        throw new ActException("Exception was expected but no exception was thrown");
     }
 
     public IActions<TInstance> Assert(Action<IArrangement<TInstance>> action)
     {
-        action?.Invoke(Arrangement);
+        ConsoleHelper.WatchConsole(() =>
+        {
+            action?.Invoke(Arrangement);
+        });
         return this;
     }
 
     public IActions<TInstance> Assert(Func<IArrangement<TInstance>, Task> action)
     {
-        action?.Invoke(Arrangement).GetAwaiter().GetResult();
+        ConsoleHelper.WatchConsole(() =>
+        {
+            action?.Invoke(Arrangement).GetAwaiter().GetResult();
+        });
         return this;
     }
 
+    internal void SetConsoleWatch(string[] consoleWatch)
+    {
+        ConsoleHelper.ConsoleWatch = consoleWatch;
+    }
+
+    private ConsoleHelper ConsoleHelper { get; } = new();
     private Arrangement<TInstance> Arrangement { get; }
     private TInstance Service { get; }
     private IServiceProvider ServiceProvider { get; }

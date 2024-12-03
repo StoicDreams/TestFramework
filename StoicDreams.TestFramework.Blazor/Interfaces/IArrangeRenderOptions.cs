@@ -26,5 +26,6 @@ public interface IArrangeRenderOptions
 
     IArrangeRenderOptions AddStub(Predicate<Type> componentTypePredicate, RenderFragment replacementFragment);
 
+    IArrangeRenderOptions WatchConsole(params string[] messagse);
     TestContext Context { get; }
 }
