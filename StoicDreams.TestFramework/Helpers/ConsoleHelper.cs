@@ -28,7 +28,11 @@ internal class ConsoleHelper
     private void CheckConsoleLogs()
     {
         Console.SetOut(ConsoleOriginalOut);
-        Console.Write(Logs);
+        try
+        {
+            Console.Write(Logs);
+        }
+        catch { }
         if (ConsoleWatch.Length == 0) return;
         if (Logs.ToString() is not string logs || string.IsNullOrWhiteSpace(logs)) return;
         foreach (string message in ConsoleWatch)
