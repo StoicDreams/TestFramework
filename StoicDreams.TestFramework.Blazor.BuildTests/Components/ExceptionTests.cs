@@ -12,6 +12,7 @@ public class ExceptionTests : TestFrameworkBlazor
         .ActThrowsException<ConsoleWatchException>(act =>
         {
             Console.WriteLine("throw me!");
+            throw new ConsoleWatchException("Thrown!");
         })
         .Assert(a =>
         {

@@ -12,6 +12,7 @@ public class ExceptionTests : TestFramework
         .ActThrowsException<ConsoleWatchException>(act =>
         {
             Console.WriteLine("throw me!");
+            throw new ConsoleWatchException("Thrown!");
         })
         .Assert(assert =>
         {
@@ -31,6 +32,7 @@ public class ExceptionTests : TestFramework
         .ActThrowsException<ConsoleWatchException>(act =>
         {
             Console.WriteLine("throw me!");
+            throw new ConsoleWatchException("Thrown!");
         })
         .Assert(assert =>
         {
