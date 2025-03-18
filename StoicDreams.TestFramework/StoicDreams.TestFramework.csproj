@@ -12,7 +12,7 @@
 		<Description>
 A base framework library with helper methods for organizing and simplifying unit and integration tests.
 		</Description>
-		<Version>1.7.0</Version>
+		<Version>1.7.1</Version>
 		<Copyright>2022-2023 Stoic Dreams</Copyright>
 		<PackageId>StoicDreams.TestFramework</PackageId>
 		<PackageProjectUrl>https://www.stoicdreams.com</PackageProjectUrl>
@@ -37,8 +37,8 @@ A base framework library with helper methods for organizing and simplifying unit
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FluentAssertions" Version="6.12.2" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
+		<PackageReference Include="FluentAssertions" Version="8.2.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.3" />
 		<PackageReference Include="NSubstitute" Version="5.3.0" />
 	</ItemGroup>
 
