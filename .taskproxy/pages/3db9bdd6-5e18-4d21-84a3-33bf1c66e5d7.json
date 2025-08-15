@@ -1,0 +1,62 @@
+{
+  "id": "3db9bdd6-5e18-4d21-84a3-33bf1c66e5d7",
+  "sections": [
+    {
+      "Id": "3942a4a4-714e-4685-b404-94150d189235",
+      "ContentType": 9,
+      "Content": "",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "3a448817-4c6e-40e1-8f7f-c8a0949bb6a2",
+      "ContentType": 3,
+      "Name": "PreBuild",
+      "Content": "{\"PowerShell\":\"cd \\u0027StoicDreams.TestFramework\\u0027\\n.\\\\PowerShell\\\\PreBuild.ps1\"}",
+      "OutputVariable": {
+        "Name": "output"
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "4c7e19e1-c130-4649-a786-4a04c7a4d145",
+      "ContentType": 3,
+      "Name": "PostBuild",
+      "Content": "{\"PowerShell\":\"cd \\u0027StoicDreams.TestFramework\\u0027\\n.\\\\PowerShell\\\\PostBuild.ps1\"}",
+      "OutputVariable": {
+        "Name": "output"
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "0fecfed2-d2f2-45f5-a005-d1fb9b59e8dc",
+      "ContentType": 10,
+      "Content": "",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "ce408262-3b21-40f1-8ace-95419a7c2377",
+      "ContentType": 6,
+      "Content": "{\"Variable\":{\"Name\":\"output\"}}",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    }
+  ]
+}
