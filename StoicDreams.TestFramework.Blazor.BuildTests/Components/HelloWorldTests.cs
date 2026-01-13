@@ -39,15 +39,15 @@ public class HelloWorldTests : TestFrameworkBlazor
         .Act(a => a.Render.Markup)
         .Assert(a =>
         {
-            a.Render.Find("div").ToMarkup().Should().Contain("MockedWorld");
-            a.Render.Find("div").ToMarkup().Should().NotContain("MockedHello");
+            a.Render.Find("div").InnerHtml.Should().Contain("MockedWorld");
+            a.Render.Find("div").InnerHtml.Should().NotContain("MockedHello");
             renderIsDisposed.Should().BeFalse();
         })
-        .Act(a => a.Render.SetParametersAndRender(b => b.Add(e => e.ToggleA, true)))
+        .Act(a => a.Render.Render(b => b.Add(e => e.ToggleA, true)))
         .Assert(a =>
         {
-            a.Render.Find("div").ToMarkup().Should().NotContain("MockedWorld");
-            a.Render.Find("div").ToMarkup().Should().Contain("MockedHello");
+            a.Render.Find("div").InnerHtml.Should().NotContain("MockedWorld");
+            a.Render.Find("div").InnerHtml.Should().Contain("MockedHello");
             renderIsDisposed.Should().BeFalse();
         })
         .Act(a => a.DetachRender())
@@ -69,15 +69,15 @@ public class HelloWorldTests : TestFrameworkBlazor
         .Act(a => a.Render.Markup)
         .Assert(a =>
         {
-            a.Render.Find("h3").ToMarkup().Should().Contain("World");
-            a.Render.Find("h3").ToMarkup().Should().NotContain("Hello");
+            a.Render.Find("h3").InnerHtml.Should().Contain("World");
+            a.Render.Find("h3").InnerHtml.Should().NotContain("Hello");
             renderIsDisposed.Should().BeFalse();
         })
-        .Act(a => a.Render.SetParametersAndRender(b => b.Add(e => e.ToggleA, true)))
+        .Act(a => a.Render.Render(b => b.Add(e => e.ToggleA, true)))
         .Assert(a =>
         {
-            a.Render.Find("h3").ToMarkup().Should().NotContain("World");
-            a.Render.Find("h3").ToMarkup().Should().Contain("Hello");
+            a.Render.Find("h3").InnerHtml.Should().NotContain("World");
+            a.Render.Find("h3").InnerHtml.Should().Contain("Hello");
             renderIsDisposed.Should().BeFalse();
         })
         .Act(a => a.DetachRender())

@@ -3,7 +3,7 @@
 public class RenderArrangement<TComponent> : IRenderArrangement<TComponent>
     where TComponent : IComponent
 {
-    public RenderArrangement(TestContext context, IRenderedComponent<TComponent> render)
+    public RenderArrangement(BunitContext context, IRenderedComponent<TComponent> render)
     {
         Context = context;
         Render = render;
@@ -13,7 +13,7 @@ public class RenderArrangement<TComponent> : IRenderArrangement<TComponent>
 
     public void DetachRender()
     {
-        Context.DisposeComponents();
+        _ = Context.DisposeComponentsAsync();
     }
 
     public T GetService<T>()
@@ -35,9 +35,9 @@ public class RenderArrangement<TComponent> : IRenderArrangement<TComponent>
 
     public string AlertsCssSelector { get; set; } = ".mud-alert-message";
 
-    public FakeNavigationManager NavManager => Context.Services.GetRequiredService<FakeNavigationManager>();
+    public NavigationManager NavManager => Context.Services.GetRequiredService<NavigationManager>();
 
     internal object? Result { get; set; }
 
-    private TestContext Context { get; }
+    private BunitContext Context { get; }
 }

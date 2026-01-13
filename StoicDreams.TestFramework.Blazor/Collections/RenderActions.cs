@@ -3,7 +3,7 @@
 public class RenderActions<TComponent> : IRenderActions<TComponent>
     where TComponent : IComponent
 {
-    internal RenderActions(TestContext context, IRenderedComponent<TComponent> render)
+    internal RenderActions(BunitContext context, IRenderedComponent<TComponent> render)
     {
         Arrangement = new RenderArrangement<TComponent>(context, render);
     }

@@ -2,7 +2,7 @@
 
 public class ArrangeRenderOptions : IArrangeRenderOptions
 {
-    public ArrangeRenderOptions(TestContext context)
+    public ArrangeRenderOptions(BunitContext context)
     {
         Context = context;
     }
@@ -90,6 +90,6 @@ public class ArrangeRenderOptions : IArrangeRenderOptions
         return this;
     }
 
-    public TestContext Context { get; }
+    public BunitContext Context { get; }
     internal string[] ConsoleWatch { get; set; } = [];
 }

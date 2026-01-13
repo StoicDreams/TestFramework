@@ -41,7 +41,7 @@ public interface IRenderArrangement<TComponent>
     /// <summary>
     /// Simulate functionality of NavigationManager for testing purposes.
     /// </summary>
-    FakeNavigationManager NavManager { get; }
+    NavigationManager NavManager { get; }
 
     /// <summary>
     /// Set the default CSS selector to use for parsing alerts from Markup on test failures.

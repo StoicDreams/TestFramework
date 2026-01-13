@@ -16,7 +16,7 @@ public abstract class TestFrameworkBlazor : TestFramework
         )
         where TComponent : IComponent
     {
-        TestContext context = new();
+        BunitContext context = new();
         context.JSInterop.Mode = JSRuntimeMode.Loose;
         ArrangeRenderOptions options = new(context);
         arrangeHandler?.Invoke(options);
@@ -24,7 +24,7 @@ public abstract class TestFrameworkBlazor : TestFramework
         {
             handler.Invoke(context.Services);
         }
-        IRenderedComponent<TComponent> render = context.RenderComponent<TComponent>(builder =>
+        IRenderedComponent<TComponent> render = context.Render<TComponent>(builder =>
         {
             foreach (string key in options.Parameters.Keys)
             {
