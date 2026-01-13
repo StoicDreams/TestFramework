@@ -452,7 +452,7 @@ public class AssertionRef<TItem>
         };
         if (itemValue.Length > 20)
         {
-            itemValue = $"{itemValue[0..10]}...{itemValue.Substring(itemValue.Length - 10)}";
+            itemValue = $"{itemValue[0..10]}...{itemValue[^10..]}";
         }
         throw new TestFailException($"({ItemDisplay}:{itemValue}).Should().{assertionName} failed with {memberName} in {filePath} at line {lineNumber}.");
     }
