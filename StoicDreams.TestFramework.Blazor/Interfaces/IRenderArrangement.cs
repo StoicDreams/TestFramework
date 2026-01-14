@@ -99,6 +99,15 @@ public interface IRenderArrangement<TComponent>
     T? GetNullableResult<T>();
 
     /// <summary>
+    /// Checks whether the render tree of Render is the root of
+    /// a component of type <typeparamref name="TChildComponent"/>.
+    /// </summary>
+    /// <typeparam name="TChildComponent">The type of component to look for in the render tree.</typeparam>
+    /// <returns>True if Render contains the <typeparamref name="TChildComponent"/>; otherwise false.</returns>
+    bool HasComponent<TChildComponent>()
+        where TChildComponent : IComponent;
+
+    /// <summary>
     /// Simulate functionality of NavigationManager for testing purposes.
     /// </summary>
     NavigationManager NavManager { get; }

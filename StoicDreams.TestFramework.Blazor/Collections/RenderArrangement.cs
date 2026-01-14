@@ -11,7 +11,7 @@ public class RenderArrangement<TComponent> : IRenderArrangement<TComponent>
         Render = render;
     }
 
-    public IRenderedComponent<TComponent> Render { get; }
+    public string AlertsCssSelector { get; set; } = ".mud-alert-message";
 
     public void DetachRender()
     {
@@ -75,9 +75,15 @@ public class RenderArrangement<TComponent> : IRenderArrangement<TComponent>
 
     public T? GetNullableResult<T>() => (T?)Result;
 
-    public string AlertsCssSelector { get; set; } = ".mud-alert-message";
+    public bool HasComponent<TChildComponent>()
+        where TChildComponent : IComponent
+    {
+        return FindComponents<TChildComponent>().Any();
+    }
 
     public NavigationManager NavManager => Context.Services.GetRequiredService<NavigationManager>();
+
+    public IRenderedComponent<TComponent> Render { get; }
 
     internal object? Result { get; set; }
 
