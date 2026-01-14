@@ -69,6 +69,8 @@ public class HelloWorldTests : TestFrameworkBlazor
         .Act(a => a.Render.Markup)
         .Assert(a =>
         {
+            a.Render.FindComponent<World>();
+            a.FindComponent<World>();
             a.Render.Find("h3").InnerHtml.Should().Contain("World");
             a.Render.Find("h3").InnerHtml.Should().NotContain("Hello");
             renderIsDisposed.Should().BeFalse();
@@ -76,6 +78,8 @@ public class HelloWorldTests : TestFrameworkBlazor
         .Act(a => a.Render.Render(b => b.Add(e => e.ToggleA, true)))
         .Assert(a =>
         {
+            a.Render.FindComponent<Hello>();
+            a.FindComponent<Hello>();
             a.Render.Find("h3").InnerHtml.Should().NotContain("World");
             a.Render.Find("h3").InnerHtml.Should().Contain("Hello");
             renderIsDisposed.Should().BeFalse();

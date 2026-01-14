@@ -1,4 +1,6 @@
-﻿namespace StoicDreams;
+﻿using AngleSharp.Dom;
+
+namespace StoicDreams;
 
 public class RenderArrangement<TComponent> : IRenderArrangement<TComponent>
     where TComponent : IComponent
@@ -14,6 +16,46 @@ public class RenderArrangement<TComponent> : IRenderArrangement<TComponent>
     public void DetachRender()
     {
         _ = Context.DisposeComponentsAsync();
+    }
+
+    public IElement Find(string cssSelector)
+    {
+        IRenderedComponent<IComponent> baseComponent = (IRenderedComponent<IComponent>)Render;
+        return baseComponent.Find(cssSelector);
+    }
+
+    public TElement Find<TElement>(string cssSelector)
+        where TElement : class, IElement
+    {
+        IRenderedComponent<IComponent> baseComponent = (IRenderedComponent<IComponent>)Render;
+        return baseComponent.Find<IComponent, TElement>(cssSelector);
+    }
+
+    public IReadOnlyList<IElement> FindAll(string cssSelector)
+    {
+        IRenderedComponent<IComponent> baseComponent = (IRenderedComponent<IComponent>)Render;
+        return baseComponent.FindAll(cssSelector);
+    }
+
+    public IReadOnlyList<TElement> FindAll<TElement>(string cssSelector)
+        where TElement : class, IElement
+    {
+        IRenderedComponent<IComponent> baseComponent = (IRenderedComponent<IComponent>)Render;
+        return baseComponent.FindAll<IComponent, TElement>(cssSelector);
+    }
+
+    public IRenderedComponent<TChildComponent> FindComponent<TChildComponent>()
+        where TChildComponent : IComponent
+    {
+        IRenderedComponent<IComponent> baseComponent = (IRenderedComponent<IComponent>)Render;
+        return baseComponent.FindComponent<TChildComponent>();
+    }
+
+    public IReadOnlyList<IRenderedComponent<TChildComponent>> FindComponents<TChildComponent>()
+        where TChildComponent : IComponent
+    {
+        IRenderedComponent<IComponent> baseComponent = (IRenderedComponent<IComponent>)Render;
+        return baseComponent.FindComponents<TChildComponent>();
     }
 
     public T GetService<T>()
