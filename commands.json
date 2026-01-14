@@ -1,14 +1,14 @@
 {
     "commands": {
-        "PreBuildPS1": {
+        "ReleasePatch": {
             "fileName": "PowerShell.exe",
             "workingDirectory": ".\\StoicDreams.TestFramework",
-            "arguments": ".\\PowerShell\\PreBuild.ps1"
+            "arguments": ".\\PowerShell\\ReleasePatch.ps1"
         },
-        "PostBuildPS1": {
+        "ReleaseMinor": {
             "fileName": "PowerShell.exe",
             "workingDirectory": ".\\StoicDreams.TestFramework",
-            "arguments": ".\\PowerShell\\PostBuild.ps1"
+            "arguments": ".\\PowerShell\\ReleaseMinor.ps1"
         }
     }
 }
