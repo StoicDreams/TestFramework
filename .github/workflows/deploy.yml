@@ -3,43 +3,43 @@ name: Build and Publish Test Framework
 on:
   push:
     branches:
-    - main
+      - main
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
-  BUILD_CONFIGURATION: 'Release'
-  NUGET_SOURCE: 'https://api.nuget.org/v3/index.json'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: "."
+  BUILD_CONFIGURATION: "Release"
+  NUGET_SOURCE: "https://api.nuget.org/v3/index.json"
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 9.x
-    - name: Get Location
-      run: pwd
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore --configuration ${{ env.BUILD_CONFIGURATION }}
-    - name: Test
-      run: dotnet test --no-build --verbosity normal --configuration ${{ env.BUILD_CONFIGURATION }}
-    - name: View Files
-      run: ls -R
-    - name: Pack Test Framework
-      run: dotnet pack StoicDreams.TestFramework/StoicDreams.TestFramework.csproj --no-build --no-restore --configuration ${{ env.BUILD_CONFIGURATION }} --output NugetPackages
-    - name: View Files
-      run: ls -R
-    - name: Push Test Framework package to nuget store
-      run: dotnet nuget push --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate --source ${{ env.NUGET_SOURCE}} '**/NugetPackages/StoicDreams.TestFramework.*.nupkg' > nugetpushtf.txt; echo $(cat nugetpushtf.txt)
-    - name: Echo version number
-      run: echo $(cat nugetpushtf.txt)
-    - name: Pack Blazor Test Framework
-      run: dotnet pack StoicDreams.TestFramework.Blazor/StoicDreams.TestFramework.Blazor.csproj --no-build --no-restore --configuration ${{ env.BUILD_CONFIGURATION }} --output NugetPackages
-    - name: Push Blazor Test Framework package to nuget store
-      run: dotnet nuget push --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate --source ${{ env.NUGET_SOURCE}} '**/NugetPackages/StoicDreams.TestFramework.Blazor.*.nupkg' > nugetpushbtf.txt; echo $(cat nugetpushbtf.txt)
-    - name: Echo version number
-      run: echo $(cat nugetpushbtf.txt)
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 10.x
+      - name: Get Location
+        run: pwd
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore --configuration ${{ env.BUILD_CONFIGURATION }}
+      - name: Test
+        run: dotnet test --no-build --verbosity normal --configuration ${{ env.BUILD_CONFIGURATION }}
+      - name: View Files
+        run: ls -R
+      - name: Pack Test Framework
+        run: dotnet pack StoicDreams.TestFramework/StoicDreams.TestFramework.csproj --no-build --no-restore --configuration ${{ env.BUILD_CONFIGURATION }} --output NugetPackages
+      - name: View Files
+        run: ls -R
+      - name: Push Test Framework package to nuget store
+        run: dotnet nuget push --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate --source ${{ env.NUGET_SOURCE}} '**/NugetPackages/StoicDreams.TestFramework.*.nupkg' > nugetpushtf.txt; echo $(cat nugetpushtf.txt)
+      - name: Echo version number
+        run: echo $(cat nugetpushtf.txt)
+      - name: Pack Blazor Test Framework
+        run: dotnet pack StoicDreams.TestFramework.Blazor/StoicDreams.TestFramework.Blazor.csproj --no-build --no-restore --configuration ${{ env.BUILD_CONFIGURATION }} --output NugetPackages
+      - name: Push Blazor Test Framework package to nuget store
+        run: dotnet nuget push --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate --source ${{ env.NUGET_SOURCE}} '**/NugetPackages/StoicDreams.TestFramework.Blazor.*.nupkg' > nugetpushbtf.txt; echo $(cat nugetpushbtf.txt)
+      - name: Echo version number
+        run: echo $(cat nugetpushbtf.txt)
