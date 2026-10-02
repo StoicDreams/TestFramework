@@ -1,8 +1,14 @@
 [
   {
     "name": "Dev",
-    "icon": "edit",
+    "icon": "emoji-gear",
     "url": "/3db9bdd6-5e18-4d21-84a3-33bf1c66e5d7",
+    "children": null
+  },
+  {
+    "name": "NuGet Packages",
+    "icon": "emoji-package",
+    "url": "/4702bb9f-80f3-4429-9298-7d87a5d70b48",
     "children": null
   }
 ]
