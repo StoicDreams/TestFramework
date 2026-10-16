@@ -33,7 +33,7 @@ Add the [StoicDreams.TestFramework](https://www.nuget.org/packages/StoicDreams.T
 
 ```xml
 <ItemGroup>
- <PackageReference Include="StoicDreams.TestFramework" Version="1.10.5" />
+ <PackageReference Include="StoicDreams.TestFramework" Version="1.10.6" />
 </ItemGroup>
 ```
 
@@ -85,6 +85,9 @@ public class SampleChildATests : StoicDreams.TestFramework
  }
 }
 ```
+## Dev
+
+Open project in [Task Proxy](https://www.taskproxy.com) for development documentation.
 
 ## Author
 
