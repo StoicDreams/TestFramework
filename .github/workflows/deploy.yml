@@ -11,7 +11,7 @@ env:
   NUGET_SOURCE: "https://api.nuget.org/v3/index.json"
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -19,27 +19,38 @@ jobs:
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.x
-      - name: Get Location
-        run: pwd
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
         run: dotnet build --no-restore --configuration ${{ env.BUILD_CONFIGURATION }}
       - name: Test
         run: dotnet test --no-build --verbosity normal --configuration ${{ env.BUILD_CONFIGURATION }}
-      - name: View Files
-        run: ls -R
       - name: Pack Test Framework
         run: dotnet pack StoicDreams.TestFramework/StoicDreams.TestFramework.csproj --no-build --no-restore --configuration ${{ env.BUILD_CONFIGURATION }} --output NugetPackages
-      - name: View Files
-        run: ls -R
-      - name: Push Test Framework package to nuget store
-        run: dotnet nuget push --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate --source ${{ env.NUGET_SOURCE}} '**/NugetPackages/StoicDreams.TestFramework.*.nupkg' > nugetpushtf.txt; echo $(cat nugetpushtf.txt)
-      - name: Echo version number
-        run: echo $(cat nugetpushtf.txt)
       - name: Pack Blazor Test Framework
         run: dotnet pack StoicDreams.TestFramework.Blazor/StoicDreams.TestFramework.Blazor.csproj --no-build --no-restore --configuration ${{ env.BUILD_CONFIGURATION }} --output NugetPackages
+      - name: Upload NuGet Packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-packages
+          path: NugetPackages/
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - name: Download NuGet Packages
+        uses: actions/download-artifact@v4
+        with:
+          name: nuget-packages
+          path: NugetPackages/
+      - name: NuGet login (OIDC)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USERNAME }}
+      - name: Push Test Framework package to nuget store
+        run: dotnet nuget push 'NugetPackages/StoicDreams.TestFramework.*.nupkg' --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --skip-duplicate --source ${{ env.NUGET_SOURCE}} > nugetpushtf.txt; echo $(cat nugetpushtf.txt)
       - name: Push Blazor Test Framework package to nuget store
-        run: dotnet nuget push --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate --source ${{ env.NUGET_SOURCE}} '**/NugetPackages/StoicDreams.TestFramework.Blazor.*.nupkg' > nugetpushbtf.txt; echo $(cat nugetpushbtf.txt)
-      - name: Echo version number
-        run: echo $(cat nugetpushbtf.txt)
+        run: dotnet nuget push 'NugetPackages/StoicDreams.TestFramework.Blazor.*.nupkg' --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --skip-duplicate --source ${{ env.NUGET_SOURCE}} > nugetpushbtf.txt; echo $(cat nugetpushbtf.txt)
