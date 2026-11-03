@@ -1,12 +1,12 @@
 {
     "commands": {
         "ReleasePatch": {
-            "fileName": "PowerShell.exe",
+            "fileName": "pwsh.exe",
             "workingDirectory": ".\\StoicDreams.TestFramework",
             "arguments": ".\\PowerShell\\ReleasePatch.ps1"
         },
         "ReleaseMinor": {
-            "fileName": "PowerShell.exe",
+            "fileName": "pwsh.exe",
             "workingDirectory": ".\\StoicDreams.TestFramework",
             "arguments": ".\\PowerShell\\ReleaseMinor.ps1"
         }
