@@ -12,7 +12,7 @@
         <Description>
             Extended functionality of Stoic Dreams Test Framework, adding funtionality to handle testing against rendered .razor components for unit and integration testing.
         </Description>
-        <Version>1.10.7</Version>
+        <Version>1.10.8</Version>
         <Copyright>2022-2023 Stoic Dreams</Copyright>
         <PackageId>StoicDreams.TestFramework.Blazor</PackageId>
         <PackageProjectUrl>https://www.stoicdreams.com</PackageProjectUrl>
@@ -37,8 +37,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AngleSharp" Version="1.9.1" />
-        <PackageReference Include="bunit" Version="2.13.3" />
+        <PackageReference Include="AngleSharp" Version="1.10.1" />
+        <PackageReference Include="bunit" Version="2.14.0" />
     </ItemGroup>
 
     <ItemGroup>
